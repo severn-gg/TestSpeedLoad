@@ -27,17 +27,10 @@ $routes->group('bo', static function ($routes) {
 $routes->group('admin', static function ($routes) {
     $routes->get('dashboard', [KontrolAdmin::class, 'index']);
 
-    // menu tiket
+    // menu tables
     $routes->get('viewticket', [KontrolAdmin::class, 'viewticket']);
-    $routes->get('ticketprogress', [KontrolAdmin::class, 'ticketprogress']);
     $routes->get('ticketdetail', [KontrolAdmin::class, 'detailTiket']);
     $routes->get('ticketdetailprint', [KontrolAdmin::class, 'detailprint']);
-    $routes->get('ticketdone', [KontrolAdmin::class, 'ticketdone']);
-    $routes->get('ticketditolak', [KontrolAdmin::class, 'tiketditolak']);
-    $routes->get('ticketditolakdetail', [KontrolAdmin::class, 'detailTiketDitolak']);
-    $routes->get('ticketditolakdetailprint', [KontrolAdmin::class, 'detailTiketDitolakPrint']);
-
-    // menu tables
     $routes->get('listkantor', [KontrolAdmin::class, 'listkantor']);
     $routes->get('detailkantor', [KontrolAdmin::class, 'detailkantor']);
     $routes->get('listdepartemen', [KontrolAdmin::class, 'listdepartemen']);
@@ -46,10 +39,17 @@ $routes->group('admin', static function ($routes) {
     $routes->get('listdivisi_it', [KontrolAdmin::class, 'listdivisi_it']);
 
     // menu forms
+    $routes->get('forminputaktivis', [KontrolAdmin::class, 'forminputaktivis']);
+    $routes->get('forminputjabatan', [KontrolAdmin::class, 'forminputjabatan']);
+    $routes->get('forminputarea', [KontrolAdmin::class, 'forminputarea']);
     $routes->get('forminputkantor', [KontrolAdmin::class, 'forminputkantor']);
-    $routes->get('forminputdepartemen', [KontrolAdmin::class, 'forminputdepartemen']);
-    $routes->get('forminputdivisi', [KontrolAdmin::class, 'forminputdivisi']);
-    $routes->get('forminputpic', [KontrolAdmin::class, 'forminputpic']);
+    $routes->get('formsetkantoraktivis', [KontrolAdmin::class, 'formsetkantoraktivis']);
+    $routes->get('formsetjabatanaktivis', [KontrolAdmin::class, 'formsetjabatanaktivis']);
+    $routes->get('formsetuserlogintivis', [KontrolAdmin::class, 'formsetuserloginaktivis']);
+    $routes->get('formsetpicarea', [KontrolAdmin::class, 'formsetpicarea']);
+
+
+
 
     // menu charts
     $routes->get('laporantiket', [KontrolAdmin::class, 'chartsTiket']);

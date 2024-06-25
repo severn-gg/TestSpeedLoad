@@ -49,7 +49,7 @@
           <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Ditahan</span>
+            <span class="info-box-text">On Progress</span>
             <span class="info-box-number">150</span>
           </div>
           <!-- /.info-box-content -->
@@ -61,7 +61,7 @@
           <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Selesaikan</span>
+            <span class="info-box-text">Finish</span>
             <span class="info-box-number">150</span>
           </div>
           <!-- /.info-box-content -->
@@ -73,7 +73,7 @@
           <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
           <div class="info-box-content">
-            <span class="info-box-text">Ditolak</span>
+            <span class="info-box-text">On Hold</span>
             <span class="info-box-number">150</span>
           </div>
           <!-- /.info-box-content -->
@@ -118,7 +118,7 @@
                 <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditahan</span>
+                  <span class="info-box-text">On Progress</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -130,7 +130,7 @@
                 <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Selesaikan</span>
+                  <span class="info-box-text">Finish</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -142,7 +142,7 @@
                 <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditolak</span>
+                  <span class="info-box-text">On Hold</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -185,7 +185,7 @@
                 <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditahan</span>
+                  <span class="info-box-text">On Progress</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -197,7 +197,7 @@
                 <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Selesaikan</span>
+                  <span class="info-box-text">Finish</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -209,7 +209,7 @@
                 <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditolak</span>
+                  <span class="info-box-text">On Hold</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -253,7 +253,7 @@
                 <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditahan</span>
+                  <span class="info-box-text">On Progress</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -265,7 +265,7 @@
                 <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Selesaikan</span>
+                  <span class="info-box-text">Finish</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -277,7 +277,7 @@
                 <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditolak</span>
+                  <span class="info-box-text">On Hold</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -321,7 +321,7 @@
                 <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditahan</span>
+                  <span class="info-box-text">On Progress</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -333,7 +333,7 @@
                 <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Selesaikan</span>
+                  <span class="info-box-text">Finish</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -345,7 +345,7 @@
                 <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditolak</span>
+                  <span class="info-box-text">On Hold</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -389,7 +389,7 @@
                 <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditahan</span>
+                  <span class="info-box-text">On Progress</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -401,7 +401,7 @@
                 <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Selesaikan</span>
+                  <span class="info-box-text">Finish</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->
@@ -413,7 +413,7 @@
                 <span class="info-box-icon bg-danger"><i class="fas fa-file-alt"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Ditolak</span>
+                  <span class="info-box-text">On Hold</span>
                   <span class="info-box-number">150</span>
                 </div>
                 <!-- /.info-box-content -->

@@ -12,13 +12,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Input Divisi IT</h1>
+                <h1 class="m-0">Set PIC Area</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Input Divisi IT</li>
+                    <li class="breadcrumb-item active">Set PIC Area</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,16 +35,26 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Form Input Divisi IT</h3>
+                        <h3 class="card-title">Set PIC Area</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputdivisi">
+                    <form id="forminputpic">
                         <div class="card-body">
-
                             <div class="form-group">
-                                <label for="inputNamaDivisi" class="form-label">Nama Divisi</label>
-                                <input class="form-control" type="text" name="inputNamaDivisi">
+                                <label for="inputAktivis">Pilih Aktivis</label>
+                                <select type="select" class="form-control" name="inputAktivis">
+                                    <option value="1">Andi</option>
+                                    <option value="2">Indra</option>
+                                    <option value="3">Riyo</option>
+                                    <option value="4">Dll</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputArea">Pilih Area</label>
+                                <select type="select" class="form-control" name="inputArea">
+                                    <option value="1">Dll</option>
+                                </select>
                             </div>
                         </div>
                         <!-- /.card-body -->

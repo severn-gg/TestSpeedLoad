@@ -12,13 +12,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Input PIC Baru</h1>
+                <h1 class="m-0">Input Kantor Cabang</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Input PIC Baru</li>
+                    <li class="breadcrumb-item active">Input Kantor Cabang</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,37 +35,30 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Form Input PIC Baru</h3>
+                        <h3 class="card-title">Form Input Kantor (Branch Office)</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputpic">
+                    <form id="forminputkantor">
                         <div class="card-body">
 
                             <div class="form-group">
-                                <label for="inputNamaPIC" class="form-label">Nama Lengkap</label>
-                                <input class="form-control" type="text" name="inputNamaPIC">
+                                <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
+                                <input class="form-control" type="text" name="inputNamaKantor">
                             </div>
                             <div class="form-group">
-                                <label for="inputUsername" class="form-label">Username</label>
-                                <input class="form-control" type="text" name="inputUsername">
+                                <label for="inputAlamatKantor" class="form-label">Alamat Kantor</label>
+                                <input class="form-control" type="text" name="inputAlamatKantor">
                             </div>
                             <div class="form-group">
-                                <label for="inputPassword" class="form-label">Password</label>
-                                <input class="form-control" type="text" name="inputPassword">
+                                <label for="inputNoOfficial" class="form-label">No. HP Official</label>
+                                <input class="form-control" type="text" name="inputNoOfficial">
                             </div>
                             <div class="form-group">
-                                <label for="inputTelepon" class="form-label">Telepon</label>
-                                <input class="form-control" type="text" name="inputTelepon">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputDivisi">Pilih Divisi</label>
-                                <select type="select" class="form-control" name="inputDivisi">
-                                    <option value="1">SOFTWARE</option>
-                                    <option value="2">HARDWARE</option>
-                                    <option value="3">NETWORK</option>
-                                    <option value="4">LKD - ATM</option>
-                                    <option value="5">LKD - KKD</option>
+                                <label for="inputArea" class="form-label">Area</label>
+                                <select type="select" class="form-control" name="inputArea">
+                                    <option value="Laki-laki">Sekadau</option>
+                                    <option value="Perempuan">Sintang 1, dll</option>
                                 </select>
                             </div>
                         </div>

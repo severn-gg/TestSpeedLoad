@@ -12,13 +12,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Input Departemen</h1>
+                <h1 class="m-0">Set User Login Aktivis</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Input Departemen</li>
+                    <li class="breadcrumb-item active">Set User Login Aktivis</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,20 +35,23 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Form Input Departemen</h3>
+                        <h3 class="card-title">Set User Login Aktivis</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputdepartemen">
+                    <form id="forminputaktivis">
                         <div class="card-body">
-
                             <div class="form-group">
-                                <label for="inputNamaDepartemen" class="form-label">Nama Departemen</label>
-                                <input class="form-control" type="text" name="inputNamaDepartemen">
+                                <label for="inputAktivis" class="form-label">Select Aktivis</label>
+                                <select type="select" class="form-control" name="inputAktivis">
+                                    <option value="Dept. FINANCE">Dll</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="inputNamaAdmin" class="form-label">Nama Lengkap Admin</label>
-                                <input class="form-control" type="text" name="inputNamaAdmin">
+                                <label for="inputRole" class="form-label">Select Role</label>
+                                <select type="select" class="form-control" name="inputRole">
+                                    <option value="Dll">Dll</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputUsername" class="form-label">Username</label>
@@ -57,6 +60,13 @@
                             <div class="form-group">
                                 <label for="inputPassword" class="form-label">Password</label>
                                 <input class="form-control" type="text" name="inputPassword">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputStatusActive" class="form-label">Select Status Active</label>
+                                <select type="select" class="form-control" name="inputStatusActive">
+                                    <option value="active">Aktif</option>
+                                    <option value="tidakActive">Tidak Aktif</option>
+                                </select>
                             </div>
                         </div>
                         <!-- /.card-body -->

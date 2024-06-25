@@ -158,13 +158,20 @@
                     </div>
                     <!-- /.row -->
                     <div class="row">
-                        <!-- accepted payments column -->
+                        <!-- /.col -->
                         <div class="col-12">
                             <p class="lead">File</p>
+                            <a class="btn btn-info" target="_blank"
+                                href="<?= base_url() ?>assets/dist/fileDoc/saldoakun.xls">
+                                <i class="fas fa-download"> Download File Dokumen *if exist</i>
+                            </a>
+                        </div>
+                        <!-- accepted payments column -->
+                        <div class="col-12">
+                            <p class="lead">Image</p>
                             <img class="img-fluid" src="<?= base_url() ?>assets/dist/img/photo1.png" alt="Photo">
                             <p></p>
                         </div>
-                        <!-- /.col -->
                     </div>
                     <!-- /.row -->
 

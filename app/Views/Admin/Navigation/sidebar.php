@@ -46,77 +46,6 @@
 
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-file-alt"></i>
-            <p>
-              Tiket
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="<?= base_url('admin/viewticket') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tiket Masuk</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/ticketprogress') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tiket On Progress</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/ticketdone') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tiket Selesai</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/ticketditolak') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tiket Ditolak</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-edit"></i>
-            <p>
-              Forms
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="<?= base_url('admin/forminputdepartemen') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tambah Departemen</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/forminputdivisi') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tambah Divisi Dept. IT</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/forminputpic') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tambah PIC</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/forminputkantor') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Tambah Kantor</p>
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
             <p>
               Tables
@@ -124,6 +53,12 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?= base_url('admin/viewticket') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List Tiket</p>
+              </a>
+            </li>
             <li class="nav-item">
               <a href="<?= base_url('admin/listkantor') ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -146,6 +81,66 @@
               <a href="<?= base_url('admin/listdivisi_it') ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Divisi IT List</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-edit"></i>
+            <p>
+              Forms
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?= base_url('admin/forminputaktivis') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Aktivis</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/forminputjabatan') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Jabatan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/forminputarea') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Area</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/forminputkantor') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tambah Kantor</p>
+              </a>
+            </li>
+            <!-- setup -->
+            <li class="nav-item">
+              <a href="<?= base_url('admin/formsetkantoraktivis') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Set Kantor Aktivis</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/formsetjabatanaktivis') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Set Jabatan Aktivis</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/formsetuserlogintivis') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Set User Login Aktivis</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/formsetpicarea') ?>" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Set PIC Area</p>
               </a>
             </li>
           </ul>

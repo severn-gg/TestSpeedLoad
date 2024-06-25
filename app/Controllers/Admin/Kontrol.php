@@ -18,15 +18,6 @@ class Kontrol extends BaseController
         return view('Admin/Content/Ticket/app');
     }
 
-    public function ticketprogress()
-    {
-        return view('Admin/Content/Ticket/onprogress');
-    }
-    public function ticketdone()
-    {
-        return view('Admin/Content/Ticket/done');
-    }
-
     public function detailTiket()
     {
         return view('Admin/Content/Ticket/detailTiket');
@@ -35,19 +26,6 @@ class Kontrol extends BaseController
     public function detailprint()
     {
         return view('Admin/Content/Ticket/detailprint');
-    }
-
-    public function tiketditolak()
-    {
-        return view('Admin/Content/Ticket/rejected');
-    }
-    public function detailTiketDitolak()
-    {
-        return view('Admin/Content/Ticket/detailrejected');
-    }
-    public function detailTiketDitolakPrint()
-    {
-        return view('Admin/Content/Ticket/detailrejectedprint');
     }
 
     // Menu Tables
@@ -82,22 +60,44 @@ class Kontrol extends BaseController
     }
 
     // menu Forms
+    // sesuai hasil diskusi 11 juni
+    public function forminputaktivis()
+    {
+        return view('Admin/Content/Forms/aktivis');
+    }
+    public function forminputjabatan()
+    {
+        return view('Admin/Content/Forms/jabatan');
+    }
+    public function forminputarea()
+    {
+        return view('Admin/Content/Forms/area');
+    }
     public function forminputkantor()
     {
-        return view('Admin/Content/Forms/newkantor');
+        return view('Admin/Content/Forms/kantor');
     }
-    public function forminputdepartemen()
+
+    public function formsetkantoraktivis()
     {
-        return view('Admin/Content/Forms/newdepartemen');
+        return view('Admin/Content/Forms/kantoraktivis');
     }
-    public function forminputdivisi()
+
+    public function formsetjabatanaktivis()
     {
-        return view('Admin/Content/Forms/newdivisi');
+        return view('Admin/Content/Forms/jabatanaktivis');
     }
-    public function forminputpic()
+
+    public function formsetuserloginaktivis()
     {
-        return view('Admin/Content/Forms/newpic');
+        return view('Admin/Content/Forms/userlogin');
     }
+    public function formsetpicarea()
+    {
+        return view('Admin/Content/Forms/pic');
+    }
+
+
 
     // Menu Charts
     public function chartsTiket()

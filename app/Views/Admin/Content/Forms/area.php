@@ -12,13 +12,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Input Kantor</h1>
+                <h1 class="m-0">Input Kantor Area</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
-                    <li class="breadcrumb-item active">Input Kantor</li>
+                    <li class="breadcrumb-item active">Input Kantor Area</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,7 +35,7 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Form Input Kantor (Branch Office)</h3>
+                        <h3 class="card-title">Form Input Kantor (Area Office)</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -43,24 +43,8 @@
                         <div class="card-body">
 
                             <div class="form-group">
-                                <label for="inputNamaKantor" class="form-label">Nama Kantor (Branch Office)</label>
+                                <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
                                 <input class="form-control" type="text" name="inputNamaKantor">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputKodeKantor" class="form-label">Kode Kantor</label>
-                                <input class="form-control" type="text" name="inputKodeKantor">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputNamaAdmin" class="form-label">Nama Lengkap Admin</label>
-                                <input class="form-control" type="text" name="inputNamaAdmin">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputUsername" class="form-label">Username</label>
-                                <input class="form-control" type="text" name="inputUsername">
-                            </div>
-                            <div class="form-group">
-                                <label for="inputPassword" class="form-label">Password</label>
-                                <input class="form-control" type="text" name="inputPassword">
                             </div>
                         </div>
                         <!-- /.card-body -->
