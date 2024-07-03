@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -44,7 +45,7 @@
 
                             <div class="form-group">
                                 <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
-                                <input class="form-control" type="text" name="inputNamaKantor">
+                                <input class="form-control" type="text" name="inputNamaArea">
                             </div>
                         </div>
                         <!-- /.card-body -->

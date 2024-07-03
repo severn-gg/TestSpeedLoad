@@ -8,4 +8,14 @@ class Home extends BaseController
     {
         return view('Login/Login');
     }
+
+    public function logout()
+    {
+        session_start();
+
+        session_destroy();
+
+        session()->setFlashdata('msg', 'Kamu Logout');
+        return $this->index();
+    }
 }

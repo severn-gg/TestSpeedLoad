@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -12,7 +13,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Set Kantor Aktivis</h1>
+                <h1 class="m-0">Mutasi Kantor Aktivis</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -39,27 +40,19 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputaktivis">
+                    <form id="formmutasiaktivis">
                         <div class="card-body">
                             <div class="form-group">
-                                <label for="inputAktivis" class="form-label">Select Aktivis</label>
-                                <select type="select" class="form-control" name="inputAktivis">
-                                    <option value="Dept. FINANCE">Dll</option>
+                                <label>Select Aktivis</label>
+                                <select type="select" class="form-control select2" name="inputAktivis">
+
                                 </select>
                             </div>
+
                             <div class="form-group">
-                                <label for="inputKantor" class="form-label">Select Kantor</label>
-                                <select type="select" class="form-control" name="inputKantor">
-                                    <option value="Head Office">Head Office</option>
-                                    <option value="Dept. IT">Dept. IT</option>
-                                    <option value="Dept. RISK">Dept. RISK</option>
-                                    <option value="Dept. MPRRD">Dept. MPRRD</option>
-                                    <option value="Dept. CCD">Dept. CCD</option>
-                                    <option value="Dept. FINANCE">Dept. FINANCE</option>
-                                    <option value="Dept. HRD">Dept. HRD</option>
-                                    <option value="Dept. LOGISTIC">Dept. LOGISTIC</option>
-                                    <option value="Dept. Kantor Sentral">Kantor Sentral</option>
-                                    <option value="Dept. FINANCE">Dll</option>
+                                <label>Select Kantor</label>
+                                <select type="select" class="form-control select2" name="inputKantor">
+
                                 </select>
                             </div>
                             <div class="form-group">

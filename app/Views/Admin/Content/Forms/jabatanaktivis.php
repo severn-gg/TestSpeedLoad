@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -12,7 +13,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Set Jabatan Aktivis</h1>
+                <h1 class="m-0">Mutasi Jabatan Aktivis</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -39,25 +40,18 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputaktivis">
+                    <form id="formmutasijabatanaktivis">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="inputAktivis" class="form-label">Select Aktivis</label>
-                                <select type="select" class="form-control" name="inputAktivis">
-                                    <option value="Dept. FINANCE">Dll</option>
+                                <select type="select" class="form-control select2" name="inputAktivis">
+
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputJabatan" class="form-label">Select Jabatan</label>
-                                <select type="select" class="form-control" name="inputJabatan">
-                                    <option value="Head Office">DEM</option>
-                                    <option value="Dept. IT">Admin Departemen</option>
-                                    <option value="Dept. RISK">Staf</option>
-                                    <option value="Dept. MPRRD">Manager</option>
-                                    <option value="Dept. CCD">Akuntan</option>
-                                    <option value="Dept. FINANCE">Kasir</option>
-                                    <option value="Dept. HRD">Field Officer</option>
-                                    <option value="Dll">Dll</option>
+                                <select type="select" class="form-control select2" name="inputJabatan">
+
                                 </select>
                             </div>
                             <div class="form-group">

@@ -7,31 +7,64 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Kontrol extends BaseController
 {
+    protected function prepareData($menu, $submenu = null)
+    {
+        $session = session();
+        if ($session->has('user_id')) {
+            $data = [
+                'menu' => $menu,
+                'submenu' => $submenu,
+                'username' => $session->get('username'),
+                'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
+            ];
+            return $data;
+        } else {
+            // Redirect to login page if the user is not logged in
+            return redirect()->to('/login'); // Adjust the route as needed
+        }
+    }
+
     public function index()
     {
-        return view('Admin/Content/dashboard');
+        $data = $this->prepareData('Dashboard');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/dashboard', $data);
     }
 
     // Menu Tiket
     public function viewticket()
     {
-        return view('Admin/Content/Ticket/app');
+        $data = $this->prepareData('Tables', 'Tiket');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Ticket/app', $data);
     }
 
     public function detailTiket()
     {
-        return view('Admin/Content/Ticket/detailTiket');
-    }
-
-    public function detailprint()
-    {
-        return view('Admin/Content/Ticket/detailprint');
+        $data = $this->prepareData('Tables', 'Kantor');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Ticket/detailTiket', $data);
     }
 
     // Menu Tables
     public function listkantor()
     {
-        return view('Admin/Content/Tables/listkantor');
+        $data = $this->prepareData('Tables', 'Kantor');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listkantor', $data);
+    }
+
+    public function detailprint()
+    {
+        return view('Admin/Content/Ticket/detailprint');
     }
 
     public function detailkantor()
@@ -63,29 +96,53 @@ class Kontrol extends BaseController
     // sesuai hasil diskusi 11 juni
     public function forminputaktivis()
     {
-        return view('Admin/Content/Forms/aktivis');
+        $data = $this->prepareData('Forms', 'tambahaktivis');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/aktivis', $data);
     }
     public function forminputjabatan()
     {
-        return view('Admin/Content/Forms/jabatan');
+        $data = $this->prepareData('Forms', 'jabatan');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/jabatan', $data);
     }
     public function forminputarea()
     {
-        return view('Admin/Content/Forms/area');
+        $data = $this->prepareData('Forms', 'area');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/area', $data);
     }
     public function forminputkantor()
     {
-        return view('Admin/Content/Forms/kantor');
+        $data = $this->prepareData('Forms', 'kantor');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/kantor', $data);
     }
 
     public function formsetkantoraktivis()
     {
-        return view('Admin/Content/Forms/kantoraktivis');
+        $data = $this->prepareData('Forms', 'kantoraktivis');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/kantoraktivis', $data);
     }
 
     public function formsetjabatanaktivis()
     {
-        return view('Admin/Content/Forms/jabatanaktivis');
+        $data = $this->prepareData('Forms', 'mutasijabatan');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/jabatanaktivis', $data);
     }
 
     public function formsetuserloginaktivis()

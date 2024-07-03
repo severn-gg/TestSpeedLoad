@@ -31,6 +31,7 @@
   <!-- script -->
   <?= $this->include('Template/globalScript'); ?>
   <?= $this->include('Admin/Navigation/script'); ?>
+
 </body>
 
 </html>

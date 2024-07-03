@@ -11,16 +11,14 @@ use App\Controllers\PIC\Kontrol as KontrolPIC;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+// $routes->post('/login', 'Home::login');
+$routes->get('/logout', 'Home::logout');
 
-// ROUTE BO
-$routes->group('bo', static function ($routes) {
-    $routes->get('dashboard', [KontrolBO::class, 'index']);
-    $routes->get('tiketbaru', [KontrolBO::class, 'tiketbaru']);
-    $routes->get('tiketsaya', [KontrolBO::class, 'tiketsaya']);
-    $routes->get('tiketdetail', [KontrolBO::class, 'tiketdetail']);
-    $routes->get('tiketprint', [KontrolBO::class, 'tiketprint']);
-    $routes->get('tiketkonfirmasidetail', [KontrolBO::class, 'tiketkonfirmasidetail']);
-    $routes->get('tiketkonfirmasiprint', [KontrolBO::class, 'tiketkonfirmasiprint']);
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
+    $routes->post('login', 'Api::login');
+    $routes->post('insert', 'Api::insert');
+    $routes->post('get', 'Api::get');
+    $routes->delete('delete', 'Api::delete');
 });
 
 // ROUTE ADMIN
@@ -70,6 +68,17 @@ $routes->group('admin', static function ($routes) {
 
     // menu pages    
     $routes->get('profile', [KontrolAdmin::class, 'profile']);
+});
+
+// ROUTE BO
+$routes->group('bo', static function ($routes) {
+    $routes->get('dashboard', [KontrolBO::class, 'index']);
+    $routes->get('tiketbaru', [KontrolBO::class, 'tiketbaru']);
+    $routes->get('tiketsaya', [KontrolBO::class, 'tiketsaya']);
+    $routes->get('tiketdetail', [KontrolBO::class, 'tiketdetail']);
+    $routes->get('tiketprint', [KontrolBO::class, 'tiketprint']);
+    $routes->get('tiketkonfirmasidetail', [KontrolBO::class, 'tiketkonfirmasidetail']);
+    $routes->get('tiketkonfirmasiprint', [KontrolBO::class, 'tiketkonfirmasiprint']);
 });
 
 // ROUTE validator

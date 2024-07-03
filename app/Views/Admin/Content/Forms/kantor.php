@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -51,14 +52,9 @@
                                 <input class="form-control" type="text" name="inputAlamatKantor">
                             </div>
                             <div class="form-group">
-                                <label for="inputNoOfficial" class="form-label">No. HP Official</label>
-                                <input class="form-control" type="text" name="inputNoOfficial">
-                            </div>
-                            <div class="form-group">
                                 <label for="inputArea" class="form-label">Area</label>
-                                <select type="select" class="form-control" name="inputArea">
-                                    <option value="Laki-laki">Sekadau</option>
-                                    <option value="Perempuan">Sintang 1, dll</option>
+                                <select type="select" class="form-control select2" name="inputArea">
+
                                 </select>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -16,7 +17,7 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
                     <li class="breadcrumb-item">Forms</li>
                     <li class="breadcrumb-item active">Input Jabatan</li>
                 </ol>
@@ -39,7 +40,7 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputarea">
+                    <form id="forminputJabatan">
                         <div class="card-body">
 
                             <div class="form-group">
