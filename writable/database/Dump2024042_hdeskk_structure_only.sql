@@ -30,8 +30,22 @@ CREATE TABLE `aktivis` (
   `no_hp` varchar(20) DEFAULT NULL,
   `asal` text,
   PRIMARY KEY (`aktivis_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Temporary view structure for view `aktivis_cabang_view`
+--
+
+DROP TABLE IF EXISTS `aktivis_cabang_view`;
+/*!50001 DROP VIEW IF EXISTS `aktivis_cabang_view`*/;
+SET @saved_cs_client     = @@character_set_client;
+/*!50503 SET character_set_client = utf8mb4 */;
+/*!50001 CREATE VIEW `aktivis_cabang_view` AS SELECT 
+ 1 AS `cabang_id`,
+ 1 AS `aktivis_id`,
+ 1 AS `nama_aktivis`*/;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `area`
@@ -44,7 +58,7 @@ CREATE TABLE `area` (
   `area_id` int NOT NULL AUTO_INCREMENT,
   `nama_area` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`area_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +76,7 @@ CREATE TABLE `cabang` (
   PRIMARY KEY (`cabang_id`),
   KEY `branch_office_ibfk_1_idx` (`area_id`),
   CONSTRAINT `cabang_ibfk_1` FOREIGN KEY (`area_id`) REFERENCES `area` (`area_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -101,7 +115,7 @@ CREATE TABLE `cabangaktivis_history` (
   KEY `cabang_id` (`cabang_id`),
   CONSTRAINT `cabangaktivis_history_ibfk_1` FOREIGN KEY (`aktivis_id`) REFERENCES `aktivis` (`aktivis_id`),
   CONSTRAINT `cabangaktivis_history_ibfk_2` FOREIGN KEY (`cabang_id`) REFERENCES `cabang` (`cabang_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,7 +129,7 @@ CREATE TABLE `jabatan` (
   `jabatan_id` int NOT NULL AUTO_INCREMENT,
   `nama_jabatan` varchar(45) NOT NULL,
   PRIMARY KEY (`jabatan_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +168,7 @@ CREATE TABLE `jabatanaktivis_history` (
   KEY `jabatan_id` (`jabatan_id`),
   CONSTRAINT `jabatanaktivis_history_ibfk_1` FOREIGN KEY (`aktivis_id`) REFERENCES `aktivis` (`aktivis_id`),
   CONSTRAINT `jabatanaktivis_history_ibfk_2` FOREIGN KEY (`jabatan_id`) REFERENCES `jabatan` (`jabatan_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -229,7 +243,7 @@ CREATE TABLE `role` (
   `role_id` int NOT NULL AUTO_INCREMENT,
   `role_name` varchar(45) NOT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +275,7 @@ CREATE TABLE `tiket` (
   CONSTRAINT `tiket_ibfk_2` FOREIGN KEY (`cabang_id`) REFERENCES `cabang` (`cabang_id`),
   CONSTRAINT `tiket_ibfk_3` FOREIGN KEY (`jabatan_id`) REFERENCES `jabatan` (`jabatan_id`),
   CONSTRAINT `tiket_ibfk_4` FOREIGN KEY (`aktivis_yg_salah`) REFERENCES `aktivis` (`aktivis_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +317,7 @@ CREATE TABLE `user` (
   KEY `user_ibfk_2_idx` (`role_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`aktivis_id`) REFERENCES `aktivis` (`aktivis_id`),
   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,6 +346,24 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `tgl_input`,
  1 AS `tgl_update`*/;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `aktivis_cabang_view`
+--
+
+/*!50001 DROP VIEW IF EXISTS `aktivis_cabang_view`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `aktivis_cabang_view` AS select `cb`.`cabang_id` AS `cabang_id`,`a`.`aktivis_id` AS `aktivis_id`,`a`.`nama_aktivis` AS `nama_aktivis` from ((`aktivis` `a` join `cabangaktivis` `c` on((`a`.`aktivis_id` = `c`.`aktivis_id`))) join `cabang` `cb` on((`c`.`cabang_id` = `cb`.`cabang_id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
 -- Final view structure for view `login_view`
@@ -378,38 +410,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-01 12:42:45
-
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
-
---- trigger for cabangaktivis and jabatanaktivis
-DELIMITER //
-
-CREATE TRIGGER before_update_cabangaktivis
-BEFORE UPDATE ON cabangaktivis
-FOR EACH ROW
-BEGIN
-    -- Insert current state into history table
-    INSERT INTO cabangaktivis_history (aktivis_id, cabang_id, start_date, end_date)
-    VALUES (OLD.aktivis_id, OLD.cabang_id, OLD.start_date, NOW());
-END //
-
-DELIMITER ;
-
-
-DELIMITER //
-
-CREATE TRIGGER before_update_jabatanaktivis
-BEFORE UPDATE ON jabatanaktivis
-FOR EACH ROW
-BEGIN
-    -- Insert current state into history table
-    INSERT INTO jabatanaktivis_history (aktivis_id, jabatan_id, start_date, end_date)
-    VALUES (OLD.aktivis_id, OLD.jabatan_id, OLD.start_date, NOW());
-END //
-
-DELIMITER ;
-
-----------------------------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------------------------
+-- Dump completed on 2024-07-05 15:51:32
