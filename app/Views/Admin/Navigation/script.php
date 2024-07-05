@@ -17,7 +17,45 @@
 <script>
     $(document).ready(function() {
 
-        if ($('#forminputaktivis').length) {
+        if ($('#forminputkantor').length || $('#forminputaktivis').length || $('#formmutasiaktivis').length || $('#formmutasijabatanaktivis').length || $('#formuserloginaktivis').length || $('#forminputpic').length) {
+            $.ajax({
+                type: "POST",
+                url: "../api/get",
+                data: JSON.stringify({
+                    table: 'aktivis',
+                }),
+                dataType: "JSON",
+                success: function(response) {
+                    let data = response.data;
+                    // console.log(data);
+                    let select = $('select[name="inputAktivis"]');
+                    select.empty();
+                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
+                    $.each(data, function(index, value) {
+                        select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
+                    });
+                }
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "../api/get",
+                data: JSON.stringify({
+                    table: 'user',
+                }),
+                dataType: "JSON",
+                success: function(user) {
+                    let dataUser = user.data;
+                    // console.log(data);
+                    let selectUser = $('select[name="inputUser"]');
+                    selectUser.empty();
+                    selectUser.append('<option value="">-- Pilih User --</option>'); // Add empty
+                    $.each(dataUser, function(index, value) {
+                        selectUser.append(`<option value = "${value.user_id}">${value.username} </option>`);
+                    });
+                }
+            });
+
             $.ajax({
                 type: "POST",
                 url: "../api/get",
@@ -32,7 +70,7 @@
                     select.empty();
                     select.append('<option value="">-- Pilih Kantor --</option>'); // Add empty option
                     $.each(data, function(index, value) {
-                        select.append(`<option value = "${value.cabang_id}"> ${value.nama_cabang} </option>`);
+                        select.append(`<option value = "${value.cabang_id}">${value.nama_cabang} </option>`);
                     });
                 }
             });
@@ -51,13 +89,30 @@
                     selectJabatan.empty();
                     selectJabatan.append('<option value="">-- Pilih Jabatan --</option>')
                     $.each(dataJabatan, function(indexJabatan, valueJabatan) {
-                        selectJabatan.append(`<option value = "${valueJabatan.jabatan_id}"> ${valueJabatan.nama_jabatan} </option>`);
+                        selectJabatan.append(`<option value = "${valueJabatan.jabatan_id}">${valueJabatan.nama_jabatan} </option>`);
                     });
                 }
             });
-        }
 
-        if ($('#forminputkantor').length) {
+            $.ajax({
+                type: "POST",
+                url: "../api/get",
+                data: JSON.stringify({
+                    table: 'role',
+                }),
+                dataType: "JSON",
+                success: function(role) {
+                    let dataRole = role.data;
+                    console.log(dataRole);
+                    let selectRole = $('select[name="inputRole"]');
+                    selectRole.empty();
+                    selectRole.append('<option value="">-- Pilih Role --</option>')
+                    $.each(dataRole, function(indexRole, valueRole) {
+                        selectRole.append(`<option value = "${valueRole.role_id}">${valueRole.role_name} </option>`);
+                    });
+                }
+            });
+
             $.ajax({
                 type: "POST",
                 url: "../api/get",
@@ -77,66 +132,32 @@
                 }
             });
         }
+    });
 
-        if ($('#formmutasiaktivis').length || $('#formmutasijabatanaktivis').length) {
-            $.ajax({
-                type: "POST",
-                url: "../api/get",
-                data: JSON.stringify({
-                    table: 'aktivis',
-                }),
-                dataType: "JSON",
-                success: function(response) {
-                    let data = response.data;
-                    // console.log(data);
-                    let select = $('select[name="inputAktivis"]');
-                    select.empty();
-                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
-                    $.each(data, function(index, value) {
-                        select.append(`<option value = "${value.aktivis_id}"> ${value.nama_aktivis} </option>`);
-                    });
-                }
-            });
+    $(document).on('change', 'select[name="inputAktivis"]', function() {
+        var selectedOption = $(this).find('option:selected'); // Get the selected option element
+        var selectedValue = selectedOption.val(); // Get the value of the selected option
 
-            $.ajax({
-                type: "POST",
-                url: "../api/get",
-                data: JSON.stringify({
-                    table: 'cabang',
-                }),
-                dataType: "JSON",
-                success: function(response) {
-                    let data = response.data;
-                    // console.log(data);
-                    let select = $('select[name="inputKantor"]');
-                    select.empty();
-                    select.append('<option value="">-- Pilih Kantor --</option>'); // Add empty option
-                    $.each(data, function(index, value) {
-                        select.append(`<option value = "${value.cabang_id}"> ${value.nama_cabang} </option>`);
-                    });
-                }
-            });
+        // Check if selectedValue is not empty or undefined
+        if (selectedValue) {
+            var selectedText = selectedOption.text(); // Get the text of the selected option
+            var firstWord = selectedText.split(' ')[0].toLowerCase(); // Get the first word
 
-            $.ajax({
-                type: "POST",
-                url: "../api/get",
-                data: JSON.stringify({
-                    table: 'jabatan',
-                }),
-                dataType: "JSON",
-                success: function(jabaatan) {
-                    let dataJabatan = jabaatan.data;
-                    console.log(dataJabatan);
-                    let selectJabatan = $('select[name="inputJabatan"]');
-                    selectJabatan.empty();
-                    selectJabatan.append('<option value="">-- Pilih Jabatan --</option>')
-                    $.each(dataJabatan, function(indexJabatan, valueJabatan) {
-                        selectJabatan.append(`<option value = "${valueJabatan.jabatan_id}"> ${valueJabatan.nama_jabatan} </option>`);
-                    });
-                }
-            });
+            $('input[name="inputUsername"]').val(firstWord);
+            $('input[name="inputPassword"]').val('123456!');
         }
     });
+
+    $('button[type="reset"]').click(function() {
+        // Reset Select2 elements
+        $('.select2').val(null).trigger('change');
+
+        // If you want to reset to a specific option, you can do it like this:
+        // $('select[name="inputAktivis"]').val('default_value').trigger('change');
+        // $('select[name="inputRole"]').val('default_value').trigger('change');
+        // $('select[name="inputStatusActive"]').val('default_value').trigger('change');
+    });
+
 
     $(document).on('submit', '#forminputaktivis', function(e) { // Add '#' for ID selector
         e.preventDefault();
@@ -202,6 +223,7 @@
 
             // Clear the form inputs
             $('#forminputaktivis')[0].reset();
+            $('.select2').val(null).trigger('change');
         }).catch(function(xhr) {
             let errorMessage = 'An error occurred';
             if (xhr.responseJSON && xhr.responseJSON.messages) {
@@ -217,6 +239,7 @@
 
             // Clear the form inputs
             $('#forminputaktivis')[0].reset();
+            $('.select2').val(null).trigger('change');
         });
     });
 
@@ -244,6 +267,7 @@
 
                 // Clear the form inputs
                 $('#forminputJabatan')[0].reset();
+                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
                 let errorMessage = 'An error occurred';
@@ -260,6 +284,7 @@
 
                 // Clear the form inputs
                 $('#forminputJabatan')[0].reset();
+                $('.select2').val(null).trigger('change');
             }
         });
     })
@@ -288,6 +313,7 @@
 
                 // Clear the form inputs
                 $('#forminputarea')[0].reset();
+                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
                 let errorMessage = 'An error occurred';
@@ -304,6 +330,7 @@
 
                 // Clear the form inputs
                 $('#forminputarea')[0].reset();
+                $('.select2').val(null).trigger('change');
             }
         });
     });
@@ -334,6 +361,7 @@
 
                 // Clear the form inputs
                 $('#forminputkantor')[0].reset();
+                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
                 let errorMessage = 'An error occurred';
@@ -350,6 +378,7 @@
 
                 // Clear the form inputs
                 $('#forminputkantor')[0].reset();
+                $('.select2').val(null).trigger('change');
             }
         });
     });
@@ -381,6 +410,7 @@
 
                 // Clear the form inputs
                 $('#formmutasiaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
                 let errorMessage = 'An error occurred';
@@ -397,6 +427,153 @@
 
                 // Clear the form inputs
                 $('#formmutasiaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
+            }
+        });
+    });
+
+    $(document).on('submit', '#formmutasijabatanaktivis', function(e) {
+        e.preventDefault();
+
+        var dataMutasiJabatan = {
+            aktivis_id: $('select[name="inputAktivis"]').val(),
+            jabatan_id: $('select[name="inputJabatan"]').val(),
+            start_date: $('input[name="inputTglMulai"]').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "../api/insert",
+            data: JSON.stringify({
+                table: 'jabatanaktivis',
+                id: dataMutasiJabatan.aktivis_id,
+                data: [dataMutasiJabatan],
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                Swal.fire({
+                    title: "Success",
+                    text: response.message,
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#formmutasijabatanaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
+
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#formmutasijabatanaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
+            }
+        });
+    });
+
+    $(document).on('submit', '#formuserloginaktivis', function(e) {
+        e.preventDefault();
+
+        var dataLoginAktivis = {
+            aktivis_id: $('select[name="inputAktivis"]').val(),
+            username: $('input[name="inputUsername"]').val(),
+            password_hash: $('input[name="inputPassword"]').val(),
+            active: $('select[name = "inputStatusActive"]').val(),
+            role_id: $('select[name = "inputRole"]').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "../api/insert",
+            data: JSON.stringify({
+                table: 'user',
+                data: [dataLoginAktivis],
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                Swal.fire({
+                    title: "Success",
+                    text: response.message,
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#formuserloginaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
+
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#formuserloginaktivis')[0].reset();
+                $('.select2').val(null).trigger('change');
+            }
+        });
+    });
+
+    $(document).on('submit', '#forminputpic', function(e) {
+        e.preventDefault();
+
+        var dataPIC = {
+            user_id: $('select[name="inputUser"]').val(),
+            area_id: $('select[name = "inputArea"]').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "../api/insert",
+            data: JSON.stringify({
+                table: 'pic',
+                data: [dataPIC],
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                Swal.fire({
+                    title: "Success",
+                    text: response.message,
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#forminputpic')[0].reset();
+                $('.select2').val(null).trigger('change');
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
+
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 5000,
+                });
+
+                // Clear the form inputs
+                $('#forminputpic')[0].reset();
+                $('.select2').val(null).trigger('change');
             }
         });
     });

@@ -59,6 +59,8 @@ class ApiModel extends Model
                 // Update operation
                 if ($table === 'cabangaktivis' || $table === 'jabatanaktivis') {
                     $query->where('aktivis_id', $id);
+                } else if ($table === 'pic') {
+                    $query->where('user_id', $id);
                 } else {
                     $idd = $table . '_id'; // Construct the ID field name
                     $query->where($idd, $id);
@@ -113,6 +115,39 @@ class ApiModel extends Model
                 'lastQuery' => $this->db->getLastQuery()->getQuery(),
                 'data' => null
             ];
+        }
+    }
+
+    public function cek_pic($data)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->table('pic')
+            ->where('user_id', $data['user_id'])
+            ->where('area_id', $data['area_id'])
+            ->get();
+        $result = $query->getResultArray();
+        if (empty($result)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function cek_user($data)
+    {
+        $db = \Config\Database::connect();
+        $query = $db->table('user')
+            ->where('aktivis_id', $data['aktivis_id'])
+            ->orGroupStart()  // Start a group for OR conditions
+            ->where('username', $data['username'])
+            ->groupEnd()  // End the OR condition group
+            ->get();
+        $result = $query->getResultArray();
+
+        if (empty($result)) {
+            return true;
+        } else {
+            return false;
         }
     }
 

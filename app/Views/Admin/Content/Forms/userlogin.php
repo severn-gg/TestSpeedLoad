@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -39,18 +40,18 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputaktivis">
+                    <form id="formuserloginaktivis">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="inputAktivis" class="form-label">Select Aktivis</label>
-                                <select type="select" class="form-control" name="inputAktivis">
-                                    <option value="Dept. FINANCE">Dll</option>
+                                <select type="select" class="form-control select2" name="inputAktivis">
+
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputRole" class="form-label">Select Role</label>
-                                <select type="select" class="form-control" name="inputRole">
-                                    <option value="Dll">Dll</option>
+                                <select type="select" class="form-control select2" name="inputRole">
+
                                 </select>
                             </div>
                             <div class="form-group">
@@ -64,15 +65,15 @@
                             <div class="form-group">
                                 <label for="inputStatusActive" class="form-label">Select Status Active</label>
                                 <select type="select" class="form-control" name="inputStatusActive">
-                                    <option value="active">Aktif</option>
-                                    <option value="tidakActive">Tidak Aktif</option>
+                                    <option value="1">Tidak Aktif</option>
+                                    <option value="2">Aktif</option>
                                 </select>
                             </div>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form>
                 </div>

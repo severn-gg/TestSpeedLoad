@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -43,16 +44,13 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="inputAktivis">Pilih Aktivis</label>
-                                <select type="select" class="form-control" name="inputAktivis">
-                                    <option value="1">Andi</option>
-                                    <option value="2">Indra</option>
-                                    <option value="3">Riyo</option>
-                                    <option value="4">Dll</option>
+                                <select type="select" class="form-control select2" name="inputUser">
+
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputArea">Pilih Area</label>
-                                <select type="select" class="form-control" name="inputArea">
+                                <select type="select" class="form-control select2" name="inputArea">
                                     <option value="1">Dll</option>
                                 </select>
                             </div>

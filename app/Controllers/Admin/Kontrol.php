@@ -147,11 +147,19 @@ class Kontrol extends BaseController
 
     public function formsetuserloginaktivis()
     {
-        return view('Admin/Content/Forms/userlogin');
+        $data = $this->prepareData('Forms', 'tambahuserlogin');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/userlogin', $data);
     }
     public function formsetpicarea()
     {
-        return view('Admin/Content/Forms/pic');
+        $data = $this->prepareData('Forms', 'picarea');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Forms/pic', $data);
     }
 
 

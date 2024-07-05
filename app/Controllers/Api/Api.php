@@ -74,6 +74,7 @@ class Api extends BaseController
             'nama_pengguna' => $userData['nama_pengguna'],
             'namagroup_id'  => $userData['namagroup_id'],
             'nama_group'    => $userData['nama_group'],
+            'cabang_id'     => $userData['cabang_id'],
             'kantor'        => $userData['kantor'],
         ];
         $session->set($sessionData);
@@ -106,6 +107,11 @@ class Api extends BaseController
         }
 
         $table = $jsonData['table'];
+        $id = isset($jsonData['id']) && !empty($jsonData['id']) ? (int)$jsonData['id'] : null;
+        $data = $jsonData['data'][0];
+
+        if ($table === "pic") {
+        }
 
         switch ($table) {
             case "aktivis":
@@ -154,13 +160,38 @@ class Api extends BaseController
                     'area_id' => 'required'
                 ]);
                 break;
-            case "cabangaktivis":
+            case "user":
                 // Validasi data
                 $validation->setRules([
                     'aktivis_id' => 'required',
-                    'cabang_id' => 'required',
-                    'start_date' => 'required'
+                    'username' => 'required',
+                    'password_hash' => 'required',
+                    'active' => 'required',
+                    'role_id' => 'required'
                 ]);
+
+                $picModel = new ApiModel();
+                $result = $picModel->cek_user($data);
+
+                // Check if $result is true
+                if ($result !== true) {
+                    return $this->failServerError('Oops User login sudah ada!');
+                }
+                break;
+            case "pic":
+                // Validasi data
+                $validation->setRules([
+                    'user_id' => 'required',
+                    'area_id' => 'required'
+                ]);
+
+                $picModel = new ApiModel();
+                $result = $picModel->cek_pic($data);
+
+                // Check if $result is true
+                if ($result !== true) {
+                    return $this->failServerError('Oops user sudah pada PIC ini!');
+                }
                 break;
             case "tiket":
                 // Validasi data
@@ -179,8 +210,6 @@ class Api extends BaseController
                 return $this->failServerError('Salah inputan table!');
         }
 
-        $id = isset($jsonData['id']) && !empty($jsonData['id']) ? (int)$jsonData['id'] : null;
-        $data = $jsonData['data'][0];
         if (!$validation->run($data)) {
             return $this->failValidationErrors($validation->getErrors());
         }

@@ -132,13 +132,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetuserlogintivis') ?>" class="nav-link">
+              <a href="<?= base_url('admin/formsetuserlogintivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tambahuserlogin') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Set User Login Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetpicarea') ?>" class="nav-link">
+              <a href="<?= base_url('admin/formsetpicarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'picarea') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Set PIC Area</p>
               </a>

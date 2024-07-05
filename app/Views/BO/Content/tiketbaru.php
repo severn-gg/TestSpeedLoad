@@ -38,7 +38,12 @@
                             <div class="form-group">
                                 <label for="stafterkait">Kategori Tiket</label>
                                 <select type="select" class="form-control" name="tiketkategori_id">
-
+                                    <option value="">-- Pilih Kategori --</option>
+                                    <option value="Network">Network</option>
+                                    <option value="Software">Software</option>
+                                    <option value="Hardware">Hardware</option>
+                                    <option value="LKD">LKD</option>
+                                    <option value="POLJAK">POLJAK</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -46,9 +51,12 @@
                                 <textarea class="form-control" rows="5" name="deskripsi"></textarea>
                             </div>
                             <div class="form-group">
-                                <div class="mb-3">
-                                    <label for="file_uploads" class="form-label">Lampiran File / Dokumen</label>
-                                    <input class="form-control" type="file" name="file_uploads">
+                                <label for="imgFile">Lampiran File</label>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" name="docFile">
+                                        <label for="file_uploads" class="custom-file-label">File</label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -56,16 +64,15 @@
                                 <label for="imgFile">Lampiran Gambar</label>
                                 <div class="input-group">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="imgFile" name="imgFile"
-                                            accept=".jpg, .jpeg, .png">
-                                        <label class="custom-file-label" for="imgFile">Choose file</label>
+                                        <input type="file" class="custom-file-input" name="imgFile">
+                                        <label class="custom-file-label" for="imgFile">Gambar</label>
                                     </div>
                                 </div>
                             </div>
                             <hr>
                             <div class="form-group">
                                 <label for="stafterkait">Staf Yang Melakukan Kesalahan</label>
-                                <select type="select" class="form-control" name="staf_id">
+                                <select type="select" class="form-control select2" data-kantor="<?php echo $cabang_id; ?>" name="inputAktivis">
 
                                 </select>
                             </div>

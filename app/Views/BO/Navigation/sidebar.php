@@ -11,11 +11,10 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
-                <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2"
-                    alt="User Image">
+                <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">Branch Office</a>
+                <a href="#" class="d-block"><?php echo $nama; ?></a>
             </div>
         </div>
 
@@ -25,7 +24,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="<?php echo site_url('bo/dashboard'); ?>" class="nav-link">
+                    <a href="<?php echo site_url('bo/dashboard'); ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -34,7 +33,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?php echo site_url('bo/tiketbaru') ?>" class="nav-link">
+                    <a href="<?php echo site_url('bo/tiketbaru') ?>" class="nav-link <?= (isset($menu) && $menu === 'Buattiket') ? ' active' : '' ?>">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Buat Tiket
@@ -43,7 +42,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="<?php echo site_url('bo/tiketsaya') ?>" class="nav-link">
+                    <a href="<?php echo site_url('bo/tiketsaya') ?>" class="nav-link <?= (isset($menu) && $menu === 'Tiketsaya') ? ' active' : '' ?>">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
                             Tiket Saya
@@ -51,7 +50,7 @@
                     </a>
                 </li>
                 <li class="nav-item bg-danger">
-                    <a href="#" class="nav-link">
+                    <a href="/logout" class="nav-link">
                         <i class="nav-icon fas fa-power-off"></i>
                         <p>
                             LOGOUT
