@@ -8,18 +8,50 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Kontrol extends BaseController
 {
 
+    protected function prepareData($menu, $submenu = null)
+    {
+        $session = session();
+        if ($session->has('user_id')) {
+            $data = [
+                'menu' => $menu,
+                'submenu' => $submenu,
+                'username' => $session->get('username'),
+                'aktivis_id' => $session->get('aktivis_id'),
+                'jabatan_id' => $session->get('jabatan_id'),
+                'cabang_id' => $session->get('cabang_id'),
+                'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
+            ];
+            return $data;
+        } else {
+            // Redirect to login page if the user is not logged in
+            return redirect()->to('/login'); // Adjust the route as needed
+        }
+    }
+
     public function index()
     {
-        return view('Validator/Content/dashboard');
+        $data = $this->prepareData('Dashboard');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/dashboard', $data);
     }
     public function tiketmasuk()
     {
-        return view('Validator/Content/tiketmasuk');
+        $data = $this->prepareData('tiket', 'tiketmasuk');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/tiketmasuk', $data);
     }
 
     public function tiketverifikasi()
     {
-        return view('Validator/Content/tiketverifikasi');
+        $data = $this->prepareData('tiket', 'tiketverifikasi');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/tiketverifikasi', $data);
     }
 
     public function tiketverifikasiprint()
@@ -29,12 +61,20 @@ class Kontrol extends BaseController
 
     public function tiketdone()
     {
-        return view('Validator/Content/tiketdone');
+        $data = $this->prepareData('tiket', 'tiketverifikasi');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/tiketdone', $data);
     }
 
     public function tiketdetail()
     {
-        return view('Validator/Content/tiketdetail');
+        $data = $this->prepareData('tiket', 'tiketverifikasi');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/tiketdetail', $data);
     }
 
     public function tiketprint()

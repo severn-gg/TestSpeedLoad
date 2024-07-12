@@ -5,6 +5,8 @@ namespace App\Controllers\Api;
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\RESTful\ResourceController;
+use CodeIgniter\Files\File;
 use App\Models\Api\ApiModel;
 
 class Api extends BaseController
@@ -70,11 +72,13 @@ class Api extends BaseController
         $session = session();
         $sessionData = [
             'user_id'       => $userData['user_id'],
+            'aktivis_id'       => $userData['aktivis_id'],
             'username'      => $userData['username'],
             'nama_pengguna' => $userData['nama_pengguna'],
             'namagroup_id'  => $userData['namagroup_id'],
             'nama_group'    => $userData['nama_group'],
             'cabang_id'     => $userData['cabang_id'],
+            'jabatan_id'     => $userData['jabatan_id'],
             'kantor'        => $userData['kantor'],
         ];
         $session->set($sessionData);
@@ -109,6 +113,8 @@ class Api extends BaseController
         $table = $jsonData['table'];
         $id = isset($jsonData['id']) && !empty($jsonData['id']) ? (int)$jsonData['id'] : null;
         $data = $jsonData['data'][0];
+        // var_dump($data);
+        // die;
 
         if ($table === "pic") {
         }
@@ -196,15 +202,48 @@ class Api extends BaseController
             case "tiket":
                 // Validasi data
                 $validation->setRules([
-                    'user_id' => 'required',
-                    'tiketkategori_id' => 'required',
-                    'status' => 'required',
-                    'prioritas' => 'required',
-                    'tgl_buat' => 'required',
+                    'aktivis_id' => 'required',
+                    'cabang_id' => 'required',
+                    'jabatan_id' => 'required',
+                    'tiket_kategori' => 'required',
                     'deskripsi' => 'required',
-                    'nama_file' => 'required',
-                    'img' => 'required'
+                    'aktivis_yg_salah' => 'required',
+                    'file_document' => 'required',
+                    'file_image' => 'required'
                 ]);
+
+                if ($id === null) {
+                    // Get the count of existing records in the tiket table
+                    $count = new ApiModel();
+                    $countTiket = $count->countAll(); // Implement this method in your model
+                    // var_dump($countTiket);
+                    // die;
+
+                    // Check if tiket_kategori is 'Software'
+                    if ($data['tiket_kategori'] === 'Software') {
+
+                        // Format the $noTiket
+                        $noTiket = 'SOF-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                    } elseif ($data['tiket_kategori'] === 'Hardware') {
+                        // Format the $noTiket
+                        $noTiket = 'HAR-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                    } elseif ($data['tiket_kategori'] === 'Network') {
+                        // Format the $noTiket
+                        $noTiket = 'NET-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                    } elseif ($data['tiket_kategori'] === 'LKD') {
+                        // Format the $noTiket
+                        $noTiket = 'LKD-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                    } else {
+                        // Format the $noTiket
+                        $noTiket = 'POL-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                    }
+
+                    // Add $noTiket to $data[0]
+                    $data['noTiket'] = $noTiket;
+
+                    // var_dump($data);
+                    // die;
+                }
                 break;
             default:
                 return $this->failServerError('Salah inputan table!');
@@ -216,6 +255,10 @@ class Api extends BaseController
 
         // Insert data ke database
         $partnerModel = new ApiModel();
+        // $data['noTiket'] = $noTiket;
+
+        // var_dump($data);
+        // die;
         $result = $partnerModel->insert_table($data, $table, $id);
 
         // Pengiriman response 
@@ -307,6 +350,37 @@ class Api extends BaseController
             return $this->respondCreated(['message' => 'Data Successfully Deleted']);
         } else {
             return $this->fail($result);
+        }
+    }
+
+    public function upload_files()
+    {
+        $response = [
+            'status' => false,
+            'filePaths' => [],
+        ];
+
+        try {
+            // Handle file document upload
+            $document = $this->request->getFile('file_document');
+            if ($document && $document->isValid() && !$document->hasMoved()) {
+                $documentName = 'tiket_file_' . time() . '.' . $document->getClientExtension();
+                $document->move(ROOTPATH . 'public/files/', $documentName);
+                $response['filePaths']['file_document'] = $documentName;
+            }
+
+            // Handle file image upload
+            $image = $this->request->getFile('file_image');
+            if ($image && $image->isValid() && !$image->hasMoved()) {
+                $imageName = 'tiket_img_' . time() . '.' . $image->getClientExtension();
+                $image->move(ROOTPATH . 'public/images/', $imageName);
+                $response['filePaths']['file_image'] = $imageName;
+            }
+
+            $response['status'] = true;
+            return $this->respond($response, 200);
+        } catch (\Exception $e) {
+            return $this->fail($e->getMessage(), 500);
         }
     }
 }

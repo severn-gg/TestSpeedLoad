@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var CodeIgniter\View\View $this
  */
@@ -24,7 +25,7 @@
     <?= $this->include('Validator/Navigation/sidebar'); ?>
 
     <!-- content -->
-    <div class="content-wrapper">
+    <div id="content" class="content-wrapper">
       <?= $this->renderSection('content') ?>
     </div>
 

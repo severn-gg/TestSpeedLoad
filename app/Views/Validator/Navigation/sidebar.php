@@ -14,7 +14,7 @@
         <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block">Julianus Eki</a>
+        <a href="#" class="d-block"><?php echo $nama; ?></a>
       </div>
     </div>
 
@@ -36,7 +36,7 @@
         <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="<?= base_url('validator/dashboard') ?>" class="nav-link active">
+          <a href="<?= base_url('validator/dashboard') ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -44,8 +44,8 @@
           </a>
         </li>
 
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item <?= (isset($menu) && $menu === 'tiket') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'tiket') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-file-alt"></i>
             <p>
               Tiket
@@ -54,13 +54,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('validator/tiketmasuk') ?>" class="nav-link">
+              <a href="<?= base_url('validator/tiketmasuk') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tiketmasuk') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket Masuk</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('validator/tiketdone') ?>" class="nav-link">
+              <a href="<?= base_url('validator/tiketdone') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tiketverifikasi') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket Diverifikasi</p>
               </a>
@@ -90,6 +90,14 @@
               </a>
             </li>
           </ul>
+        </li>
+        <li class="nav-item bg-danger">
+          <a href="/logout" class="nav-link">
+            <i class="nav-icon fas fa-power-off"></i>
+            <p>
+              LOGOUT
+            </p>
+          </a>
         </li>
       </ul>
     </nav>

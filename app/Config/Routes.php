@@ -17,6 +17,7 @@ $routes->get('/logout', 'Home::logout');
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
     $routes->post('login', 'Api::login');
     $routes->post('insert', 'Api::insert');
+    $routes->post('upload', 'Api::upload_files');
     $routes->post('get', 'Api::get');
     $routes->delete('delete', 'Api::delete');
 });

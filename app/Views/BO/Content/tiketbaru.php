@@ -33,11 +33,14 @@
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
-                    <form id="forminputtiket" enctype="multipart/form-data">
+                    <form id="forminputtiket" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="aktivis_id" value="<?php echo $aktivis_id; ?>" />
+                        <input type="hidden" name="jabatan_id" value="<?php echo $jabatan_id; ?>" />
+                        <input type="hidden" name="cabang_id" value="<?php echo $cabang_id; ?>" />
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="stafterkait">Kategori Tiket</label>
-                                <select type="select" class="form-control" name="tiketkategori_id">
+                                <select type="select" class="form-control select2" name="tiketkategori_id">
                                     <option value="">-- Pilih Kategori --</option>
                                     <option value="Network">Network</option>
                                     <option value="Software">Software</option>
@@ -81,7 +84,7 @@
 
                         <div class="card-footer">
                             <button type="submit" class="btn btn-primary">Submit</button>
-                            <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                            <button type="reset" class="btn btn-secondary">Reset</button>
                         </div>
                     </form>
 

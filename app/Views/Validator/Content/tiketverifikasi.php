@@ -1,15 +1,3 @@
-<?php
-/**
- * @var CodeIgniter\View\View $this
- */
-?>
-
-<?= $this->extend('Validator/Content/master') ?>
-
-<?= $this->section('content') ?>
-<!-- Content Header (Page header) -->
-
-
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
@@ -28,7 +16,7 @@
     </div><!-- /.container-fluid -->
 </section>
 
-<section class="content">
+<section class="content" id="tiketVerifikasi">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -46,64 +34,31 @@
                         <div class="col-12">
                             <h4>
                                 <i class="fas fa-globe"></i> HELPDESK KK
-                                <small class="float-right">Tgl: 20-Mei-2024</small>
                             </h4>
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- info row -->
                     <div class="row invoice-info">
-                        <div class="col-sm-9 invoice-col">
+                        <div class="col-sm-6 invoice-col">
                             Dari
                             <address>
-                                <strong>Kantor Sentral</strong>
+                                <strong id="nama_cabang"></strong>
                             </address>
                         </div>
                         <!-- /.col -->
-                        <div class="col-sm-3 invoice-col">
-                            <b>KS01SOFT</b><br>
-                            <br>
-                            <b>Kategori:</b> Software<br>
-                            <b>Tgl Tiket:</b> 17-Mar-2024<br>
-                            <b>Status:</b> Open
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
+                        <div class="col-sm-6 invoice-col text-right" id="tiket_detail">
 
-                    <!-- Table row -->
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <p class="lead">Timeline</p>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>17-Mar-2024</td>
-                                        <td>Tiket Dibuat</td>
-                                    </tr>
-                                </tbody>
-                            </table>
                         </div>
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+                    <hr />
                     <div class="row">
                         <!-- accepted payments column -->
                         <div class="col-6">
                             <p class="lead">Deskripsi Persoalan:</p>
-                            <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya
-                                handango imeem
-                                plugg
-                                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                            <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;" id="deskripsi">
                             </p>
                         </div>
                         <!-- /.col -->
@@ -114,11 +69,11 @@
                                 <table class="table">
                                     <tr>
                                         <th style="width:50%">Nama Staf:</th>
-                                        <td>Mariani Anti</td>
+                                        <td id="aktivis_yg_salah"></td>
                                     </tr>
                                     <tr>
                                         <th>Jabatan Staf: </th>
-                                        <td>Kasir</td>
+                                        <td id="jabatan_aktivis_yg_salah"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -130,15 +85,14 @@
                         <!-- /.col -->
                         <div class="col-12">
                             <p class="lead">File</p>
-                            <a class="btn btn-info" target="_blank"
-                                href="<?= base_url() ?>assets/dist/fileDoc/saldoakun.xls">
+                            <a id="file_document" class="btn btn-info" target="_blank" href="">
                                 <i class="fas fa-download"> Download File Dokumen *if exist</i>
                             </a>
                         </div>
                         <!-- accepted payments column -->
                         <div class="col-12">
                             <p class="lead">Image</p>
-                            <img class="img-fluid" src="<?= base_url() ?>assets/dist/img/photo1.png" alt="Photo">
+                            <img id="file_image" class="img-fluid" src="" alt="Photo">
                             <p></p>
                         </div>
                     </div>
@@ -147,12 +101,10 @@
                     <!-- this row will not appear when printing -->
                     <div class="row no-print">
                         <div class="col-12">
-                            <a href="<?= base_url('validator/tiketverifikasiprint') ?>" rel="noopener" target="_blank"
-                                class="btn btn-primary">
+                            <a href="<?= base_url('validator/tiketverifikasiprint') ?>" rel="noopener" target="_blank" class="btn btn-primary">
                                 <i class="fas fa-print"></i> Print
                             </a>
-                            <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i
-                                    class="bi bi-check-circle-fill"></i> Verifikasi</a>
+                            <a id="verifyBtn" data-tiket="" href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-check-circle-fill"></i> Verifikasi</a>
 
                         </div>
                     </div>
@@ -167,55 +119,22 @@
 <!-- modal add -->
 <div class="modal fade" id="addModal" tabindex="-1">
     <div class="modal-dialog">
-        <form action="#" method="post" enctype="multipart/form-data" wire:submit.prevent="savePersonalData"
-            onkeydown="return event.key != 'Enter';">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:#123670; color:white;">
-                    <h5 class="modal-title">Verifikasi Tiket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">No. Tiket</label>
-                        <div class="col-sm-9"> <input type="text" class="form-control" name="noTiket" value="KS01SOFT"
-                                disabled> </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label class="col-sm-3 col-form-label">Branch Office</label>
-                        <div class="col-sm-9"> <input type="text" class="form-control" name="branchOffice"
-                                value="Kantor Sentral" disabled> </div>
-                    </div>
-                    <div class="row mb-3">
-                        <fieldset class="form-group">
-                            <div class="row">
-                                <label class="col-sm-3 col-form-label">Keputusan</label>
-                                <div class="col-sm-9">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1"
-                                            value="option1" checked>
-                                        <label class="form-check-label" for="gridRadios1">
-                                            Lulus
-                                        </label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2"
-                                            value="option2">
-                                        <label class="form-check-label" for="gridRadios2">
-                                            Tolak
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-dark" data-bs-dismiss="modal">Close</a>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#123670; color:white;">
+                <h5 class="modal-title">Verifikasi Tiket</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        </form>
+            <div class="modal-body">
+
+                <div class="card-body">
+
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-dark" data-bs-dismiss="modal">Close</a>
+                <a class="btn btn-primary" id="btn_modal">Save</a>
+            </div>
+        </div>
     </div>
 </div>
-
-<?= $this->endSection() ?>

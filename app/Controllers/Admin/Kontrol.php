@@ -15,6 +15,9 @@ class Kontrol extends BaseController
                 'menu' => $menu,
                 'submenu' => $submenu,
                 'username' => $session->get('username'),
+                'aktivis_id' => $session->get('aktivis_id'),
+                'jabatan_id' => $session->get('jabatan_id'),
+                'cabang_id' => $session->get('cabang_id'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
             ];
             return $data;

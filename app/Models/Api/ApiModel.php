@@ -7,6 +7,13 @@ use CodeIgniter\Model;
 class ApiModel extends Model
 {
 
+    public function countAll()
+    {
+        $query = $this->db->query("SELECT COUNT(*) as total FROM `tiket`");
+        $result = $query->getRow(); // Fetch the single row result
+        return (int) $result->total; // Return the 'total' field as an integer
+    }
+
     public function getLog($table, $id = null, $where = [])
     {
         $db = \Config\Database::connect();
