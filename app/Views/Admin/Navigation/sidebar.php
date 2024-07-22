@@ -198,6 +198,14 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item bg-danger">
+          <a href="/logout" class="nav-link">
+            <i class="nav-icon fas fa-power-off"></i>
+            <p>
+              LOGOUT
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

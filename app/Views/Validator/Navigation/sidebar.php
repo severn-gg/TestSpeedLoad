@@ -91,6 +91,7 @@
             </li>
           </ul>
         </li>
+        <li class="nav-header">Utiliti</li>
         <li class="nav-item bg-danger">
           <a href="/logout" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
