@@ -54,6 +54,12 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
+              <a href="<?= base_url('admin/viewaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'viewaktivis') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List Aktivis</p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="<?= base_url('admin/viewticket') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Tiket</p>

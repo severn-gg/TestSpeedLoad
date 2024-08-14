@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: hdeskk
 -- ------------------------------------------------------
--- Server version	8.0.37-0ubuntu0.22.04.3
+-- Server version	8.0.39-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `aktivis` (
   `no_hp` varchar(20) DEFAULT NULL,
   `asal` text,
   PRIMARY KEY (`aktivis_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `aktivis` (
 
 LOCK TABLES `aktivis` WRITE;
 /*!40000 ALTER TABLE `aktivis` DISABLE KEYS */;
-INSERT INTO `aktivis` VALUES (1,'NIA01','Lord Keling','Laki-laki','0801','Sebayan'),(2,'NIA02','Queen Kumang','Perempuan','0802','Sebayan'),(3,'SPA23000929382','Yensi Kumalasari','Perempuan','08129982932','Melawi'),(4,'SPA23000988776','Chicka Sanca Kembang','Perempuan','08773485734','Munggung Serantung'),(5,'SPA01000001','Andres Andi','Laki-laki','088728736423','Merpak, Kelam'),(6,'NIA000023227776','Ujang Sipan Lotup','Laki-laki','081267687988','Jangkang'),(7,'SK909447847','Ansilmus','Laki-laki','08126672334','Temanang'),(8,'NIA00000001','Sulaniwati ','Perempuan','08564454423','Tapang Semadak'),(9,'SK0090878834','Alex Nyadup','Laki-laki','0865672323222','Melawi'),(10,'NIA00000001','Erni Sumarni','Perempuan','0828767842323','Nanga Tempunak');
+INSERT INTO `aktivis` VALUES (1,'NIA01','Lord Keling','Laki-laki','0801','Sebayan'),(2,'NIA02','Queen Kumang','Perempuan','0802','Sebayan'),(3,'SPA23000929382','Yensi Kumalasari','Perempuan','08129982932','Melawi'),(4,'SPA23000988776','Chicka Sanca Kembang','Perempuan','08773485734','Munggung Serantung'),(5,'SPA01000001','Andres Andi','Laki-laki','088728736423','Merpak, Kelam'),(6,'NIA000023227776','Ujang Sipan Lotup','Laki-laki','081267687988','Jangkang'),(7,'SK909447847','Ansilmus','Laki-laki','08126672334','Temanang'),(8,'NIA00000001','Sulaniwati ','Perempuan','08564454423','Tapang Semadak'),(9,'SK0090878834','Alex Nyadup','Laki-laki','0865672323222','Melawi'),(10,'NIA00000001','Erni Sumarni','Perempuan','0828767842323','Nanga Tempunak'),(11,'NIA06789341','Maman Sujiman','Laki-laki','08676234234','Tapang Sambas'),(12,'NIA000909231','Kristina Norliani','Perempuan','0821376767234','Tapang Semadak'),(13,'NIA00909093333','Felisya Narita','Perempuan','08125646485','Manis Raya'),(14,'NIA009988787','Yohana Veridiana','Perempuan','081276723434','Tanah Putih');
 /*!40000 ALTER TABLE `aktivis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,7 +133,7 @@ CREATE TABLE `cabangaktivis` (
 
 LOCK TABLES `cabangaktivis` WRITE;
 /*!40000 ALTER TABLE `cabangaktivis` DISABLE KEYS */;
-INSERT INTO `cabangaktivis` VALUES (1,3,'1993-03-25 00:00:00'),(2,3,'1993-03-05 00:00:00'),(3,2,'2024-06-04 00:00:00'),(4,2,'2024-05-07 00:00:00'),(5,2,'2010-07-07 00:00:00'),(6,3,'2024-07-03 00:00:00'),(7,47,'2020-07-07 00:00:00'),(8,47,'2016-07-04 00:00:00'),(9,57,'2024-01-02 00:00:00'),(10,57,'2023-05-02 00:00:00');
+INSERT INTO `cabangaktivis` VALUES (1,3,'1993-03-25 00:00:00'),(2,3,'1993-03-05 00:00:00'),(3,2,'2024-06-04 00:00:00'),(4,2,'2024-05-07 00:00:00'),(5,2,'2010-07-07 00:00:00'),(6,3,'2024-07-03 00:00:00'),(7,47,'2020-07-07 00:00:00'),(8,47,'2016-07-04 00:00:00'),(9,57,'2024-01-02 00:00:00'),(10,57,'2023-05-02 00:00:00'),(11,2,'2005-07-19 00:00:00'),(12,3,'2023-06-14 00:00:00'),(13,3,'2022-05-25 00:00:00'),(14,3,'2023-03-20 00:00:00');
 /*!40000 ALTER TABLE `cabangaktivis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,7 +216,7 @@ CREATE TABLE `jabatanaktivis` (
 
 LOCK TABLES `jabatanaktivis` WRITE;
 /*!40000 ALTER TABLE `jabatanaktivis` DISABLE KEYS */;
-INSERT INTO `jabatanaktivis` VALUES (1,1,'1993-03-25 00:00:00'),(2,1,'1993-03-25 00:00:00'),(3,7,'2024-05-27 00:00:00'),(4,7,'2024-05-06 00:00:00'),(5,7,'2014-07-23 00:00:00'),(6,4,'2024-07-05 00:00:00'),(7,6,'2020-07-07 00:00:00'),(8,5,'2019-07-10 00:00:00'),(9,6,'2022-03-09 00:00:00'),(10,4,'2023-06-14 00:00:00');
+INSERT INTO `jabatanaktivis` VALUES (1,1,'1993-03-25 00:00:00'),(2,1,'1993-03-25 00:00:00'),(3,7,'2024-05-27 00:00:00'),(4,7,'2024-05-06 00:00:00'),(5,7,'2014-07-23 00:00:00'),(6,4,'2024-07-05 00:00:00'),(7,6,'2020-07-07 00:00:00'),(8,5,'2019-07-10 00:00:00'),(9,6,'2022-03-09 00:00:00'),(10,4,'2023-06-14 00:00:00'),(11,9,'2016-07-20 00:00:00'),(12,6,'2022-07-06 00:00:00'),(13,4,'2022-05-27 00:00:00'),(14,3,'2023-03-21 00:00:00');
 /*!40000 ALTER TABLE `jabatanaktivis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -372,9 +372,10 @@ CREATE TABLE `tiket` (
   `aktivis_yg_salah` int NOT NULL,
   `file_document` varchar(255) DEFAULT NULL,
   `file_image` varchar(255) DEFAULT NULL,
-  `status` enum('Open','In Progress','Resolved','Closed') NOT NULL DEFAULT 'Open',
+  `status` enum('Open','Reject','Confirmed','In Progress','Solved','Closed') NOT NULL DEFAULT 'Open',
   `tgl_input` datetime NOT NULL,
   `tgl_update` datetime DEFAULT NULL,
+  `noTiket` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`tiket_id`),
   KEY `tiket_ibfk_1_idx` (`aktivis_id`),
   KEY `tiket_ibfk_2_idx` (`cabang_id`),
@@ -384,7 +385,7 @@ CREATE TABLE `tiket` (
   CONSTRAINT `tiket_ibfk_2` FOREIGN KEY (`cabang_id`) REFERENCES `cabang` (`cabang_id`),
   CONSTRAINT `tiket_ibfk_3` FOREIGN KEY (`jabatan_id`) REFERENCES `jabatan` (`jabatan_id`),
   CONSTRAINT `tiket_ibfk_4` FOREIGN KEY (`aktivis_yg_salah`) REFERENCES `aktivis` (`aktivis_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -393,6 +394,7 @@ CREATE TABLE `tiket` (
 
 LOCK TABLES `tiket` WRITE;
 /*!40000 ALTER TABLE `tiket` DISABLE KEYS */;
+INSERT INTO `tiket` VALUES (1,7,47,6,'Network','Kabel Lan ke gigit Sulan',8,'tiket_file_1720419428.xls','tiket_img_1720419428.png','Confirmed','2024-07-08 13:17:08','2024-07-10 14:33:24','NET-000007'),(2,7,47,6,'Software','Sulan salah TAK',8,'tiket_file_1720419743.xls','tiket_img_1720419743.png','Confirmed','2024-07-08 13:22:23','2024-07-10 14:31:56','SOFT-000007'),(3,7,47,6,'LKD','Sulan Salah Daftar Nomor HP',8,'tiket_file_1720422333.xls','tiket_img_1720422333.png','Confirmed','2024-07-08 14:05:33','2024-07-10 15:04:05','LKD-000007'),(4,7,47,6,'Network','Sulan salah masukan IP DB',8,'tiket_file_1720422387.xls','tiket_img_1720422387.png','Confirmed','2024-07-08 14:06:27','2024-07-10 15:02:36','NET-000007'),(5,9,57,6,'POLJAK','CS salah input bunga, masih mengacu POLJAK tahun 2020',10,'tiket_file_1720425504.xls','tiket_img_1720425504.png','Confirmed','2024-07-08 14:58:24','2024-07-10 14:33:52','POLJAK-000007'),(7,7,47,6,'LKD','Sulan Salah Daftar Nomor HP',8,'tiket_file_1720422333.xls','tiket_img_1720422333.png','Confirmed','0000-00-00 00:00:00','2024-07-09 16:03:19','LKD-000003'),(8,12,3,6,'Software','kasir salah entry setoran PK, ada 200 setoran, harusnya setor di tgl kemarin, tapi di setor d tgl hari ini',14,'tiket_file_1720600307.xlsx','tiket_img_1720600307.png','Confirmed','2024-07-10 15:31:47','2024-07-10 15:35:19',NULL),(9,12,3,6,'LKD','Admin kami salah mendaftarkan orang dan orang yg didaftarkan itu sudah narik uang di ATM selama 1minggu ini, saldo rekening simpar habis, padahal itu bukan rekening dia',13,'tiket_file_1720600612.xlsx','tiket_img_1720600612.png','Confirmed','2024-07-10 15:36:52','2024-07-10 15:40:45','LKD-000008'),(10,7,47,6,'Software','Sulan salah tarik SISKa, ',8,'tiket_file_1720600829.xlsx','tiket_img_1720600829.png','Confirmed','2024-07-10 15:40:29','2024-07-10 15:40:59','SOFT-000009'),(11,9,57,6,'Network','Kabel LAN kenak gigit tikus',9,'tiket_file_1722575874.xls','tiket_img_1722575874.HEIC','Open','2024-08-02 12:17:54',NULL,'NET-000010');
 /*!40000 ALTER TABLE `tiket` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -444,7 +446,7 @@ CREATE TABLE `user` (
   KEY `user_ibfk_2_idx` (`role_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`aktivis_id`) REFERENCES `aktivis` (`aktivis_id`),
   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -453,7 +455,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'keling','kumang',2,1),(2,2,'kumang','keling',2,1),(3,3,'yensi','123456!',2,1),(4,4,'chicka','123456!',2,2),(5,5,'andres','123456!',2,2),(6,7,'ansilmus','123456!',2,7),(7,9,'alex','123456!',2,7);
+INSERT INTO `user` VALUES (1,1,'keling','kumang',2,1),(2,2,'kumang','keling',2,1),(3,3,'yensi','123456!',2,1),(4,4,'chicka','123456!',2,2),(5,5,'andres','123456!',2,2),(6,7,'ansilmus','123456!',2,7),(7,9,'alex','123456!',2,7),(8,11,'maman','123456!',2,6),(9,12,'kristina','123456!',2,7);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,9 +469,12 @@ SET @saved_cs_client     = @@character_set_client;
 /*!50503 SET character_set_client = utf8mb4 */;
 /*!50001 CREATE VIEW `view_tiket_details` AS SELECT 
  1 AS `tiket_id`,
+ 1 AS `no_tiket`,
  1 AS `aktivis_id`,
  1 AS `nama_aktivis`,
+ 1 AS `cabang_id`,
  1 AS `nama_cabang`,
+ 1 AS `jabatan_id`,
  1 AS `nama_jabatan`,
  1 AS `area_id`,
  1 AS `area`,
@@ -477,6 +482,7 @@ SET @saved_cs_client     = @@character_set_client;
  1 AS `deskripsi`,
  1 AS `aktivis_id_salah`,
  1 AS `aktivis_yg_salah`,
+ 1 AS `jabatan_aktivis_yg_salah`,
  1 AS `file_document`,
  1 AS `file_image`,
  1 AS `status`,
@@ -533,7 +539,7 @@ SET character_set_client = @saved_cs_client;
 /*!50001 SET collation_connection      = utf8mb4_0900_ai_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `view_tiket_details` AS select `t`.`tiket_id` AS `tiket_id`,`t`.`aktivis_id` AS `aktivis_id`,`a`.`nama_aktivis` AS `nama_aktivis`,`c`.`nama_cabang` AS `nama_cabang`,`j`.`nama_jabatan` AS `nama_jabatan`,`ar`.`area_id` AS `area_id`,`ar`.`nama_area` AS `area`,`t`.`tiket_kategori` AS `tiket_kategori`,`t`.`deskripsi` AS `deskripsi`,`t`.`aktivis_yg_salah` AS `aktivis_id_salah`,`salah`.`nama_aktivis` AS `aktivis_yg_salah`,`t`.`file_document` AS `file_document`,`t`.`file_image` AS `file_image`,`t`.`status` AS `status`,`t`.`tgl_input` AS `tgl_input`,`t`.`tgl_update` AS `tgl_update` from (((((`tiket` `t` join `aktivis` `a` on((`t`.`aktivis_id` = `a`.`aktivis_id`))) left join (select `ca`.`aktivis_id` AS `aktivis_id`,group_concat(distinct `c`.`nama_cabang` order by `c`.`nama_cabang` ASC separator ', ') AS `nama_cabang` from (`cabangaktivis` `ca` join `cabang` `c` on((`ca`.`cabang_id` = `c`.`cabang_id`))) group by `ca`.`aktivis_id`) `c` on((`a`.`aktivis_id` = `c`.`aktivis_id`))) left join (select `ja`.`aktivis_id` AS `aktivis_id`,group_concat(distinct `j`.`nama_jabatan` order by `j`.`nama_jabatan` ASC separator ', ') AS `nama_jabatan` from (`jabatanaktivis` `ja` join `jabatan` `j` on((`ja`.`jabatan_id` = `j`.`jabatan_id`))) group by `ja`.`aktivis_id`) `j` on((`a`.`aktivis_id` = `j`.`aktivis_id`))) left join `area` `ar` on((`c`.`aktivis_id` = `ar`.`area_id`))) left join `aktivis` `salah` on((`t`.`aktivis_yg_salah` = `salah`.`aktivis_id`))) where (`t`.`status` = 'Open') */;
+/*!50001 VIEW `view_tiket_details` AS select `t`.`tiket_id` AS `tiket_id`,`t`.`noTiket` AS `no_tiket`,`t`.`aktivis_id` AS `aktivis_id`,`a`.`nama_aktivis` AS `nama_aktivis`,`c`.`cabang_id` AS `cabang_id`,`c`.`nama_cabang` AS `nama_cabang`,`j`.`jabatan_id` AS `jabatan_id`,`j`.`nama_jabatan` AS `nama_jabatan`,`ar`.`area_id` AS `area_id`,`ar`.`nama_area` AS `area`,`t`.`tiket_kategori` AS `tiket_kategori`,`t`.`deskripsi` AS `deskripsi`,`t`.`aktivis_yg_salah` AS `aktivis_id_salah`,`salah`.`nama_aktivis` AS `aktivis_yg_salah`,`salah_j`.`nama_jabatan` AS `jabatan_aktivis_yg_salah`,`t`.`file_document` AS `file_document`,`t`.`file_image` AS `file_image`,`t`.`status` AS `status`,`t`.`tgl_input` AS `tgl_input`,`t`.`tgl_update` AS `tgl_update` from ((((((`tiket` `t` join `aktivis` `a` on((`t`.`aktivis_id` = `a`.`aktivis_id`))) left join (select `ca`.`aktivis_id` AS `aktivis_id`,`c`.`cabang_id` AS `cabang_id`,`c`.`area_id` AS `area_id`,group_concat(distinct `c`.`nama_cabang` order by `c`.`nama_cabang` ASC separator ', ') AS `nama_cabang` from (`cabangaktivis` `ca` join `cabang` `c` on((`ca`.`cabang_id` = `c`.`cabang_id`))) group by `ca`.`aktivis_id`) `c` on((`a`.`aktivis_id` = `c`.`aktivis_id`))) left join (select `ja`.`aktivis_id` AS `aktivis_id`,`j`.`jabatan_id` AS `jabatan_id`,group_concat(distinct `j`.`nama_jabatan` order by `j`.`nama_jabatan` ASC separator ', ') AS `nama_jabatan` from (`jabatanaktivis` `ja` join `jabatan` `j` on((`ja`.`jabatan_id` = `j`.`jabatan_id`))) group by `ja`.`aktivis_id`) `j` on((`a`.`aktivis_id` = `j`.`aktivis_id`))) left join `area` `ar` on((`c`.`area_id` = `ar`.`area_id`))) left join `aktivis` `salah` on((`t`.`aktivis_yg_salah` = `salah`.`aktivis_id`))) left join (select `ja_salah`.`aktivis_id` AS `aktivis_id`,group_concat(distinct `j_salah`.`nama_jabatan` order by `j_salah`.`nama_jabatan` ASC separator ', ') AS `nama_jabatan` from (`jabatanaktivis` `ja_salah` join `jabatan` `j_salah` on((`ja_salah`.`jabatan_id` = `j_salah`.`jabatan_id`))) group by `ja_salah`.`aktivis_id`) `salah_j` on((`salah`.`aktivis_id` = `salah_j`.`aktivis_id`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -547,4 +553,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-05 15:50:53
+-- Dump completed on 2024-08-14 13:19:05

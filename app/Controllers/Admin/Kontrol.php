@@ -37,6 +37,18 @@ class Kontrol extends BaseController
     }
 
     // Menu Tiket
+    public function viewaktivis()
+    {
+        $data = $this->prepareData('Tables', 'viewaktivis');
+        if (is_a(
+            $data,
+            '\CodeIgniter\HTTP\RedirectResponse'
+        )) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listaktivis', $data);
+    }
+
     public function viewticket()
     {
         $data = $this->prepareData('Tables', 'Tiket');

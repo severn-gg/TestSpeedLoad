@@ -27,6 +27,7 @@ $routes->group('admin', static function ($routes) {
     $routes->get('dashboard', [KontrolAdmin::class, 'index']);
 
     // menu tables
+    $routes->get('viewaktivis', [KontrolAdmin::class, 'viewaktivis']);
     $routes->get('viewticket', [KontrolAdmin::class, 'viewticket']);
     $routes->get('ticketdetail', [KontrolAdmin::class, 'detailTiket']);
     $routes->get('ticketdetailprint', [KontrolAdmin::class, 'detailprint']);

@@ -582,12 +582,91 @@
     $(function() {
         $('.select2').select2()
         // Tables
+        $("#tabelDataAktivis").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'aktivis',
+                        id: ''
+                    });
+                },
+            },
+            columns: [{
+                    data: 'aktivis_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'nia',
+                    title: 'NIA'
+                }, // Column for the NIA
+                {
+                    data: 'nama_aktivis',
+                    title: 'Nama'
+                }, // Column for the Name
+                {
+                    data: 'asal',
+                    title: 'Asal'
+                }, // Column for the Asal
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                } // Action column for buttons, if needed
+            ]
+        });
+
         $("#tabelDataTiketDone").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        }).buttons().container().appendTo('#tabelDataTiketDone_wrapper .col-md-6:eq(0)');
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'view_tiket_details',
+                        id: ''
+                    });
+                },
+            },
+            columns: [{
+                    data: 'tiket_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'no_tiket',
+                    title: 'No. Tiket'
+                }, // Column for the NIA
+                {
+                    data: 'nama_cabang',
+                    title: 'Nama BO'
+                }, // Column for the Name
+                {
+                    data: 'tiket_kategori',
+                    title: 'Kategori'
+                }, // Column for the Name
+                {
+                    data: 'deskripsi',
+                    title: 'Deskripsi'
+                }, // Column for the Name
+                {
+                    data: 'status',
+                    title: 'status'
+                }, // Column for the Asal
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                } // Action column for buttons, if needed
+            ]
+        });
 
         $("#tabelDataTiketReject").DataTable({
             "responsive": true,

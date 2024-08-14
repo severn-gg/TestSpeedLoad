@@ -41,8 +41,10 @@
     });
 
     tiketMasuk = new DataTable('#tabelDataTiketMasuk', {
-        destroy: true,
-        ajax: {
+        "responsive": true,
+        "lengthChange": false,
+        "autoWidth": false,
+        "ajax": {
             url: '../api/get',
             contentType: 'application/json', // Set content type to JSON
             type: 'POST',
@@ -62,7 +64,7 @@
                 } else {
                     // Filter data array to include only entries with status 'Open'
                     const filteredData = response.data.filter(function(item) {
-                        return item['status'] === 'Open';
+                        return item['status'] === 'Open' || item['status'] === 'Reject';
                     });
 
                     console.log(filteredData);
@@ -70,31 +72,36 @@
                 }
             },
         },
-        columns: [{
-                data: 'no_tiket'
+        "columns": [{
+                data: 'tiket_id',
+                title: '#'
             },
             {
-                data: 'nama_cabang'
+                data: 'no_tiket',
+                title: 'No. Tiket'
             },
             {
-                data: 'deskripsi'
+                data: 'nama_cabang',
+                title: 'Branch Office'
             },
             {
-                data: 'tgl_input'
+                data: 'deskripsi',
+                titel: 'Deskripsi'
             },
             {
-                data: 'status'
+                data: 'tgl_input',
+                title: 'Tanggal Tiket'
             },
             {
-                // Column for the button
+                data: 'status',
+                title: 'Verif'
+            },
+            {
                 data: null,
-                render: function(data, type, row) {
-                    // Return the HTML for the button
-                    return '<a class="btn btn-sm btn-primary btn-verifikasi"><i class="bi bi-pencil-fill"></i></a>';
-                }
+                title: 'Aksi',
+                defaultContent: '<button class="btn btn-xs btn-primary btn-verifikasi"><i class="nav-icon fas fa-pen"></i></button>'
             }
-        ],
-        processing: true,
+        ]
     });
 
     tiketVerified = new DataTable('#tabelDataTiketDiverifikasi', {
@@ -215,7 +222,7 @@
                 
                 <p class="text-muted">            
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="status" value="Rejected">
+                        <input class="form-check-input" type="radio" name="status" value="Reject">
                         <label class="form-check-label" for="inlineRadio1">Rejected</label>
                     </div>
                     <div class="form-check form-check-inline">

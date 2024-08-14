@@ -5,7 +5,7 @@
  */
 ?>
 
-<?= $this->extend('Validator/Content/master') ?>
+<?= $this->extend('Admin/Content/master') ?>
 
 <?= $this->section('content') ?>
 <!-- Content Header (Page header) -->
@@ -40,15 +40,21 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="tabelDataTiketMasuk" class="table table-bordered table-striped">
+                        <table id="tabelDataAktivis" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width: 1%">#</th>
-                                    <th>No. Tiket</th>
-                                    <th>Branch Office</th>
-                                    <th>Deskripsi</th>
-                                    <th>Tgl Tiket</th>
-                                    <th>Verif</th>
+                                    <th style="width: 1%">
+                                        #
+                                    </th>
+                                    <th>
+                                        NIA
+                                    </th>
+                                    <th>
+                                        Nama
+                                    </th>
+                                    <th>
+                                        Asal
+                                    </th>
                                     <th></th>
                                 </tr>
                             </thead>
