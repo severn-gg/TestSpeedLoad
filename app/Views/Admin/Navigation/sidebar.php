@@ -72,21 +72,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/listdepartemen') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Departemen List</p>
-              </a>
-            </li>
-            <li class="nav-item">
               <a href="<?= base_url('admin/listpic') ?>" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>PIC List</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/listdivisi_it') ?>" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Divisi IT List</p>
               </a>
             </li>
           </ul>

@@ -115,26 +115,3 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-<!-- modal add -->
-<div class="modal fade" id="addModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:#123670; color:white;">
-                <h5 class="modal-title">Verifikasi Tiket</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="card-body">
-
-                </div>
-                <!-- /.card-body -->
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-dark" data-bs-dismiss="modal">Close</a>
-                <a class="btn btn-primary" id="btn_modal">Save</a>
-            </div>
-        </div>
-    </div>
-</div>

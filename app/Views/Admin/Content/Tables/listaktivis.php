@@ -15,13 +15,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Tiket</h1>
+                <h1 class="m-0">Daftar Aktivis</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item">Tiket</li>
-                    <li class="breadcrumb-item active">Masuk</li>
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item">Tables</li>
+                    <li class="breadcrumb-item active">List Aktivis</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->

@@ -44,14 +44,14 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="inputAktivis">Pilih Aktivis</label>
-                                <select type="select" class="form-control select2" name="inputUser">
+                                <select type="select" class="form-control select2" name="inputAktivis">
 
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputArea">Pilih Area</label>
                                 <select type="select" class="form-control select2" name="inputArea">
-                                    <option value="1">Dll</option>
+                                    <option value="">Dll</option>
                                 </select>
                             </div>
                         </div>

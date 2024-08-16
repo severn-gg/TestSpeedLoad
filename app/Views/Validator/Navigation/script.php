@@ -40,125 +40,9 @@
 
     });
 
-    tiketMasuk = new DataTable('#tabelDataTiketMasuk', {
-        "responsive": true,
-        "lengthChange": false,
-        "autoWidth": false,
-        "ajax": {
-            url: '../api/get',
-            contentType: 'application/json', // Set content type to JSON
-            type: 'POST',
-            data: function() {
-                // Convert data to JSON
-                return JSON.stringify({
-                    table: 'view_tiket_details',
-                    // field: 'status',
-                    // value: 'Open',
-                    id: ''
-                });
-            },
-            dataSrc: function(response) {
-                if (response.data === null) {
-                    // No data available, return empty array
-                    return [];
-                } else {
-                    // Filter data array to include only entries with status 'Open'
-                    const filteredData = response.data.filter(function(item) {
-                        return item['status'] === 'Open' || item['status'] === 'Reject';
-                    });
-
-                    console.log(filteredData);
-                    return filteredData;
-                }
-            },
-        },
-        "columns": [{
-                data: 'tiket_id',
-                title: '#'
-            },
-            {
-                data: 'no_tiket',
-                title: 'No. Tiket'
-            },
-            {
-                data: 'nama_cabang',
-                title: 'Branch Office'
-            },
-            {
-                data: 'deskripsi',
-                titel: 'Deskripsi'
-            },
-            {
-                data: 'tgl_input',
-                title: 'Tanggal Tiket'
-            },
-            {
-                data: 'status',
-                title: 'Verif'
-            },
-            {
-                data: null,
-                title: 'Aksi',
-                defaultContent: '<button class="btn btn-xs btn-primary btn-verifikasi"><i class="nav-icon fas fa-pen"></i></button>'
-            }
-        ]
-    });
-
-    tiketVerified = new DataTable('#tabelDataTiketDiverifikasi', {
-        destroy: true,
-        ajax: {
-            url: '../api/get',
-            contentType: 'application/json', // Set content type to JSON
-            type: 'POST',
-            data: function() {
-                // Convert data to JSON
-                return JSON.stringify({
-                    table: 'view_tiket_details',
-                    // field: 'status',
-                    // value: 'Open',
-                    id: ''
-                });
-            },
-            dataSrc: function(response) {
-                if (response.data === null) {
-                    // No data available, return empty array
-                    return [];
-                } else {
-                    // Filter data array to include only entries with status 'Open'
-                    const filteredData = response.data.filter(function(item) {
-                        return item['status'] === 'Confirmed';
-                    });
-
-                    console.log(filteredData);
-                    return filteredData;
-                }
-            },
-        },
-        columns: [{
-                data: 'no_tiket'
-            },
-            {
-                data: 'nama_cabang'
-            },
-            {
-                data: 'tgl_input'
-            },
-            {
-                data: 'tgl_update'
-            },
-            {
-                // Column for the button
-                data: null,
-                render: function(data, type, row) {
-                    // Return the HTML for the button
-                    return '<a href="<?= base_url('validator/tiketdetail') ?>" class="btn btn-sm btn-primary btn-verifikasi"><i class="bi bi-pencil-fill"></i></a>';
-                }
-            }
-        ],
-        processing: true,
-    });
-
     $(document).on('click', '#tabelDataTiketMasuk tbody .btn-verifikasi', function() {
+
+        var tiketMasuk = $('#tabelDataTiketMasuk').DataTable();
         var rowData = tiketMasuk.row($(this).closest('tr')).data();
         // console.log(rowData);
 
@@ -314,7 +198,121 @@
 
     // script datatables
     $(function() {
+        $("#tabelDataTiketMasuk").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'view_tiket_details',
+                        id: ''
+                    });
+                },
+                dataSrc: function(response) {
+                    if (response.data === null) {
+                        // No data available, return empty array
+                        return [];
+                    } else {
+                        // Filter data array to include only entries with status 'Open'
+                        const filteredData = response.data.filter(function(item) {
+                            return item['status'] === 'Open' || item['status'] === 'Reject';
+                        });
 
+                        console.log(filteredData);
+                        return filteredData;
+                    }
+                },
+            },
+            "columns": [{
+                    data: 'tiket_id',
+                    title: '#'
+                },
+                {
+                    data: 'no_tiket',
+                    title: 'No. Tiket'
+                },
+                {
+                    data: 'nama_cabang',
+                    title: 'Branch Office'
+                },
+                {
+                    data: 'deskripsi',
+                    titel: 'Deskripsi'
+                },
+                {
+                    data: 'tgl_input',
+                    title: 'Tanggal Tiket'
+                },
+                {
+                    data: 'status',
+                    title: 'Verif'
+                },
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-primary btn-verifikasi"><i class="nav-icon fas fa-pen"></i></button>'
+                }
+            ]
+        });
+
+        $('#tabelDataTiketDiverifikasi').DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '../api/get',
+                contentType: 'application/json', // Set content type to JSON
+                type: 'POST',
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'view_tiket_details',
+                        // field: 'status',
+                        // value: 'Open',
+                        id: ''
+                    });
+                },
+                dataSrc: function(response) {
+                    if (response.data === null) {
+                        // No data available, return empty array
+                        return [];
+                    } else {
+                        // Filter data array to include only entries with status 'Open'
+                        const filteredData = response.data.filter(function(item) {
+                            return item['status'] === 'Confirmed';
+                        });
+
+                        console.log(filteredData);
+                        return filteredData;
+                    }
+                },
+            },
+            "columns": [{
+                    data: 'no_tiket'
+                },
+                {
+                    data: 'nama_cabang'
+                },
+                {
+                    data: 'tgl_input'
+                },
+                {
+                    data: 'tgl_update'
+                },
+                {
+                    // Column for the button
+                    data: null,
+                    render: function(data, type, row) {
+                        // Return the HTML for the button
+                        return '<a href="<?= base_url('validator/tiketdetail') ?>" class="btn btn-sm btn-primary btn-verifikasi"><i class="bi bi-pencil-fill"></i></a>';
+                    }
+                }
+            ]
+        });
     });
 </script>
 
