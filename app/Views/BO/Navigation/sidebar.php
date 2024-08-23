@@ -15,6 +15,7 @@
             </div>
             <div class="info">
                 <a href="#" class="d-block"><?php echo $nama; ?></a>
+                <p><small><?php echo $kantor; ?></small></p>
             </div>
         </div>
 
@@ -41,6 +42,14 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a href="<?php echo site_url('bo/tiketbo') ?>" class="nav-link <?= (isset($menu) && $menu === 'Tiketbo') ? ' active' : '' ?>">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Tiket BO
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="<?php echo site_url('bo/tiketsaya') ?>" class="nav-link <?= (isset($menu) && $menu === 'Tiketsaya') ? ' active' : '' ?>">
                         <i class="nav-icon fas fa-file-alt"></i>

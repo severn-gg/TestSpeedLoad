@@ -28,10 +28,12 @@ $routes->group('admin', static function ($routes) {
 
     // menu tables
     $routes->get('viewaktivis', [KontrolAdmin::class, 'viewaktivis']);
+    $routes->get('viewkantor', [KontrolAdmin::class, 'listkantor']);
+    $routes->get('viewarea', [KontrolAdmin::class, 'viewarea']);
+    $routes->get('viewjabatan', [KontrolAdmin::class, 'viewjabatan']);
     $routes->get('viewticket', [KontrolAdmin::class, 'viewticket']);
     $routes->get('ticketdetail', [KontrolAdmin::class, 'detailTiket']);
     $routes->get('ticketdetailprint', [KontrolAdmin::class, 'detailprint']);
-    $routes->get('listkantor', [KontrolAdmin::class, 'listkantor']);
     $routes->get('detailkantor', [KontrolAdmin::class, 'detailkantor']);
     $routes->get('listdepartemen', [KontrolAdmin::class, 'listdepartemen']);
     $routes->get('detaildepartemen', [KontrolAdmin::class, 'detaildepartemen']);
@@ -77,6 +79,7 @@ $routes->group('bo', static function ($routes) {
     $routes->get('dashboard', [KontrolBO::class, 'index']);
     $routes->get('tiketbaru', [KontrolBO::class, 'tiketbaru']);
     $routes->get('tiketsaya', [KontrolBO::class, 'tiketsaya']);
+    $routes->get('tiketbo', [KontrolBO::class, 'tiketbo']);
     $routes->get('tiketdetail', [KontrolBO::class, 'tiketdetail']);
     $routes->get('tiketprint', [KontrolBO::class, 'tiketprint']);
     $routes->get('tiketkonfirmasidetail', [KontrolBO::class, 'tiketkonfirmasidetail']);

@@ -1,12 +1,202 @@
-<?php
-/**
- * @var CodeIgniter\View\View $this
- */
-?>
+<style>
+    .tracking-detail {
+        padding: 3rem 0;
+    }
 
-<?= $this->extend('BO/Content/master') ?>
+    #tracking {
+        margin-bottom: 1rem;
+    }
 
-<?= $this->section('content') ?>
+    [class*="tracking-status-"] p {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #fff;
+        text-transform: uppercase;
+        text-align: center;
+    }
+
+    [class*="tracking-status-"] {
+        padding: 1.6rem 0;
+    }
+
+    .tracking-list {
+        border: 1px solid #e5e5e5;
+    }
+
+    .tracking-item {
+        border-left: 4px solid #00ba0d;
+        position: relative;
+        padding: 2rem 1.5rem 0.5rem 2.5rem;
+        font-size: 0.9rem;
+        margin-left: 3rem;
+        min-height: 5rem;
+    }
+
+    .tracking-item:last-child {
+        padding-bottom: 4rem;
+    }
+
+    .tracking-item .tracking-date {
+        margin-bottom: 0.5rem;
+    }
+
+    .tracking-item .tracking-date span {
+        color: #888;
+        font-size: 85%;
+        padding-left: 0.4rem;
+    }
+
+    .tracking-item .tracking-content {
+        padding: 0.5rem 0.8rem;
+        background-color: #f4f4f4;
+        border-radius: 0.5rem;
+    }
+
+    .tracking-item .tracking-content span {
+        display: block;
+        color: #767676;
+        font-size: 13px;
+    }
+
+    .tracking-item .tracking-icon {
+        position: absolute;
+        left: -0.7rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        background-color: #fff;
+        color: #fff;
+    }
+
+    .tracking-item-pending {
+        border-left: 4px solid #d6d6d6;
+        position: relative;
+        padding: 2rem 1.5rem 0.5rem 2.5rem;
+        font-size: 0.9rem;
+        margin-left: 3rem;
+        min-height: 5rem;
+    }
+
+    .tracking-item-pending:last-child {
+        padding-bottom: 4rem;
+    }
+
+    .tracking-item-pending .tracking-date {
+        margin-bottom: 0.5rem;
+    }
+
+    .tracking-item-pending .tracking-date span {
+        color: #888;
+        font-size: 85%;
+        padding-left: 0.4rem;
+    }
+
+    .tracking-item-pending .tracking-content {
+        padding: 0.5rem 0.8rem;
+        background-color: #f4f4f4;
+        border-radius: 0.5rem;
+    }
+
+    .tracking-item-pending .tracking-content span {
+        display: block;
+        color: #767676;
+        font-size: 13px;
+    }
+
+    .tracking-item-pending .tracking-icon {
+        line-height: 2.6rem;
+        position: absolute;
+        left: -0.7rem;
+        width: 1.1rem;
+        height: 1.1rem;
+        text-align: center;
+        border-radius: 50%;
+        font-size: 1.1rem;
+        color: #d6d6d6;
+    }
+
+    .tracking-item-pending .tracking-content {
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .tracking-item .tracking-icon.status-current {
+        width: 1.9rem;
+        height: 1.9rem;
+        left: -1.1rem;
+    }
+
+    .tracking-item .tracking-icon.status-intransit {
+        color: #00ba0d;
+        font-size: 0.6rem;
+    }
+
+    .tracking-item .tracking-icon.status-current {
+        color: #00ba0d;
+        font-size: 0.6rem;
+    }
+
+    @media (min-width: 992px) {
+        .tracking-item {
+            margin-left: 10rem;
+        }
+
+        .tracking-item .tracking-date {
+            position: absolute;
+            left: -10rem;
+            width: 7.5rem;
+            text-align: right;
+        }
+
+        .tracking-item .tracking-date span {
+            display: block;
+        }
+
+        .tracking-item .tracking-content {
+            padding: 0;
+            background-color: transparent;
+        }
+
+        .tracking-item-pending {
+            margin-left: 10rem;
+        }
+
+        .tracking-item-pending .tracking-date {
+            position: absolute;
+            left: -10rem;
+            width: 7.5rem;
+            text-align: right;
+        }
+
+        .tracking-item-pending .tracking-date span {
+            display: block;
+        }
+
+        .tracking-item-pending .tracking-content {
+            padding: 0;
+            background-color: transparent;
+        }
+    }
+
+    .tracking-item .tracking-content {
+        font-weight: 600;
+        font-size: 17px;
+    }
+
+    .blinker {
+        border: 7px solid #e9f8ea;
+        animation: blink 1s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes blink {
+        50% {
+            border-color: #fff;
+        }
+    }
+</style>
 <!-- Content Header (Page header) -->
 
 
@@ -30,148 +220,23 @@
 
 <section class="content">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="callout callout-info">
-                    <h5><i class="fas fa-info"></i> Note:</h5>
-                    This page has been enhanced for printing. Click the print button at the bottom of the invoice to
-                    test.
-                </div>
-
-
-                <!-- Main content -->
-                <div class="invoice p-3 mb-3">
-                    <!-- title row -->
+        <div class="col-12">
+            <div class="card">
+                <div class="container py-5">
                     <div class="row">
-                        <div class="col-12">
-                            <h4>
-                                <i class="fas fa-globe"></i> HELPDESK KK
-                                <small class="float-right">Tgl: 20-Mei-2024</small>
-                            </h4>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- info row -->
-                    <div class="row invoice-info">
-                        <div class="col-sm-9 invoice-col">
-                            Dari
-                            <address>
-                                <strong>Kantor Sentral</strong>
-                            </address>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-sm-3 invoice-col">
-                            <b>KS01SOFT</b><br>
-                            <br>
-                            <b>Kategori:</b> Software<br>
-                            <b>Tgl Tiket:</b> 17-Mar-2024<br>
-                            <b>Status:</b> On Progress
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
 
-                    <!-- Table row -->
-                    <div class="row">
-                        <div class="col-12 table-responsive">
-                            <p class="lead">Timeline</p>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Tanggal</th>
-                                        <th>Description</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>17-Mar-2024</td>
-                                        <td>Tiket Dibuat</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>17-Mar-2024</td>
-                                        <td>Tiket Lulus Verifikasi</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>18-Mar-2024</td>
-                                        <td>Tiket Ditangani PIC</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>18-Mar-2024</td>
-                                        <td>Tiket Finish</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="row">
-                        <!-- accepted payments column -->
-                        <div class="col-6">
-                            <p class="lead">Deskripsi Persoalan:</p>
-                            <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya
-                                handango imeem
-                                plugg
-                                dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-                            </p>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-6">
-                            <p class="lead">Terkait</p>
+                        <div class="col-md-12 col-lg-12">
+                            <div id="tracking-pre"></div>
+                            <div id="tracking">
+                                <div class="tracking-list">
 
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <tr>
-                                        <th style="width:50%">Nama Staf:</th>
-                                        <td>Mariani Anti</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Jabatan Staf: </th>
-                                        <td>Kasir</td>
-                                    </tr>
-                                </table>
+                                </div>
                             </div>
                         </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                    <div class="row">
-                        <!-- /.col -->
-                        <div class="col-12">
-                            <p class="lead">File</p>
-                            <a class="btn btn-info" target="_blank"
-                                href="<?= base_url() ?>assets/dist/fileDoc/saldoakun.xls">
-                                <i class="fas fa-download"> Download File Dokumen *if exist</i>
-                            </a>
-                        </div>
-                        <!-- accepted payments column -->
-                        <div class="col-12">
-                            <p class="lead">Image</p>
-                            <img class="img-fluid" src="<?= base_url() ?>assets/dist/img/photo1.png" alt="Photo">
-                            <p></p>
-                        </div>
-                    </div>
-                    <!-- /.row -->
-
-                    <!-- this row will not appear when printing -->
-                    <div class="row no-print">
-                        <div class="col-12">
-                            <a href="<?= base_url('bo/tiketprint') ?>" rel="noopener" target="_blank"
-                                class="btn btn-primary"><i class="fas fa-print"></i> Print</a>
-                        </div>
                     </div>
                 </div>
-                <!-- /.invoice -->
-            </div><!-- /.col -->
-        </div><!-- /.row -->
+            </div>
+        </div>
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-<?= $this->endSection() ?>

@@ -1,0 +1,61 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `development`@`%` 
+    SQL SECURITY DEFINER
+VIEW `view_tiket_details` AS
+    SELECT 
+        `t`.`tiket_id` AS `tiket_id`,
+        `t`.`noTiket` AS `no_tiket`,
+        `t`.`aktivis_id` AS `aktivis_id`,
+        `a`.`nama_aktivis` AS `nama_aktivis`,
+        `c`.`cabang_id` AS `cabang_id`,
+        `c`.`nama_cabang` AS `nama_cabang`,
+        `j`.`jabatan_id` AS `jabatan_id`,
+        `j`.`nama_jabatan` AS `nama_jabatan`,
+        `ar`.`area_id` AS `area_id`,
+        `ar`.`nama_area` AS `area`,
+        `t`.`tiket_kategori` AS `tiket_kategori`,
+        `t`.`deskripsi` AS `deskripsi`,
+        `t`.`aktivis_yg_salah` AS `aktivis_id_salah`,
+        `salah`.`nama_aktivis` AS `aktivis_yg_salah`,
+        `salah_j`.`nama_jabatan` AS `jabatan_aktivis_yg_salah`,
+        `t`.`file_document` AS `file_document`,
+        `t`.`file_image` AS `file_image`,
+        `t`.`status` AS `status`,
+        `t`.`tgl_input` AS `tgl_input`,
+        `t`.`tgl_update` AS `tgl_update`
+    FROM
+        ((((((`tiket` `t`
+        JOIN `aktivis` `a` ON ((`t`.`aktivis_id` = `a`.`aktivis_id`)))
+        LEFT JOIN (SELECT 
+            `ca`.`aktivis_id` AS `aktivis_id`,
+                `c`.`cabang_id` AS `cabang_id`,
+                `c`.`area_id` AS `area_id`,
+                GROUP_CONCAT(DISTINCT `c`.`nama_cabang`
+                    ORDER BY `c`.`nama_cabang` ASC
+                    SEPARATOR ', ') AS `nama_cabang`
+        FROM
+            (`cabangaktivis` `ca`
+        JOIN `cabang` `c` ON ((`ca`.`cabang_id` = `c`.`cabang_id`)))
+        GROUP BY `ca`.`aktivis_id`) `c` ON ((`a`.`aktivis_id` = `c`.`aktivis_id`)))
+        LEFT JOIN (SELECT 
+            `ja`.`aktivis_id` AS `aktivis_id`,
+                `j`.`jabatan_id` AS `jabatan_id`,
+                GROUP_CONCAT(DISTINCT `j`.`nama_jabatan`
+                    ORDER BY `j`.`nama_jabatan` ASC
+                    SEPARATOR ', ') AS `nama_jabatan`
+        FROM
+            (`jabatanaktivis` `ja`
+        JOIN `jabatan` `j` ON ((`ja`.`jabatan_id` = `j`.`jabatan_id`)))
+        GROUP BY `ja`.`aktivis_id`) `j` ON ((`a`.`aktivis_id` = `j`.`aktivis_id`)))
+        LEFT JOIN `area` `ar` ON ((`c`.`area_id` = `ar`.`area_id`)))
+        LEFT JOIN `aktivis` `salah` ON ((`t`.`aktivis_yg_salah` = `salah`.`aktivis_id`)))
+        LEFT JOIN (SELECT 
+            `ja_salah`.`aktivis_id` AS `aktivis_id`,
+                GROUP_CONCAT(DISTINCT `j_salah`.`nama_jabatan`
+                    ORDER BY `j_salah`.`nama_jabatan` ASC
+                    SEPARATOR ', ') AS `nama_jabatan`
+        FROM
+            (`jabatanaktivis` `ja_salah`
+        JOIN `jabatan` `j_salah` ON ((`ja_salah`.`jabatan_id` = `j_salah`.`jabatan_id`)))
+        GROUP BY `ja_salah`.`aktivis_id`) `salah_j` ON ((`salah`.`aktivis_id` = `salah_j`.`aktivis_id`)))

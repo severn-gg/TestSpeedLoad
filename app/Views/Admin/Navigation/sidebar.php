@@ -66,15 +66,21 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/listkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
+              <a href="<?= base_url('admin/viewkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Kantor List</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/listpic') ?>" class="nav-link">
+              <a href="<?= base_url('admin/viewarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Area') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>PIC List</p>
+                <p>Area List</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/viewjabatan') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Jabatan') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Jabatan List</p>
               </a>
             </li>
           </ul>

@@ -195,6 +195,56 @@
 
     });
 
+    $(document).on('click', '#tabelDataArea tbody .btn-warning', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDataArea').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="forminputarea">
+                <div class="form-group">
+                    <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
+                    <input class="form-control" type="hidden" name="inputIdArea" value="${rowData.area_id}">
+                    <input class="form-control" type="text" name="inputNamaArea" value="${rowData.nama_area}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        `);
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit Area');
+        $('#addModal').modal('show');
+
+    });
+
+    $(document).on('click', '#tabelDataJabatan tbody .btn-warning', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDataJabatan').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="forminputJabatan">
+                <div class="form-group">
+                    <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
+                    <input class="form-control" type="hidden" name="inputIdJabatan" value="${rowData.jabatan_id}">
+                    <input class="form-control" type="text" name="inputNamaJabatan" value="${rowData.nama_jabatan}">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        `);
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit Jabatan');
+        $('#addModal').modal('show');
+
+    });
+
     $(document).on('submit', '#formEditAktivis', function(e) {
         e.preventDefault();
         var id = $('input[name="aktivisId"]').val();
@@ -338,6 +388,7 @@
     $(document).on('submit', '#forminputJabatan', function(e) {
         e.preventDefault();
 
+        var id = $('input[name="inputIdJabatan"]').val();
         var dataJabatan = {
             nama_jabatan: $('input[name="inputNamaJabatan"]').val()
         };
@@ -346,22 +397,22 @@
             url: "../api/insert",
             data: JSON.stringify({
                 table: 'jabatan',
+                id: id,
                 data: [dataJabatan],
             }),
             dataType: "JSON",
             success: function(response) {
+                $('#addModal').modal('hide');
+                $("#tabelDataJabatan").DataTable().ajax.reload();
                 Swal.fire({
                     title: "Success",
                     text: response.message,
                     icon: "success",
                     timer: 2000,
                 });
-
-                // Clear the form inputs
-                $('#forminputJabatan')[0].reset();
-                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
+
                 let errorMessage = 'An error occurred';
                 if (xhr.responseJSON && xhr.responseJSON.messages) {
                     errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
@@ -373,10 +424,6 @@
                     icon: "error",
                     timer: 2000,
                 });
-
-                // Clear the form inputs
-                $('#forminputJabatan')[0].reset();
-                $('.select2').val(null).trigger('change');
             }
         });
     })
@@ -384,6 +431,7 @@
     $(document).on('submit', '#forminputarea', function(e) {
         e.preventDefault();
 
+        var id = $('input[name="inputIdArea"]').val();
         var dataArea = {
             nama_area: $('input[name="inputNamaArea"]').val()
         };
@@ -392,22 +440,22 @@
             url: "../api/insert",
             data: JSON.stringify({
                 table: 'area',
+                id: id,
                 data: [dataArea],
             }),
             dataType: "JSON",
             success: function(response) {
+                $('#addModal').modal('hide');
+                $("#tabelDataArea").DataTable().ajax.reload();
                 Swal.fire({
                     title: "Success",
                     text: response.message,
                     icon: "success",
                     timer: 2000,
                 });
-
-                // Clear the form inputs
-                $('#forminputarea')[0].reset();
-                $('.select2').val(null).trigger('change');
             },
             error: function(xhr, status, error) {
+
                 let errorMessage = 'An error occurred';
                 if (xhr.responseJSON && xhr.responseJSON.messages) {
                     errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
@@ -419,10 +467,6 @@
                     icon: "error",
                     timer: 2000,
                 });
-
-                // Clear the form inputs
-                $('#forminputarea')[0].reset();
-                $('.select2').val(null).trigger('change');
             }
         });
     });
@@ -475,7 +519,7 @@
         e.preventDefault();
 
         var dataMutasiKantor = {
-            aktivis_id: $('select[name="inputAktivis"]').val(),
+            // aktivis_id: $('select[name="inputAktivis"]').val(),
             cabang_id: $('select[name="inputKantor"]').val(),
             start_date: $('input[name="inputTglMulai"]').val(),
         };
@@ -787,6 +831,68 @@
                     data: 'nama_area',
                     title: 'Area'
                 },
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                } // Action column for buttons, if needed
+            ]
+        });
+
+        $("#tabelDataArea").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'area',
+                        id: ''
+                    });
+                },
+            },
+            columns: [{
+                    data: 'area_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'nama_area',
+                    title: 'Nama Area'
+                }, // Column for the NIA
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                } // Action column for buttons, if needed
+            ]
+        });
+
+        $("#tabelDataJabatan").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'jabatan',
+                        id: ''
+                    });
+                },
+            },
+            columns: [{
+                    data: 'jabatan_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'nama_jabatan',
+                    title: 'Nama Jabatan'
+                }, // Column for the NIA
                 {
                     data: null,
                     title: 'Aksi',

@@ -15,6 +15,7 @@ class Kontrol extends BaseController
             $data = [
                 'menu' => $menu,
                 'submenu' => $submenu,
+                'user_id' => $session->get('user_id'),
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
                 'jabatan_id' => $session->get('jabatan_id'),

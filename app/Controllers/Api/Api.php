@@ -133,7 +133,7 @@ class Api extends BaseController
             case "cabangaktivis":
                 // Validasi data
                 $validation->setRules([
-                    'aktivis_id' => 'required',
+                    // 'aktivis_id' => 'required',
                     'cabang_id' => 'required',
                     'start_date' => 'required',
                 ]);
@@ -164,6 +164,14 @@ class Api extends BaseController
                     'nama_cabang' => 'required',
                     'alamat_cabang' => 'required',
                     'area_id' => 'required'
+                ]);
+                break;
+            case "komentar":
+                // Validasi data
+                $validation->setRules([
+                    'tiket_id' => 'required',
+                    'aktivis_id' => 'required',
+                    'komen' => 'required'
                 ]);
                 break;
             case "user":
@@ -257,9 +265,10 @@ class Api extends BaseController
         $partnerModel = new ApiModel();
         // $data['noTiket'] = $noTiket;
 
-        // var_dump($data);
-        // die;
         $result = $partnerModel->insert_table($data, $table, $id);
+
+        // var_dump($result);
+        // die;
 
         // Pengiriman response 
         if (is_array($result) && isset($result['success']) && $result['success'] === true) {

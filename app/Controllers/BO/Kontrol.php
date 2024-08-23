@@ -18,6 +18,7 @@ class Kontrol extends BaseController
                 'aktivis_id' => $session->get('aktivis_id'),
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
+                'kantor' => $session->get('kantor'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
             ];
             return $data;
@@ -43,6 +44,16 @@ class Kontrol extends BaseController
         }
         return view('BO/Content/tiketbaru', $data);
     }
+
+    public function tiketbo()
+    {
+        $data = $this->prepareData('Tiketbo');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('BO/Content/tiketbo', $data);
+    }
+
     public function tiketsaya()
     {
         $data = $this->prepareData('Tiketsaya');
@@ -54,7 +65,11 @@ class Kontrol extends BaseController
 
     public function tiketdetail()
     {
-        return view('BO/Content/tiketdetail');
+        $data = $this->prepareData('Tiketbo');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('BO/Content/tiketdetail', $data);
     }
 
     public function tiketprint()

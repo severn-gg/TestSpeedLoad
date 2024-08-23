@@ -49,15 +49,6 @@ class Kontrol extends BaseController
         return view('Admin/Content/Tables/listaktivis', $data);
     }
 
-    public function viewticket()
-    {
-        $data = $this->prepareData('Tables', 'Tiket');
-        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
-            return $data;
-        }
-        return view('Admin/Content/Ticket/app', $data);
-    }
-
     public function detailTiket()
     {
         $data = $this->prepareData('Tables', 'Kantor');
@@ -75,6 +66,33 @@ class Kontrol extends BaseController
             return $data;
         }
         return view('Admin/Content/Tables/listkantor', $data);
+    }
+
+    public function viewarea()
+    {
+        $data = $this->prepareData('Tables', 'Area');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listarea', $data);
+    }
+
+    public function viewjabatan()
+    {
+        $data = $this->prepareData('Tables', 'Jabatan');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listjabatan', $data);
+    }
+
+    public function viewticket()
+    {
+        $data = $this->prepareData('Tables', 'Tiket');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Ticket/app', $data);
     }
 
     public function detailprint()

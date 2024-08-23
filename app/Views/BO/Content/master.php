@@ -18,7 +18,7 @@
         <?= $this->include('BO/Navigation/sidebar'); ?>
 
         <!-- content -->
-        <div class="content-wrapper">
+        <div id="content" class="content-wrapper">
             <?= $this->renderSection('content') ?>
         </div>
 

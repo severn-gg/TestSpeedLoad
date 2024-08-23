@@ -75,7 +75,7 @@
     $(document).on('click', '#verifyBtn', function() {
 
         var data = $('#verifyBtn').data('tiket');
-        console.log(data);
+        console.log(data.jabatan_id);
         $('.card-body').html(`
             
                 <p class="text-muted"><i class="bi bi-stack"></i> Nomor Tiket</p>
@@ -102,6 +102,11 @@
 
                 <hr>
 
+                <div class="form-group">
+                    <label for="inputNamaKantor" class="form-label">Komentar</label>
+                    <textarea class="form-control" type="text" name="komentar"></textarea>
+                </div>
+
                 <strong><i class="far fa-file-alt mr-1"></i> Status</strong>
                 
                 <p class="text-muted">            
@@ -120,14 +125,21 @@
 
     $(document).on('click', '#btn_modal', function() {
         var status = $('input[name="status"]:checked').val();
+        var komen = $('textarea[name="komentar"]').val();
         var data = $('#verifyBtn').data('tiket');
 
-        // console.log("Selected status: ", status);
+        var now = new Date();
+        var formattedDate = now.getFullYear() + '-' +
+            ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+            ('0' + now.getDate()).slice(-2) + ' ' +
+            ('0' + now.getHours()).slice(-2) + ':' +
+            ('0' + now.getMinutes()).slice(-2) + ':' +
+            ('0' + now.getSeconds()).slice(-2);
 
-        if (!status) {
+        if (!status || !komen) {
             Swal.fire({
                 title: "O oh!",
-                text: "Mohon klik pada pilihan status",
+                text: "Isi Komentar dan pilih status terbaru!!!",
                 icon: "warning",
                 timer: 3000,
                 showConfirmButton: false
@@ -135,7 +147,18 @@
             return;
         }
 
-        var dataSend = {
+        var dataKomentSend = {
+            table: 'komentar',
+            data: [{
+                tiket_id: data.tiket_id,
+                aktivis_id: <?php echo $aktivis_id; ?>,
+                komen: komen,
+                status: status,
+                tgl_komen: formattedDate,
+            }]
+        };
+
+        var dataTiketSend = {
             table: 'tiket',
             id: data.tiket_id,
             data: [{
@@ -154,15 +177,16 @@
             }]
         }
 
-        // console.log(dataSend);
+        // Send the first request
+        sendAjaxRequest(dataKomentSend)
+            .then(function(response) {
+                console.log('First request succeeded:', response);
+                // Send the second request after the first one succeeds
+                return sendAjaxRequest(dataTiketSend);
+            })
+            .then(function(response) {
+                console.log('Second request succeeded:', response);
 
-        $.ajax({
-            type: "POST",
-            url: "../api/insert",
-            data: JSON.stringify(dataSend),
-            contentType: "application/json",
-            dataType: "JSON",
-            success: function(response) {
                 Swal.fire({
                     title: "Success",
                     text: response.message,
@@ -173,8 +197,8 @@
                     $('#addModal').modal('hide');
                     window.location.reload();
                 });
-            },
-            error: function(xhr, status, error) {
+            })
+            .catch(function(error) {
                 console.error('Error:', error);
 
                 let errorMessage = 'An error occurred';
@@ -191,10 +215,19 @@
                 });
 
                 $('#addModal').modal('hide');
-            }
-        });
+            });
         // console.log("Data to send: ", dataSend);
     })
+
+    function sendAjaxRequest(data) {
+        return $.ajax({
+            type: "POST",
+            url: "../api/insert",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            dataType: "JSON"
+        });
+    }
 
     // script datatables
     $(function() {
