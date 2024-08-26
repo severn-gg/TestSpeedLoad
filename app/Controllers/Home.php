@@ -11,11 +11,16 @@ class Home extends BaseController
 
     public function logout()
     {
-        session_start();
+        // Use CodeIgniter's session instance
+        $session = session();
 
-        session_destroy();
+        // Destroy the session using CodeIgniter's session destroy method
+        $session->destroy();
 
-        session()->setFlashdata('msg', 'Kamu Logout');
+        // Set a flash message after destroying the session
+        $session->setFlashdata('msg', 'Kamu Logout');
+
+        // Redirect to the index page or login page
         return $this->index();
     }
 }

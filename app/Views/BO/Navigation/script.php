@@ -59,7 +59,7 @@
 
         var tiketBo = $('#tabelDataTiketBo').DataTable();
         var rowData = tiketBo.row($(this).closest('tr')).data();
-        console.log(rowData.tiket_id);
+        console.log(rowData.status);
 
         $('#content').load('/bo/tiketdetail', function(response, status, xhr) {
             if (status == "error") {
@@ -83,18 +83,45 @@
                     console.log(data);
                     $.each(data, function(index, value) {
                         let iconMarkup = getStatusIcon(value.state);
+
+                        // Check if the current index is the last iteration
+                        let isLast = index === data.length - 1;
+                        let iconClass = isLast ? "status-current blinker" : "status-intransit";
+
                         $('.tracking-list').append(`
                             <div class="tracking-item">
-                                <div class="tracking-icon status-intransit">
+                                <div class="tracking-icon ${iconClass}">
                                     <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
                                         <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
                                     </svg>
                                 </div>
-                                ` + iconMarkup + `
+                                ${iconMarkup}
                                 <div class="tracking-content">${value.state}<span>${value.tgl_komen}</span><small>${value.komen}</small></div>
                             </div>
                         `);
                     });
+
+                    // Append the final "pending" step div after the loop
+                    $('.tracking-list').append(`
+                        <div class="tracking-item-pending">
+                            <div class="tracking-icon status-intransit">
+                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                    <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                </svg>
+                            </div>
+                            <div class="tracking-date">
+                                <img src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg" class="img-responsive" alt="order-placed" />
+                            </div>
+                            <div class="tracking-content"> ...... <span> ....... </span></div>
+                        </div>
+                    `);
+
+                    if (rowData.status === 'Solved') {
+                        $('#confirmButton').html(`
+                            <a href="#" class="btn btn-primary">Konfirmasi Selesai</a>
+                            <a href="#" class="btn btn-warning">Ajukan Croscek</a>
+                        `);
+                    }
                 }
             });
         });
@@ -321,15 +348,37 @@
                 }, {
                     data: 'deskripsi'
                 }, {
-                    data: 'status'
+                    data: 'status',
+                    title: 'Status',
+                    render: function(data, type, row) {
+                        let badgeClass = 'badge-secondary'; // Default badge class
+
+                        // Determine the appropriate badge class based on the status
+                        if (data === 'Confirmed') {
+                            icon = '<i class="bi bi-check-circle h6"></i>';
+                            badgeClass = 'badge-primary';
+                        } else if (data === 'In Progress') {
+                            icon = '<i class="bi bi-hourglass-split h6"></i>';
+                            badgeClass = 'badge-warning';
+                        } else if (data === 'Solved') {
+                            icon = '<i class="bi bi-check-all h6"></i>';
+                            badgeClass = 'badge-success';
+                        } else if (data === 'Closed') {
+                            icon = '<i class="bi bi-clipboard2-check-fill h6"></i>';
+                            badgeClass = 'badge-danger';
+                        }
+
+                        // Return the HTML for the badge with the correct class
+                        return `<span class="badge ${badgeClass}">${icon} ${data}</span>`;
+                    }
                 },
                 {
                     // Column for the button
                     data: null,
                     render: function(data, type, row) {
                         // Return the HTML for the button
-                        return '<button class="btn btn-xs btn-warning edit-btn"><i class="bi bi-pencil-fill"></i></button> ' +
-                            '<button class="btn btn-xs btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        return '<button class="btn btn-sm btn-warning edit-btn"><i class="bi bi-clipboard2-check-fill"></i></button> ' +
+                            '<button class="btn btn-sm btn-info detail-btn"><i class="bi bi-eye"></i></button>';
                     }
                 }
             ]

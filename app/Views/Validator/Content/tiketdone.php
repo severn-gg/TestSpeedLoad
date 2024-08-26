@@ -56,7 +56,6 @@
                                         Tgl Verifikasi
                                     </th>
                                     <th>
-                                        aksi
                                     </th>
                                 </tr>
                             </thead>

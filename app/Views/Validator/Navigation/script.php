@@ -229,6 +229,105 @@
         });
     }
 
+    $(document).on('click', '#tabelDataTiketDiverifikasi tbody .detail-btn', function() {
+
+        var tiketBo = $('#tabelDataTiketDiverifikasi').DataTable();
+        var rowData = tiketBo.row($(this).closest('tr')).data();
+        console.log(rowData.tiket_id);
+
+        $('#content').load('/bo/tiketdetail', function(response, status, xhr) {
+            if (status == "error") {
+                var msg = "Sorry but there was an error: ";
+                $("#content").html(msg + xhr.status + " " + xhr.statusText);
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '../api/get',
+                data: JSON.stringify({
+                    table: 'view_tiket_history',
+                    field: 'tiket_id',
+                    value: rowData.tiket_id
+                }),
+                dataType: 'JSON',
+                success: function(response) {
+
+                    var data = response.data;
+
+                    console.log(data);
+                    $.each(data, function(index, value) {
+                        let iconMarkup = getStatusIcon(value.state);
+
+                        // Check if the current index is the last iteration
+                        let isLast = index === data.length - 1;
+                        let iconClass = isLast ? "status-current blinker" : "status-intransit";
+
+                        $('.tracking-list').append(`
+                            <div class="tracking-item">
+                                <div class="tracking-icon ${iconClass}">
+                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                    </svg>
+                                </div>
+                                ${iconMarkup}
+                                <div class="tracking-content">${value.state}<span>${value.tgl_komen}</span><small>${value.komen}</small></div>
+                            </div>
+                        `);
+                    });
+
+                    // Append the final "pending" step div after the loop
+                    $('.tracking-list').append(`
+                        <div class="tracking-item-pending">
+                            <div class="tracking-icon status-intransit">
+                                <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                    <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                </svg>
+                            </div>
+                            <div class="tracking-date">
+                                <img src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg" class="img-responsive" alt="order-placed" />
+                            </div>
+                            <div class="tracking-content"> ...... <span> ....... </span></div>
+                        </div>
+                    `);
+                }
+            });
+        });
+    });
+
+    function getStatusIcon(status) {
+        let iconHtml = ''; // Default icon HTML
+
+        switch (status) {
+            case 'Open':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-envelope-open h4"></i></div>';
+                break;
+            case 'Submited':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-send h4"></i></div>';
+                break;
+            case 'Reject':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-x-circle h4"></i></div>';
+                break;
+            case 'Confirmed':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-check-circle h4"></i></div>';
+                break;
+            case 'In Progress':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-hourglass-split h4"></i></div>';
+                break;
+            case 'Solved':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-check-square h4"></i></div>';
+                break;
+            case 'Closed':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-lock h4"></i></div>';
+                break;
+            default:
+                iconHtml = '<div class="tracking-date"><i class="bi bi-question-circle h4"></i></div>';
+                break;
+        }
+
+        return iconHtml;
+    }
+
+
     // script datatables
     $(function() {
         $("#tabelDataTiketMasuk").DataTable({
@@ -316,7 +415,7 @@
                     } else {
                         // Filter data array to include only entries with status 'Open'
                         const filteredData = response.data.filter(function(item) {
-                            return item['status'] === 'Confirmed';
+                            return item['status'] !== 'Open';
                         });
 
                         console.log(filteredData);
@@ -339,10 +438,8 @@
                 {
                     // Column for the button
                     data: null,
-                    render: function(data, type, row) {
-                        // Return the HTML for the button
-                        return '<a href="<?= base_url('validator/tiketdetail') ?>" class="btn btn-sm btn-primary btn-verifikasi"><i class="bi bi-pencil-fill"></i></a>';
-                    }
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-info detail-btn"><i class="nav-icon fas fa-eye"></i></button>'
                 }
             ]
         });

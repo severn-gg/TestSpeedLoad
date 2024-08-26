@@ -53,6 +53,12 @@
                                         Nama
                                     </th>
                                     <th>
+                                        Jabatan
+                                    </th>
+                                    <th>
+                                        Branch Office
+                                    </th>
+                                    <th>
                                         Asal
                                     </th>
                                     <th></th>

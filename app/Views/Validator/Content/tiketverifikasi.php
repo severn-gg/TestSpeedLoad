@@ -104,7 +104,7 @@
                             <a href="<?= base_url('validator/tiketverifikasiprint') ?>" rel="noopener" target="_blank" class="btn btn-primary">
                                 <i class="fas fa-print"></i> Print
                             </a>
-                            <a id="verifyBtn" data-tiket="" href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-check-circle-fill"></i> Verifikasi</a>
+                            <a id="verifyBtn" data-tiket="" href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal"></a>
 
                         </div>
                     </div>

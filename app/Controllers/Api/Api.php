@@ -72,6 +72,8 @@ class Api extends BaseController
         $session = session();
         $sessionData = [
             'user_id'       => $userData['user_id'],
+            'area_id'       => $userData['area_id'],
+            'nama_area'       => $userData['nama_area'],
             'aktivis_id'       => $userData['aktivis_id'],
             'username'      => $userData['username'],
             'nama_pengguna' => $userData['nama_pengguna'],

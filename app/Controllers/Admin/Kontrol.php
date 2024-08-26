@@ -23,7 +23,7 @@ class Kontrol extends BaseController
             return $data;
         } else {
             // Redirect to login page if the user is not logged in
-            return redirect()->to('/login'); // Adjust the route as needed
+            return redirect()->to('/'); // Adjust the route as needed
         }
     }
 
@@ -33,6 +33,7 @@ class Kontrol extends BaseController
         if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
+
         return view('Admin/Content/dashboard', $data);
     }
 

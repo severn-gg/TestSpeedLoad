@@ -519,7 +519,7 @@
         e.preventDefault();
 
         var dataMutasiKantor = {
-            // aktivis_id: $('select[name="inputAktivis"]').val(),
+            aktivis_id: $('select[name="inputAktivis"]').val(),
             cabang_id: $('select[name="inputKantor"]').val(),
             start_date: $('input[name="inputTglMulai"]').val(),
         };
@@ -724,7 +724,7 @@
                 data: function() {
                     // Convert data to JSON
                     return JSON.stringify({
-                        table: 'aktivis',
+                        table: 'aktivis_cabang_view',
                         id: ''
                     });
                 },
@@ -742,13 +742,21 @@
                     title: 'Nama'
                 }, // Column for the Name
                 {
+                    data: 'nama_jabatan',
+                    title: 'Jabatan'
+                }, // Column for the Name
+                {
+                    data: 'nama_cabang',
+                    title: 'Branch Office'
+                }, // Column for the Name
+                {
                     data: 'asal',
                     title: 'Asal'
                 }, // Column for the Asal
                 {
                     data: null,
                     title: 'Aksi',
-                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="bi bi-person-lines-fill"></i></button>'
                 } // Action column for buttons, if needed
             ]
         });
