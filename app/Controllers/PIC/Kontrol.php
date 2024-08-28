@@ -20,6 +20,7 @@ class Kontrol extends BaseController
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
                 'area_id' => $session->get('area_id'),
+                'PIC' => $session->get('PIC'),
                 'nama_area' => $session->get('nama_area'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
             ];

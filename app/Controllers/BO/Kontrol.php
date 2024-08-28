@@ -45,6 +45,15 @@ class Kontrol extends BaseController
         return view('BO/Content/tiketbaru', $data);
     }
 
+    public function tiketedit()
+    {
+        $data = $this->prepareData('Buattiket');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('BO/Content/tiketedit', $data);
+    }
+
     public function tiketbo()
     {
         $data = $this->prepareData('Tiketbo');

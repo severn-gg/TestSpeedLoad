@@ -39,3 +39,7 @@
 
 <!-- sweetalert2 -->
 <script src="<?= base_url('assets/plugins/sweetalert2/sweetalert2.all.min.js') ?>"></script>
+
+<script>
+
+</script>

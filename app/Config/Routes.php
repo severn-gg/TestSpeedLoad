@@ -78,6 +78,7 @@ $routes->group('admin', static function ($routes) {
 $routes->group('bo', static function ($routes) {
     $routes->get('dashboard', [KontrolBO::class, 'index']);
     $routes->get('tiketbaru', [KontrolBO::class, 'tiketbaru']);
+    $routes->get('tiketedit', [KontrolBO::class, 'tiketedit']);
     $routes->get('tiketsaya', [KontrolBO::class, 'tiketsaya']);
     $routes->get('tiketbo', [KontrolBO::class, 'tiketbo']);
     $routes->get('tiketdetail', [KontrolBO::class, 'tiketdetail']);

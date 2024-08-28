@@ -15,7 +15,7 @@
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $nama; ?></a>
-        <p><small>PIC Area : <?php echo $nama_area; ?></small></p>
+        <p><small>PIC <?php echo $PIC; ?> : </small><br /><?php echo $nama_area; ?></p>
       </div>
     </div>
 

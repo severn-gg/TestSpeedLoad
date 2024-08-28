@@ -4,6 +4,7 @@
     }
 
     #tracking {
+        margin-top: 1rem;
         margin-bottom: 1rem;
     }
 
@@ -200,43 +201,130 @@
 <!-- Content Header (Page header) -->
 
 
-<!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Detail</h1>
+                <h1>Project Detail</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item">Tiket</li>
-                    <li class="breadcrumb-item active">Detail</li>
+                    <li class="breadcrumb-item active">Project Detail</li>
                 </ol>
             </div>
         </div>
     </div><!-- /.container-fluid -->
 </section>
 
+<!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-        <div class="col-12">
-            <div class="card">
-                <div class="container py-5">
-                    <div class="row">
 
-                        <div class="col-md-12 col-lg-12">
-                            <div id="tracking-pre"></div>
-                            <div id="tracking">
-                                <div class="tracking-list">
+    <!-- Default box -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Projects Detail</h3>
 
-                                </div>
-                            </div>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div id="confirmButton" class="text-center mb-3">
+
+                </div>
+            </div>
+            <div class="row" id="tiketVerifikasi">
+                <div class="col-12 col-md-12 col-lg-4 order-2 order-md-1">
+
+                    <div id="tracking-pre">
+                        <p>History Tiket</p>
+                    </div>
+                    <div id="tracking">
+                        <div class="tracking-list">
+                            <!-- Content for left column -->
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-md-12 col-lg-8 order-1 order-md-2">
+                    <div id="tracking-pre">
+                        <p>Detail Tiket</p>
+                    </div>
+                    <!-- Main content -->
+                    <div class="invoice p-3 mb-3">
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-sm-6 invoice-col">
+                                Dari
+                                <address>
+                                    <strong id="nama_cabang"></strong>
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6 invoice-col text-right" id="tiket_detail">
+
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <hr />
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-6">
+                                <p class="lead">Deskripsi Persoalan:</p>
+                                <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;" id="deskripsi">
+                                </p>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                <p class="lead">Terkait</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Nama Staf:</th>
+                                            <td id="aktivis_yg_salah"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jabatan Staf: </th>
+                                            <td id="jabatan_aktivis_yg_salah"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <div class="row">
+                            <!-- /.col -->
+                            <div class="col-12">
+                                <p class="lead">File</p>
+                                <a id="file_document" class="btn btn-info" target="_blank" href="">
+                                    <i class="fas fa-download"> Download File Dokumen *if exist</i>
+                                </a>
+                            </div>
+                            <!-- accepted payments column -->
+                            <div class="col-12">
+                                <p class="lead">Image</p>
+                                <img id="file_image" class="img-fluid" src="" alt="Photo">
+                                <p></p>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.invoice -->
+                </div>
             </div>
         </div>
-    </div><!-- /.container-fluid -->
+        <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+
 </section>
 <!-- /.content -->

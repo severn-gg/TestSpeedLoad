@@ -62,7 +62,7 @@
                 break;
 
             case 'forminputpic':
-                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --');
+                fetchData('user_aktivis', 'inputAktivis', '-- Pilih User --');
                 fetchData('area', 'inputArea', '-- Pilih Area --');
                 break;
         }
@@ -80,9 +80,15 @@
                     let select = $(`select[name="${selectName}"]`);
                     select.empty();
                     select.append(`<option value="">${placeholder}</option>`); // Add empty option
-                    $.each(data, function(index, value) {
-                        select.append(`<option value="${value[`${tableName}_id`]}">${value[`nama_${tableName}`]} </option>`);
-                    });
+                    if (tableName === 'user_aktivis') {
+                        $.each(data, function(index, value) {
+                            select.append(`<option value="${value[`user_id`]}">${value[`username`]} </option>`);
+                        });
+                    } else {
+                        $.each(data, function(index, value) {
+                            select.append(`<option value="${value[`${tableName}_id`]}">${value[`nama_${tableName}`]} </option>`);
+                        });
+                    }
                 }
             });
         }
@@ -710,6 +716,157 @@
         });
     });
 
+    $(document).on('click', '#tabelDataTiketDone tbody .detail-btn', function() {
+
+        // console.log("yes");
+        var tiketAdmin = $('#tabelDataTiketDone').DataTable();
+        // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
+        var row = $(this).closest('tr');
+
+        if (row.hasClass('child')) {
+            // If inside a "child row", find the parent row containing the actual data
+            row = row.prev();
+        }
+
+        // Now get the row data from the DataTable instance
+        var rowData = tiketAdmin.row(row).data();
+        console.log(rowData);
+        if (rowData && Object.keys(rowData).length !== 0) {
+            $('#content').load('/pic/tiketonprogressdetail', function(response, status, xhr) {
+                if (status == "error") {
+                    var msg = "Sorry but there was an error: ";
+                    $("#content").html(msg + xhr.status + " " + xhr.statusText);
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '../api/get',
+                    data: JSON.stringify({
+                        table: 'view_tiket_history',
+                        field: 'tiket_id',
+                        value: rowData.tiket_id
+                    }),
+                    dataType: 'JSON',
+                    success: function(response) {
+
+                        var data = response.data;
+
+                        $.each(data, function(index, value) {
+                            let iconMarkup = getStatusIcon(value.state);
+
+                            // Check if the current index is the last iteration
+                            let isLast = index === data.length - 1;
+                            let iconClass = isLast ? "status-current blinker" : "status-intransit";
+
+                            $('.tracking-list').append(`
+                            <div class="tracking-item">
+                                <div class="tracking-icon ${iconClass}">
+                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                    </svg>
+                                </div>
+                                ${iconMarkup}
+                                <div class="tracking-content">${value.state}<span>${value.tgl_komen}</span><small>${value.komen}</small></div>
+                            </div>
+                        `);
+                        });
+
+                        // Append the final "pending" step div after the loop
+                        $('.tracking-list').append(`
+                            <div class="tracking-item-pending">
+                                <div class="tracking-icon status-intransit">
+                                    <svg class="svg-inline--fa fa-circle fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
+                                    </svg>
+                                </div>
+                                <div class="tracking-date">
+                                    <img src="https://raw.githubusercontent.com/shajo/portfolio/a02c5579c3ebe185bb1fc085909c582bf5fad802/delivery.svg" class="img-responsive" alt="order-placed" />
+                                </div>
+                                <div class="tracking-content"> ...... <span> ....... </span></div>
+                            </div>
+                        `);
+
+                        if (rowData.status === 'In Progress') {
+                            $('#confirmButton').html(`
+                                <a href="#" id="verifyBtn" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Konfirmasi Solved</a>
+                            `);
+
+                            // Use jQuery's data method to store the rowData object
+                            $('#verifyBtn').data('tiket', rowData);
+                        } else if (rowData.status === 'Confirmed') {
+                            $('#confirmButton').html(`
+                                <a href="#" id="verifyBtn" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Kerjakan</a>
+                            `);
+
+                            // Use jQuery's data method to store the rowData object
+                            $('#verifyBtn').data('tiket', rowData);
+                        }
+                    }
+                });
+                var baseUrl = "<?= base_url() ?>";
+
+                if ($('#tiketVerifikasi').length) {
+                    $('#verifyBtn').attr('data-tiket', JSON.stringify(rowData));
+                    $('#nama_cabang').text(rowData.nama_cabang);
+                    $('#deskripsi').text(rowData.deskripsi);
+                    $('#aktivis_yg_salah').text(rowData.aktivis_yg_salah);
+                    $('#jabatan_aktivis_yg_salah').text(rowData.jabatan_aktivis_yg_salah);
+                    $('#file_document').attr('href', baseUrl + 'images/' + rowData.file_document);
+                    $('#file_image').attr('src', baseUrl + 'images/' + rowData.file_image);
+                    $('#tiket_detail').html(`
+                        <b>Nomor TIket: </b>${rowData.no_tiket}<br>
+                        <br>
+                        <b>Kategori: </b>${rowData.tiket_kategori}<br>
+                        <b>Tgl Tiket: </b> ${rowData.tgl_input}<br>
+                        <b>Status: </b> ${rowData.status}
+                    `);
+                }
+
+            });
+        } else {
+            Swal.fire({
+                title: "Warning",
+                text: "Tidak ada data!",
+                icon: "warning",
+                timer: 2000,
+            });
+        }
+
+    });
+
+    function getStatusIcon(status) {
+        let iconHtml = ''; // Default icon HTML
+
+        switch (status) {
+            case 'Open':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-envelope-open h4"></i></div>';
+                break;
+            case 'Submited':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-send h4"></i></div>';
+                break;
+            case 'Reject':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-x-circle h4"></i></div>';
+                break;
+            case 'Confirmed':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-check-circle h4"></i></div>';
+                break;
+            case 'In Progress':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-hourglass-split h4"></i></div>';
+                break;
+            case 'Solved':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-check-square h4"></i></div>';
+                break;
+            case 'Closed':
+                iconHtml = '<div class="tracking-date"><i class="bi bi-lock h4"></i></div>';
+                break;
+            default:
+                iconHtml = '<div class="tracking-date"><i class="bi bi-question-circle h4"></i></div>';
+                break;
+        }
+
+        return iconHtml;
+    }
+
     // script datatables
     $(function() {
         $('.select2').select2()
@@ -775,6 +932,15 @@
                         id: ''
                     });
                 },
+                dataSrc: function(response) {
+                    if (response.data === null) {
+                        // No data available, return empty array
+                        return [];
+                    } else {
+                        return response.data;
+                    }
+                    // return response.data;
+                },
             },
             columns: [{
                     data: 'tiket_id',
@@ -798,12 +964,71 @@
                 }, // Column for the Name
                 {
                     data: 'status',
-                    title: 'status'
+                    title: 'status',
+                    render: function(data, type, row) {
+                        let badgeClass = 'badge-secondary'; // Default badge class
+                        let icon = ''; // Default icon
+
+                        // Determine the appropriate badge class and icon based on the status
+                        switch (data) {
+                            case 'Open':
+                                badgeClass = 'badge-secondary';
+                                icon = '<i class="bi bi-folder2-open h6"></i>';
+                                break;
+                            case 'Submitted':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-file-earmark-text h6"></i>';
+                                break;
+                            case 'Rejected':
+                                badgeClass = 'badge-danger';
+                                icon = '<i class="bi bi-x-circle h6"></i>';
+                                break;
+                            case 'Reviewed':
+                                badgeClass = 'badge-warning';
+                                icon = '<i class="bi bi-eye h6"></i>';
+                                break;
+                            case 'Confirmed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-check-circle h6"></i>';
+                                break;
+                            case 'In Progress':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-hourglass-split h6"></i>';
+                                break;
+                            case 'Solved':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-check-all h6"></i>';
+                                break;
+                            case 'Closed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-clipboard2-check-fill h6"></i>';
+                                break;
+                            default:
+                                badgeClass = 'badge-secondary';
+                                icon = ''; // No icon for default
+                                break;
+                        }
+
+                        // Return the HTML for the badge with the correct class and icon
+                        return `<span class="badge ${badgeClass}">${icon} ${data}</span>`;
+                    }
+
                 }, // Column for the Asal
                 {
-                    data: null,
+                    data: 'status',
                     title: 'Aksi',
-                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                    render: function(data, type, row) {
+                        // Check the status and return a value for the Konfirmasi column
+                        if (data !== 'Closed' && data === 'Solved') {
+                            return '<button class="btn btn-sm btn-info detail-btn"> <i class="nav-icon fas fa-eye"></i></button>'; // Example value if status is not 'Closed'
+                        } else if (data !== 'Closed' && data !== 'Solved' && data === 'In Progress') {
+                            return '<button class="btn btn-sm btn-info detail-btn"> <i class="nav-icon fas fa-eye"></i></button> ';
+                        } else if (data !== 'Closed' && data !== 'Solved' && data !== 'In Progress') {
+                            return '<button class="btn btn-sm btn-info detail-btn"><i class="nav-icon fas fa-eye"></i></button>';
+                        } else {
+                            return '<span class="badge badge-success">Finish</span>'; // Example value if status is 'Closed'
+                        }
+                    }
                 } // Action column for buttons, if needed
             ]
         });

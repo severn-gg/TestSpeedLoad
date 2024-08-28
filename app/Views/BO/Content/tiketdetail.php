@@ -236,10 +236,13 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-12 col-md-12 col-lg-4 order-2 order-md-1">
-                    <div id="confirmButton" class="text-center mb-3">
+                <div id="confirmButton" class="text-center mb-3">
 
-                    </div>
+                </div>
+            </div>
+            <div class="row" id="tiketVerifikasi">
+                <div class="col-12 col-md-12 col-lg-4 order-2 order-md-1">
+
                     <div id="tracking-pre">
                         <p>History Tiket</p>
                     </div>
@@ -250,41 +253,72 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-8 order-1 order-md-2">
-                    <h3 class="text-primary"><i class="fas fa-paint-brush"></i> AdminLTE v3</h3>
-                    <p class="text-muted">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu
-                        stumptown aliqua butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.
-                    </p>
-                    <br>
-                    <div class="text-muted">
-                        <p class="text-sm">Client Company
-                            <b class="d-block">Deveint Inc</b>
-                        </p>
-                        <p class="text-sm">Project Leader
-                            <b class="d-block">Tony Chicken</b>
-                        </p>
+                    <div id="tracking-pre">
+                        <p>Detail Tiket</p>
                     </div>
+                    <!-- Main content -->
+                    <div class="invoice p-3 mb-3">
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-sm-6 invoice-col">
+                                Dari
+                                <address>
+                                    <strong id="nama_cabang"></strong>
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6 invoice-col text-right" id="tiket_detail">
 
-                    <h5 class="mt-5 text-muted">Project files</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i>
-                                Functional-requirements.docx</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-pdf"></i> UAT.pdf</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-envelope"></i>
-                                Email-from-flatbal.mln</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-image "></i> Logo.png</a>
-                        </li>
-                        <li>
-                            <a href="" class="btn-link text-secondary"><i class="far fa-fw fa-file-word"></i>
-                                Contract-10_12_2014.docx</a>
-                        </li>
-                    </ul>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <hr />
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-6">
+                                <p class="lead">Deskripsi Persoalan:</p>
+                                <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;" id="deskripsi">
+                                </p>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                <p class="lead">Terkait</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th style="width:50%">Nama Staf:</th>
+                                            <td id="aktivis_yg_salah"></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Jabatan Staf: </th>
+                                            <td id="jabatan_aktivis_yg_salah"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                        <div class="row">
+                            <!-- /.col -->
+                            <div class="col-12">
+                                <p class="lead">File</p>
+                                <a id="file_document" class="btn btn-info" target="_blank" href="">
+                                    <i class="fas fa-download"> Download File Dokumen *if exist</i>
+                                </a>
+                            </div>
+                            <!-- accepted payments column -->
+                            <div class="col-12">
+                                <p class="lead">Image</p>
+                                <img id="file_image" class="img-fluid" src="" alt="Photo">
+                                <p></p>
+                            </div>
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.invoice -->
                 </div>
             </div>
         </div>

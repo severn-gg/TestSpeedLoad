@@ -28,38 +28,50 @@
         console.log(tiketsayaValue); // This will log 'tiketsaya' to the console        
 
         if ($('#forminputtiket').length) {
-
             var cabang_id = $('select[name="inputAktivis"]').data("kantor");
-            // console.log(cabang_id);
-
-            $.ajax({
-                type: "POST",
-                url: "../api/get",
-                data: JSON.stringify({
-                    table: 'aktivis_cabang_view',
-                    field: 'cabang_id',
-                    value: cabang_id
-                }),
-                dataType: "JSON",
-                success: function(response) {
-                    let data = response.data;
-                    // console.log(data);
-                    let select = $('select[name="inputAktivis"]');
-                    select.empty();
-                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
-                    $.each(data, function(index, value) {
-                        select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
-                    });
-                }
-            });
+            getAktivis(cabang_id);
         }
     });
+
+    function getAktivis(cabang) {
+
+        // console.log(cabang_id);
+
+        $.ajax({
+            type: "POST",
+            url: "../api/get",
+            data: JSON.stringify({
+                table: 'aktivis_cabang_view',
+                field: 'cabang_id',
+                value: cabang
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                let data = response.data;
+                // console.log(data);
+                let select = $('select[name="inputAktivis"]');
+                select.empty();
+                select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
+                $.each(data, function(index, value) {
+                    select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
+                });
+            }
+        });
+    }
 
     $(document).on('click', '#tabelDataTiketBo tbody .detail-btn', function() {
 
         var tiketBo = $('#tabelDataTiketBo').DataTable();
-        var rowData = tiketBo.row($(this).closest('tr')).data();
-        console.log(rowData.status);
+        // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
+        var row = $(this).closest('tr');
+
+        if (row.hasClass('child')) {
+            // If inside a "child row", find the parent row containing the actual data
+            row = row.prev();
+        }
+
+        // Now get the row data from the DataTable instance
+        var rowData = tiketBo.row(row).data();
 
         $('#content').load('/bo/tiketdetail', function(response, status, xhr) {
             if (status == "error") {
@@ -124,11 +136,27 @@
                     }
                 }
             });
+
+            var baseUrl = "<?= base_url() ?>";
+
+            if ($('#tiketVerifikasi').length) {
+                $('#verifyBtn').attr('data-tiket', JSON.stringify(rowData));
+                $('#nama_cabang').text(rowData.nama_cabang);
+                $('#deskripsi').text(rowData.deskripsi);
+                $('#aktivis_yg_salah').text(rowData.aktivis_yg_salah);
+                $('#jabatan_aktivis_yg_salah').text(rowData.jabatan_aktivis_yg_salah);
+                $('#file_document').attr('href', baseUrl + 'images/' + rowData.file_document);
+                $('#file_image').attr('src', baseUrl + 'images/' + rowData.file_image);
+                $('#tiket_detail').html(`
+                    <b>Nomor TIket: </b>${rowData.no_tiket}<br>
+                    <br>
+                    <b>Kategori: </b>${rowData.tiket_kategori}<br>
+                    <b>Tgl Tiket: </b> ${rowData.tgl_input}<br>
+                    <b>Status: </b> ${rowData.status}
+                `);
+            }
         });
     });
-    // tiketBo = new DataTable('#tabelDataTiketBo', {
-
-    // });
 
     $('button[type="reset"]').click(function() {
         // Reset Select2 elements
@@ -161,6 +189,8 @@
                 // Files uploaded successfully, now send the JSON data with file paths
                 var filePaths = response.filePaths;
 
+                var tiketId = $('input[name="tiket_id"]').val();
+
                 var now = new Date();
                 var formattedDate = now.getFullYear() + '-' +
                     ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
@@ -171,7 +201,7 @@
 
                 var jsonData = {
                     table: 'tiket',
-                    id: '',
+                    id: tiketId,
                     data: [{
                         aktivis_id: $('input[name="aktivis_id"]').val(),
                         cabang_id: $('input[name="cabang_id"]').val(),
@@ -194,13 +224,18 @@
                     contentType: "application/json",
                     dataType: "JSON",
                 }).then(function(response) {
-                    console.log(response);
+
                     if (response.id !== 0) {
+                        if (tiketId !== '') {
+                            tiket_id = tiketId;
+                        } else {
+                            tiket_id = response.id;
+                        }
                         var komentData = {
                             table: 'komentar',
                             id: '',
                             data: [{
-                                tiket_id: response.id,
+                                tiket_id: tiket_id,
                                 aktivis_id: $('input[name="aktivis_id"]').val(),
                                 komen: 'Tiket di Submit',
                                 status: 'Submited',
@@ -276,6 +311,41 @@
         });
     });
 
+    $(document).on('click', '#tabelDataTiketBo tbody .edit-btn', function() {
+
+        var tiketMasuk = $('#tabelDataTiketBo').DataTable();
+        // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
+        var row = $(this).closest('tr');
+
+        if (row.hasClass('child')) {
+            // If inside a "child row", find the parent row containing the actual data
+            row = row.prev();
+        }
+
+        // Now get the row data from the DataTable instance
+        var rowData = tiketMasuk.row(row).data();
+        // console.log(rowData);
+
+        $('#content').load('/bo/tiketedit', function(response, status, xhr) {
+            if (status == "error") {
+                var msg = "Sorry but there was an error: ";
+                $("#content").html(msg + xhr.status + " " + xhr.statusText);
+            }
+            var baseUrl = "<?= base_url() ?>";
+
+            if ($('#forminputtiket').length) {
+                console.log(rowData);
+                getAktivis(rowData.cabang_id);
+                $('input[name="tiket_id"]').val(rowData.tiket_id);
+                $('input[name="aktivis_id"]').val(rowData.aktivis_id);
+                $('input[name="jabatan_id"]').val(rowData.jabatan_id);
+                $('input[name="cabang_id"]').val(rowData.cabang_id);
+                $('select[name="tiketkategori_id"').val(rowData.tiket_kategori);
+                $('textarea[name="deskripsi"]').val(rowData.deskripsi);
+            }
+        });
+    });
+
     function getStatusIcon(status) {
         let iconHtml = ''; // Default icon HTML
 
@@ -311,7 +381,8 @@
 
     // script datatables
     $(function() {
-        $('.select2').select2()
+        $('.select2').select2();
+
         // Tables
         $("#tabelDataTiketBo").DataTable({
             "responsive": true,
@@ -352,33 +423,63 @@
                     title: 'Status',
                     render: function(data, type, row) {
                         let badgeClass = 'badge-secondary'; // Default badge class
+                        let icon = ''; // Default icon
 
-                        // Determine the appropriate badge class based on the status
-                        if (data === 'Confirmed') {
-                            icon = '<i class="bi bi-check-circle h6"></i>';
-                            badgeClass = 'badge-primary';
-                        } else if (data === 'In Progress') {
-                            icon = '<i class="bi bi-hourglass-split h6"></i>';
-                            badgeClass = 'badge-warning';
-                        } else if (data === 'Solved') {
-                            icon = '<i class="bi bi-check-all h6"></i>';
-                            badgeClass = 'badge-success';
-                        } else if (data === 'Closed') {
-                            icon = '<i class="bi bi-clipboard2-check-fill h6"></i>';
-                            badgeClass = 'badge-danger';
+                        // Determine the appropriate badge class and icon based on the status
+                        switch (data) {
+                            case 'Open':
+                                badgeClass = 'badge-secondary';
+                                icon = '<i class="bi bi-folder2-open h6"></i>';
+                                break;
+                            case 'Submitted':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-file-earmark-text h6"></i>';
+                                break;
+                            case 'Rejected':
+                                badgeClass = 'badge-danger';
+                                icon = '<i class="bi bi-x-circle h6"></i>';
+                                break;
+                            case 'Reviewed':
+                                badgeClass = 'badge-warning';
+                                icon = '<i class="bi bi-eye h6"></i>';
+                                break;
+                            case 'Confirmed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-check-circle h6"></i>';
+                                break;
+                            case 'In Progress':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-hourglass-split h6"></i>';
+                                break;
+                            case 'Solved':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-check-all h6"></i>';
+                                break;
+                            case 'Closed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-clipboard2-check-fill h6"></i>';
+                                break;
+                            default:
+                                badgeClass = 'badge-secondary';
+                                icon = ''; // No icon for default
+                                break;
                         }
 
-                        // Return the HTML for the badge with the correct class
+                        // Return the HTML for the badge with the correct class and icon
                         return `<span class="badge ${badgeClass}">${icon} ${data}</span>`;
                     }
                 },
                 {
                     // Column for the button
-                    data: null,
+                    data: 'status',
                     render: function(data, type, row) {
                         // Return the HTML for the button
-                        return '<button class="btn btn-sm btn-warning edit-btn"><i class="bi bi-clipboard2-check-fill"></i></button> ' +
-                            '<button class="btn btn-sm btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        if (data === 'Reject') {
+                            return '<button class="btn btn-xs btn-warning edit-btn"><i class="bi bi-pencil-fill"></i></button> ' +
+                                '<button class="btn btn-xs btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        } else {
+                            return '<button class="btn btn-xs btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        }
                     }
                 }
             ]

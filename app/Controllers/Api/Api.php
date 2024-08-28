@@ -89,7 +89,19 @@ class Api extends BaseController
             $session->set('role', 'isAdmin');
             return redirect()->to('admin/dashboard');
         } elseif ($userData['namagroup_id'] > 1 && $userData['namagroup_id'] < 6) {
-            $session->set('role', 'isPIC');
+            if ($userData['namagroup_id'] == 2) {
+                $session->set('role', 'isPIC');
+                $session->set('PIC', 'Software');
+            } else if ($userData['namagroup_id'] == 3) {
+                $session->set('role', 'isPIC');
+                $session->set('PIC', 'Hardware');
+            } else if ($userData['namagroup_id'] == 4) {
+                $session->set('role', 'isPIC');
+                $session->set('PIC', 'Network');
+            } else {
+                $session->set('role', 'isPIC');
+                $session->set('PIC', 'LKD');
+            }
             return redirect()->to('pic/dashboard');
         } elseif ($userData['namagroup_id'] == 6) {
             $session->set('role', 'isVal');
@@ -221,39 +233,36 @@ class Api extends BaseController
                     'file_document' => 'required',
                     'file_image' => 'required'
                 ]);
+                // Get the count of existing records in the tiket table
+                $count = new ApiModel();
+                $countTiket = $count->countAll(); // Implement this method in your model
+                // var_dump($countTiket);
+                // die;
 
-                if ($id === null) {
-                    // Get the count of existing records in the tiket table
-                    $count = new ApiModel();
-                    $countTiket = $count->countAll(); // Implement this method in your model
-                    // var_dump($countTiket);
-                    // die;
+                // Check if tiket_kategori is 'Software'
+                if ($data['tiket_kategori'] === 'Software') {
 
-                    // Check if tiket_kategori is 'Software'
-                    if ($data['tiket_kategori'] === 'Software') {
-
-                        // Format the $noTiket
-                        $noTiket = 'SOF-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                    } elseif ($data['tiket_kategori'] === 'Hardware') {
-                        // Format the $noTiket
-                        $noTiket = 'HAR-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                    } elseif ($data['tiket_kategori'] === 'Network') {
-                        // Format the $noTiket
-                        $noTiket = 'NET-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                    } elseif ($data['tiket_kategori'] === 'LKD') {
-                        // Format the $noTiket
-                        $noTiket = 'LKD-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                    } else {
-                        // Format the $noTiket
-                        $noTiket = 'POL-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                    }
-
-                    // Add $noTiket to $data[0]
-                    $data['noTiket'] = $noTiket;
-
-                    // var_dump($data);
-                    // die;
+                    // Format the $noTiket
+                    $noTiket = 'SOF-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                } elseif ($data['tiket_kategori'] === 'Hardware') {
+                    // Format the $noTiket
+                    $noTiket = 'HAR-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                } elseif ($data['tiket_kategori'] === 'Network') {
+                    // Format the $noTiket
+                    $noTiket = 'NET-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                } elseif ($data['tiket_kategori'] === 'LKD') {
+                    // Format the $noTiket
+                    $noTiket = 'LKD-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                } else {
+                    // Format the $noTiket
+                    $noTiket = 'POL-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
                 }
+
+                // Add $noTiket to $data[0]
+                $data['noTiket'] = $noTiket;
+
+                // var_dump($data);
+                // die;
                 break;
             default:
                 return $this->failServerError('Salah inputan table!');

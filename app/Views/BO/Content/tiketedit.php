@@ -1,7 +1,3 @@
-<?= $this->extend('BO/Content/master') ?>
-<?= $this->section('content') ?>
-<!-- Content Header (Page header) -->
-
 <!-- Content Header (Page header) -->
 <div class="content-header">
     <div class="container-fluid">
@@ -35,9 +31,9 @@
                     <!-- form start -->
                     <form id="forminputtiket" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="tiket_id" />
-                        <input type="hidden" name="aktivis_id" value="<?php echo $aktivis_id; ?>" />
-                        <input type="hidden" name="jabatan_id" value="<?php echo $jabatan_id; ?>" />
-                        <input type="hidden" name="cabang_id" value="<?php echo $cabang_id; ?>" />
+                        <input type="hidden" name="aktivis_id" />
+                        <input type="hidden" name="jabatan_id" />
+                        <input type="hidden" name="cabang_id" />
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="stafterkait">Kategori Tiket</label>
@@ -76,7 +72,7 @@
                             <hr>
                             <div class="form-group">
                                 <label for="stafterkait">Staf Yang Melakukan Kesalahan</label>
-                                <select type="select" class="form-control select2" data-kantor="<?php echo $cabang_id; ?>" name="inputAktivis">
+                                <select type="select" class="form-control select2" name="inputAktivis">
 
                                 </select>
                             </div>
@@ -97,5 +93,3 @@
     </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
-
-<?= $this->endSection() ?>

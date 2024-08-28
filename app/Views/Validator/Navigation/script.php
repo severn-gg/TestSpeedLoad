@@ -55,6 +55,9 @@
 
             if ($('#tiketVerifikasi').length) {
                 $('#verifyBtn').attr('data-tiket', JSON.stringify(rowData));
+                $('#verifyBtn').html(
+                    `<i class="bi bi-check-circle-fill"></i> Verifikasi`
+                );
                 $('#nama_cabang').text(rowData.nama_cabang);
                 $('#deskripsi').text(rowData.deskripsi);
                 $('#aktivis_yg_salah').text(rowData.aktivis_yg_salah);
@@ -113,6 +116,10 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" value="Reject">
                         <label class="form-check-label" for="inlineRadio1">Rejected</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="status" value="Reviewed">
+                        <label class="form-check-label" for="inlineRadio1">Reviewed</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="status" value="Confirmed">
@@ -330,6 +337,7 @@
 
     // script datatables
     $(function() {
+
         $("#tabelDataTiketMasuk").DataTable({
             "responsive": true,
             "lengthChange": false,
@@ -351,7 +359,7 @@
                     } else {
                         // Filter data array to include only entries with status 'Open'
                         const filteredData = response.data.filter(function(item) {
-                            return item['status'] === 'Open' || item['status'] === 'Reject';
+                            return item['status'] === 'Open' || item['status'] === 'Reject' || item['status'] === 'Reviewed';
                         });
 
                         console.log(filteredData);
@@ -381,7 +389,54 @@
                 },
                 {
                     data: 'status',
-                    title: 'Verif'
+                    title: 'Verif',
+                    render: function(data, type, row) {
+                        let badgeClass = 'badge-secondary'; // Default badge class
+                        let icon = ''; // Default icon
+
+                        // Determine the appropriate badge class and icon based on the status
+                        switch (data) {
+                            case 'Open':
+                                badgeClass = 'badge-secondary';
+                                icon = '<i class="bi bi-folder2-open h6"></i>';
+                                break;
+                            case 'Submitted':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-file-earmark-text h6"></i>';
+                                break;
+                            case 'Rejected':
+                                badgeClass = 'badge-danger';
+                                icon = '<i class="bi bi-x-circle h6"></i>';
+                                break;
+                            case 'Reviewed':
+                                badgeClass = 'badge-warning';
+                                icon = '<i class="bi bi-eye h6"></i>';
+                                break;
+                            case 'Confirmed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-check-circle h6"></i>';
+                                break;
+                            case 'In Progress':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-hourglass-split h6"></i>';
+                                break;
+                            case 'Solved':
+                                badgeClass = 'badge-primary';
+                                icon = '<i class="bi bi-check-all h6"></i>';
+                                break;
+                            case 'Closed':
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-clipboard2-check-fill h6"></i>';
+                                break;
+                            default:
+                                badgeClass = 'badge-secondary';
+                                icon = ''; // No icon for default
+                                break;
+                        }
+
+                        // Return the HTML for the badge with the correct class and icon
+                        return `<span class="badge ${badgeClass}">${icon} ${data}</span>`;
+                    }
                 },
                 {
                     data: null,
