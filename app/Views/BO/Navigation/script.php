@@ -52,6 +52,7 @@
                 let select = $('select[name="inputAktivis"]');
                 select.empty();
                 select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
+                select.append('<option value="1">-- SISTEM --</option>'); // Add empty
                 $.each(data, function(index, value) {
                     select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
                 });
@@ -158,6 +159,17 @@
         });
     });
 
+    $(document).on('change', 'select[name="inputAktivis"]', function() {
+
+        if ($(this).val() === "1") {
+            $('input[name="docFile"]').attr('disabled', true);
+            $('input[name="imgFile"]').attr('disabled', true);
+        } else {
+            $('input[name="docFile"]').attr('disabled', false);
+            $('input[name="imgFile"]').attr('disabled', false);
+        }
+    });
+
     $('button[type="reset"]').click(function() {
         // Reset Select2 elements
         $('.select2').val(null).trigger('change');
@@ -171,145 +183,159 @@
     $(document).on('submit', '#forminputtiket', function(e) {
         e.preventDefault();
 
-        var formData = new FormData();
-        formData.append('file_document', $('input[name="docFile"]')[0].files[0]);
-        formData.append('file_image', $('input[name="imgFile"]')[0].files[0]);
+        // Check if both files are empty
+        var docFile = $('input[name="docFile"]')[0].files[0];
+        var imgFile = $('input[name="imgFile"]')[0].files[0];
 
-        // First AJAX request to upload files
-        $.ajax({
-            type: "POST",
-            url: "../api/upload", // Your API endpoint to handle file uploads
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "JSON",
-        }).done(function(response) {
+        // If both files are empty, skip the upload request
+        if (!docFile && !imgFile) {
+            submitTicket(); // Directly submit the ticket without uploading files
+        } else {
+            // Proceed with file upload if at least one file is present
+            var formData = new FormData();
+            if (docFile) {
+                formData.append('file_document', docFile);
+            }
+            if (imgFile) {
+                formData.append('file_image', imgFile);
+            }
 
-            if (response.status === true) {
-                // Files uploaded successfully, now send the JSON data with file paths
-                var filePaths = response.filePaths;
+            // First AJAX request to upload files
+            $.ajax({
+                type: "POST",
+                url: "../api/upload", // Your API endpoint to handle file uploads
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "JSON",
+            }).done(function(response) {
+                if (response.status === true) {
+                    // Files uploaded successfully, now send the JSON data with file paths
+                    var filePaths = response.filePaths;
+                    submitTicket(filePaths); // Pass file paths to the next function
+                } else {
+                    alert(response.message || 'An error occurred during file upload.');
+                }
+            }).fail(function(xhr) {
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
 
-                var tiketId = $('input[name="tiket_id"]').val();
-
-                var now = new Date();
-                var formattedDate = now.getFullYear() + '-' +
-                    ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
-                    ('0' + now.getDate()).slice(-2) + ' ' +
-                    ('0' + now.getHours()).slice(-2) + ':' +
-                    ('0' + now.getMinutes()).slice(-2) + ':' +
-                    ('0' + now.getSeconds()).slice(-2);
-
-                var jsonData = {
-                    table: 'tiket',
-                    id: tiketId,
-                    data: [{
-                        aktivis_id: $('input[name="aktivis_id"]').val(),
-                        cabang_id: $('input[name="cabang_id"]').val(),
-                        jabatan_id: $('input[name="jabatan_id"]').val(),
-                        tiket_kategori: $('select[name="tiketkategori_id"]').val(),
-                        deskripsi: $('textarea[name="deskripsi"]').val(),
-                        aktivis_yg_salah: $('select[name="inputAktivis"]').val(),
-                        file_document: filePaths.file_document, // Path returned from the server
-                        file_image: filePaths.file_image, // Path returned from the server
-                        status: 'Open',
-                        tgl_input: formattedDate,
-                    }]
-                };
-
-                // Second AJAX request to insert the ticket
-                $.ajax({
-                    type: "POST",
-                    url: "../api/insert",
-                    data: JSON.stringify(jsonData),
-                    contentType: "application/json",
-                    dataType: "JSON",
-                }).then(function(response) {
-
-                    if (response.id !== 0) {
-                        if (tiketId !== '') {
-                            tiket_id = tiketId;
-                        } else {
-                            tiket_id = response.id;
-                        }
-                        var komentData = {
-                            table: 'komentar',
-                            id: '',
-                            data: [{
-                                tiket_id: tiket_id,
-                                aktivis_id: $('input[name="aktivis_id"]').val(),
-                                komen: 'Tiket di Submit',
-                                status: 'Submited',
-                                tgl_komen: formattedDate,
-                            }]
-                        };
-
-                        return $.when(
-                            $.ajax({
-                                type: "POST",
-                                url: "../api/insert",
-                                data: JSON.stringify(komentData),
-                                contentType: "application/json",
-                                dataType: "JSON"
-                            })
-                        )
-                    } else {
-                        return $.Deferred().reject({
-                            message: 'Failed to insert ticket.'
-                        });
-                    }
-
-                }).done(function(response) {
-                    console.log(response);
-                    Swal.fire({
-                        title: "Success",
-                        text: response.message || 'Operation successful!',
-                        icon: "success",
-                        timer: 2000,
-                    });
-
-                    // Clear the form inputs
-                    $('#forminputtiket')[0].reset();
-                    $('.select2').val(null).trigger('change');
-                }).fail(function(xhr, status, error) {
-                    console.error('Error:', error);
-
-                    let errorMessage = 'An error occurred';
-                    if (xhr.responseJSON && xhr.responseJSON.messages) {
-                        errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
-                    }
-
-                    Swal.fire({
-                        title: "Error",
-                        text: errorMessage,
-                        icon: "error",
-                        timer: 5000,
-                    });
-                    // Clear the form inputs
-                    $('#forminputtiket')[0].reset();
-                    $('.select2').val(null).trigger('change');
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 5000,
                 });
-            } else {
-                alert(response.message || 'An error occurred during file upload.');
-            }
 
-        }).fail(function(xhr) {
-            let errorMessage = 'An error occurred';
-            if (xhr.responseJSON && xhr.responseJSON.messages) {
-                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
-            }
-
-            Swal.fire({
-                title: "Error",
-                text: errorMessage,
-                icon: "error",
-                timer: 5000,
+                // Clear the form inputs
+                $('#forminputtiket')[0].reset();
+                $('.select2').val(null).trigger('change');
             });
+        }
 
-            // Clear the form inputs
-            $('#forminputtiket')[0].reset();
-            $('.select2').val(null).trigger('change');
-        });
+        // Function to submit the ticket
+        function submitTicket(filePaths = {}) {
+            var tiketId = $('input[name="tiket_id"]').val();
+
+            var now = new Date();
+            var formattedDate = now.getFullYear() + '-' +
+                ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
+                ('0' + now.getDate()).slice(-2) + ' ' +
+                ('0' + now.getHours()).slice(-2) + ':' +
+                ('0' + now.getMinutes()).slice(-2) + ':' +
+                ('0' + now.getSeconds()).slice(-2);
+
+            var jsonData = {
+                table: 'tiket',
+                id: tiketId,
+                data: [{
+                    aktivis_id: $('input[name="aktivis_id"]').val(),
+                    cabang_id: $('input[name="cabang_id"]').val(),
+                    jabatan_id: $('input[name="jabatan_id"]').val(),
+                    tiket_kategori: $('select[name="tiketkategori_id"]').val(),
+                    deskripsi: $('textarea[name="deskripsi"]').val(),
+                    aktivis_yg_salah: $('select[name="inputAktivis"]').val(),
+                    file_document: filePaths.file_document || '', // Use empty string if not available
+                    file_image: filePaths.file_image || '', // Use empty string if not available
+                    status: 'Open',
+                    tgl_input: formattedDate,
+                }]
+            };
+
+            // Second AJAX request to insert the ticket
+            $.ajax({
+                type: "POST",
+                url: "../api/insert",
+                data: JSON.stringify(jsonData),
+                contentType: "application/json",
+                dataType: "JSON",
+            }).then(function(response) {
+
+                console.log(response);
+                if (response.id !== 0) {
+                    var tiket_id = tiketId !== '' ? tiketId : response.id;
+                    var komentData = {
+                        table: 'komentar',
+                        id: '',
+                        data: [{
+                            tiket_id: tiket_id,
+                            aktivis_id: $('input[name="aktivis_id"]').val(),
+                            komen: 'Tiket di Submit',
+                            status: 'Submited',
+                            tgl_komen: formattedDate,
+                        }]
+                    };
+
+                    return $.when(
+                        $.ajax({
+                            type: "POST",
+                            url: "../api/insert",
+                            data: JSON.stringify(komentData),
+                            contentType: "application/json",
+                            dataType: "JSON"
+                        })
+                    )
+                } else {
+                    return $.Deferred().reject({
+                        message: 'Failed to insert ticket.'
+                    });
+                }
+            }).done(function(response) {
+                console.log(response);
+                Swal.fire({
+                    title: "Success",
+                    text: response.message || 'Operation successful!',
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                // Clear the form inputs
+                $('#forminputtiket')[0].reset();
+                $('.select2').val(null).trigger('change');
+            }).fail(function(xhr, status, error) {
+                console.error('Error:', error);
+
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
+
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 5000,
+                });
+
+                // Clear the form inputs
+                $('#forminputtiket')[0].reset();
+                $('.select2').val(null).trigger('change');
+            });
+        }
     });
+
 
     $(document).on('click', '#tabelDataTiketBo tbody .edit-btn', function() {
 
@@ -324,7 +350,7 @@
 
         // Now get the row data from the DataTable instance
         var rowData = tiketMasuk.row(row).data();
-        // console.log(rowData);
+        console.log(rowData);
 
         $('#content').load('/bo/tiketedit', function(response, status, xhr) {
             if (status == "error") {

@@ -110,6 +110,12 @@
                 </div>                
               
         `);
+
+        $('.modal-footer').html(`
+            <a class="btn btn-dark" data-bs-dismiss="modal">Close</a>
+            <a class="btn btn-danger" data-bs-dismiss="modal">Reject</a>
+            <a class="btn btn-primary" id="btn_modal">Save</a>
+        `);
     });
 
     $(document).on('click', '#btn_modal', function() {
@@ -398,7 +404,7 @@
                         // Filter data array to include only entries with status 'Open'
 
                         const filteredData = response.data.filter(function(item) {
-                            return item['status'] !== 'Open' && item['status'] !== 'Submited' && item['tiket_kategori'] === "<?php echo $PIC; ?>";
+                            return item['status'] !== 'Open' && item['status'] !== 'Submited' && item['tiket_kategori'] === "<?php echo $PIC; ?>" || item['tiket_kategori'] === "SISTEM";
                         });
                         return filteredData;
                     }

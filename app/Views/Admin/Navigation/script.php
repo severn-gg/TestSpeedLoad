@@ -885,6 +885,15 @@
                         id: ''
                     });
                 },
+                dataSrc: function(response) {
+                    if (response.data === null) {
+                        // No data available, return empty array
+                        return [];
+                    } else {
+                        return response.data;
+                    }
+                    // return response.data;
+                },
             },
             columns: [{
                     data: 'aktivis_id',

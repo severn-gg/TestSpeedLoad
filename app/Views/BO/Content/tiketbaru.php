@@ -48,11 +48,19 @@
                                     <option value="Hardware">Hardware</option>
                                     <option value="LKD">LKD</option>
                                     <option value="POLJAK">POLJAK</option>
+                                    <option value="SISTEM">SISTEM</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="deskripsi">Deskripsi Persoalan</label>
                                 <textarea class="form-control" rows="5" name="deskripsi"></textarea>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <label for="stafterkait">Staf Yang Melakukan Kesalahan</label>
+                                <select type="select" class="form-control select2" data-kantor="<?php echo $cabang_id; ?>" name="inputAktivis">
+
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="imgFile">Lampiran File</label>
@@ -73,13 +81,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="stafterkait">Staf Yang Melakukan Kesalahan</label>
-                                <select type="select" class="form-control select2" data-kantor="<?php echo $cabang_id; ?>" name="inputAktivis">
 
-                                </select>
-                            </div>
                         </div>
                         <!-- /.card-body -->
 

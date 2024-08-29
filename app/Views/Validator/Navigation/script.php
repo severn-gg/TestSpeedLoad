@@ -296,6 +296,25 @@
                             <div class="tracking-content"> ...... <span> ....... </span></div>
                         </div>
                     `);
+
+                    var baseUrl = "<?= base_url() ?>";
+
+                    if ($('#tiketVerifikasi').length) {
+                        $('#verifyBtn').attr('data-tiket', JSON.stringify(rowData));
+                        $('#nama_cabang').text(rowData.nama_cabang);
+                        $('#deskripsi').text(rowData.deskripsi);
+                        $('#aktivis_yg_salah').text(rowData.aktivis_yg_salah);
+                        $('#jabatan_aktivis_yg_salah').text(rowData.jabatan_aktivis_yg_salah);
+                        $('#file_document').attr('href', baseUrl + 'images/' + rowData.file_document);
+                        $('#file_image').attr('src', baseUrl + 'images/' + rowData.file_image);
+                        $('#tiket_detail').html(`
+                    <b>Nomor TIket: </b>${rowData.no_tiket}<br>
+                    <br>
+                    <b>Kategori: </b>${rowData.tiket_kategori}<br>
+                    <b>Tgl Tiket: </b> ${rowData.tgl_input}<br>
+                    <b>Status: </b> ${rowData.status}
+                `);
+                    }
                 }
             });
         });

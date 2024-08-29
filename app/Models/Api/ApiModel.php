@@ -81,7 +81,10 @@ class ApiModel extends Model
                 return ['success' => true];
             }
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
-            return $e->getMessage(); // Return the error message
+            $db = \Config\Database::connect(); // Get the database connection instance
+            $lastQuery = $db->getLastQuery(); // Get the last executed query
+
+            return "Error: " . $e->getMessage() . " | Last Query: " . $lastQuery;
         }
     }
 

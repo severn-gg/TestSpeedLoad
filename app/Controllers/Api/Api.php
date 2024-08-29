@@ -85,17 +85,17 @@ class Api extends BaseController
         ];
         $session->set($sessionData);
 
-        if ($userData['namagroup_id'] == 1) {
+        if ($userData['namagroup_id'] == 1 || $userData['namagroup_id'] == 2) {
             $session->set('role', 'isAdmin');
             return redirect()->to('admin/dashboard');
-        } elseif ($userData['namagroup_id'] > 1 && $userData['namagroup_id'] < 6) {
-            if ($userData['namagroup_id'] == 2) {
+        } elseif ($userData['namagroup_id'] > 2 && $userData['namagroup_id'] < 6) {
+            if ($userData['namagroup_id'] == 3) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Software');
-            } else if ($userData['namagroup_id'] == 3) {
+            } else if ($userData['namagroup_id'] == 4) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Hardware');
-            } else if ($userData['namagroup_id'] == 4) {
+            } else if ($userData['namagroup_id'] == 5) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Network');
             } else {
@@ -103,7 +103,7 @@ class Api extends BaseController
                 $session->set('PIC', 'LKD');
             }
             return redirect()->to('pic/dashboard');
-        } elseif ($userData['namagroup_id'] == 6) {
+        } elseif ($userData['namagroup_id'] == 7) {
             $session->set('role', 'isVal');
             return redirect()->to('validator/dashboard');
         } else {
@@ -229,9 +229,9 @@ class Api extends BaseController
                     'jabatan_id' => 'required',
                     'tiket_kategori' => 'required',
                     'deskripsi' => 'required',
-                    'aktivis_yg_salah' => 'required',
-                    'file_document' => 'required',
-                    'file_image' => 'required'
+                    // 'aktivis_yg_salah' => 'required',
+                    // 'file_document' => 'required',
+                    // 'file_image' => 'required'
                 ]);
                 // Get the count of existing records in the tiket table
                 $count = new ApiModel();
@@ -253,9 +253,11 @@ class Api extends BaseController
                 } elseif ($data['tiket_kategori'] === 'LKD') {
                     // Format the $noTiket
                     $noTiket = 'LKD-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                } else {
+                } elseif ($data['tiket_kategori'] === 'POLJAK') {
                     // Format the $noTiket
                     $noTiket = 'POL-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
+                } else {
+                    $noTiket = 'SIS-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0
                 }
 
                 // Add $noTiket to $data[0]
