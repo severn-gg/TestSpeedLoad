@@ -305,14 +305,13 @@
                             <!-- /.col -->
                             <div class="col-12">
                                 <p class="lead">File</p>
-                                <a id="file_document" class="btn btn-info" target="_blank" href="">
-                                    <i class="fas fa-download"> Download File Dokumen *if exist</i>
+                                <a id="file_document" class="btn btn-sm btn-info" target="_blank" href="">
+
                                 </a>
                             </div>
-                            <!-- accepted payments column -->
                             <div class="col-12">
                                 <p class="lead">Image</p>
-                                <img id="file_image" class="img-fluid" src="" alt="Photo">
+                                <img id="file_image" class="img-fluid" src="" target="_blank" href="" alt="Photo">
                                 <p></p>
                             </div>
                         </div>

@@ -19,7 +19,7 @@
         checkFormExist();
     });
 
-    function checkFormExist(params) {
+    function checkFormExist(callback) {
         let formId = '';
 
         if ($('#forminputkantor').length) {
@@ -38,36 +38,36 @@
 
         switch (formId) {
             case 'forminputkantor':
-                fetchData('area', 'inputArea', '-- Pilih Area --');
+                fetchData('area', 'inputArea', '-- Pilih Area --', callback);
                 break;
 
             case 'forminputaktivis':
-                fetchData('jabatan', 'inputJabatan', '-- Pilih Jabatan --');
-                fetchData('cabang', 'inputKantor', '-- Pilih Kantor --');
+                fetchData('jabatan', 'inputJabatan', '-- Pilih Jabatan --', callback);
+                fetchData('cabang', 'inputKantor', '-- Pilih Kantor --', callback);
                 break;
 
             case 'formmutasiaktivis':
-                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --');
-                fetchData('cabang', 'inputKantor', '-- Pilih Kantor --');
+                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --', callback);
+                fetchData('cabang', 'inputKantor', '-- Pilih Kantor --', callback);
                 break;
 
             case 'formmutasijabatanaktivis':
-                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --');
-                fetchData('jabatan', 'inputJabatan', '-- Pilih Jabatan --');
+                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --', callback);
+                fetchData('jabatan', 'inputJabatan', '-- Pilih Jabatan --', callback);
                 break;
 
             case 'formuserloginaktivis':
-                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --');
-                fetchData('role', 'inputRole', '-- Pilih Role --');
+                fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --', callback);
+                fetchData('role', 'inputRole', '-- Pilih Role --', callback);
                 break;
 
             case 'forminputpic':
-                fetchData('user_aktivis', 'inputAktivis', '-- Pilih User --');
-                fetchData('area', 'inputArea', '-- Pilih Area --');
+                fetchData('user_aktivis', 'inputAktivis', '-- Pilih User --', callback);
+                fetchData('area', 'inputArea', '-- Pilih Area --', callback);
                 break;
         }
 
-        function fetchData(tableName, selectName, placeholder) {
+        function fetchData(tableName, selectName, placeholder, callback) {
             $.ajax({
                 type: "POST",
                 url: "../api/get",
@@ -82,17 +82,22 @@
                     select.append(`<option value="">${placeholder}</option>`); // Add empty option
                     if (tableName === 'user_aktivis') {
                         $.each(data, function(index, value) {
-                            select.append(`<option value="${value[`user_id`]}">${value[`username`]} </option>`);
+                            select.append(`<option value="${value['user_id']}">${value['username']}</option>`);
                         });
                     } else {
                         $.each(data, function(index, value) {
-                            select.append(`<option value="${value[`${tableName}_id`]}">${value[`nama_${tableName}`]} </option>`);
+                            select.append(`<option value="${value[`${tableName}_id`]}">${value[`nama_${tableName}`]}</option>`);
                         });
+                    }
+                    // Call the callback if provided
+                    if (typeof callback === 'function') {
+                        callback();
                     }
                 }
             });
         }
     }
+
 
     $(document).on('change', 'select[name="inputAktivis"]', function() {
         var selectedOption = $(this).find('option:selected'); // Get the selected option element
@@ -249,6 +254,91 @@
         $('.modal-title').text('Edit Jabatan');
         $('#addModal').modal('show');
 
+    });
+
+    $(document).on('click', '#tabelDatapicArea tbody .btn-warning', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDatapicArea').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="forminputpic">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputAktivis">Pilih Aktivis</label>
+                        <select type="select" class="form-control select2" name="inputAktivis"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputArea">Pilih Area</label>
+                        <select type="select" class="form-control select2" name="inputArea">
+                            <option value="">Dll</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                </div>
+            </form>
+        `);
+
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit PIC Area');
+        $('#addModal').modal('show');
+
+        // Call checkFormExist and pass a callback
+        checkFormExist(function() {
+            // Initialize select2 after the options have been populated
+            $('.select2').select2();
+
+            // Set the value for the select field and trigger change event
+            $('select[name="inputAktivis"]').val(rowData.aktivis_id).trigger('change');
+            $('select[name="inputArea"]').val(rowData.area_id).trigger('change');
+        });
+    });
+
+    $(document).on('click', '#tabelDatapicArea tbody .btn-primary', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDatapicArea').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="forminputpic">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputAktivis">Pilih Aktivis</label>
+                        <select type="select" class="form-control select2" name="inputAktivis"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputArea">Pilih Area</label>
+                        <select type="select" class="form-control select2" name="inputArea">
+                            <option value="">Dll</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                </div>
+            </form>
+        `);
+
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit PIC Area');
+        $('#addModal').modal('show');
+
+        // Call checkFormExist and pass a callback
+        checkFormExist(function() {
+            // Initialize select2 after the options have been populated
+            $('.select2').select2();
+
+            // Set the value for the select field and trigger change event            
+            $('select[name="inputArea"]').val(rowData.area_id).trigger('change');
+        });
     });
 
     $(document).on('submit', '#formEditAktivis', function(e) {
@@ -685,6 +775,9 @@
             }),
             dataType: "JSON",
             success: function(response) {
+                $('#addModal').modal('hide');
+                $("#tabelDatapicArea").DataTable().ajax.reload();
+
                 Swal.fire({
                     title: "Success",
                     text: response.message,
@@ -785,22 +878,6 @@
                                 <div class="tracking-content"> ...... <span> ....... </span></div>
                             </div>
                         `);
-
-                        if (rowData.status === 'In Progress') {
-                            $('#confirmButton').html(`
-                                <a href="#" id="verifyBtn" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Konfirmasi Solved</a>
-                            `);
-
-                            // Use jQuery's data method to store the rowData object
-                            $('#verifyBtn').data('tiket', rowData);
-                        } else if (rowData.status === 'Confirmed') {
-                            $('#confirmButton').html(`
-                                <a href="#" id="verifyBtn" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary">Kerjakan</a>
-                            `);
-
-                            // Use jQuery's data method to store the rowData object
-                            $('#verifyBtn').data('tiket', rowData);
-                        }
                     }
                 });
                 var baseUrl = "<?= base_url() ?>";
@@ -1109,6 +1186,48 @@
                     title: 'Aksi',
                     defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
                 } // Action column for buttons, if needed
+            ]
+        });
+
+        $("#tabelDatapicArea").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'view_pic_detail',
+                        id: ''
+                    });
+                },
+            },
+            columns: [{
+                    data: 'area_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'nama_area',
+                    title: 'Nama Area'
+                }, // Column for the NIA
+                {
+                    data: 'nama_aktivis',
+                    title: 'PIC'
+                }, // Column for the NIA
+                {
+                    data: 'nama_aktivis',
+                    title: 'Aksi',
+                    render: function(data, type, row) {
+                        // Check the status and return a value for the Konfirmasi column
+                        if (data === null) {
+                            return '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>'; // Example value if status is not 'Closed'
+                        } else {
+                            return '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                        }
+                    }
+                }
             ]
         });
 

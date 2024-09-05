@@ -78,6 +78,15 @@ class Kontrol extends BaseController
         return view('Admin/Content/Tables/listarea', $data);
     }
 
+    public function viewpicarea()
+    {
+        $data = $this->prepareData('Tables', 'picArea');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listpicarea', $data);
+    }
+
     public function viewjabatan()
     {
         $data = $this->prepareData('Tables', 'Jabatan');

@@ -58,6 +58,29 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-header">Aditional</li>
+                <li class="nav-item <?= (isset($menu) && $menu === 'Pages') ? ' menu-is-opening menu-open' : '' ?>">
+                    <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Pages') ? ' active' : '' ?>">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Pages
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= base_url('bo/profile') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Profile') ? ' active' : '' ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Profile</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Documentation</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item bg-danger">
                     <a href="/logout" class="nav-link">
                         <i class="nav-icon fas fa-power-off"></i>

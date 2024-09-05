@@ -48,7 +48,6 @@
                                     <option value="Hardware">Hardware</option>
                                     <option value="LKD">LKD</option>
                                     <option value="POLJAK">POLJAK</option>
-                                    <option value="SISTEM">SISTEM</option>
                                 </select>
                             </div>
                             <div class="form-group">

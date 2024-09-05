@@ -54,33 +54,39 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'viewaktivis') ? ' active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p>List Aktivis</p>
-              </a>
-            </li>
-            <li class="nav-item">
               <a href="<?= base_url('admin/viewticket') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Tiket</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
+              <a href="<?= base_url('admin/viewaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'viewaktivis') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Kantor List</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?= base_url('admin/viewarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Area') ? ' active' : '' ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Area List</p>
+                <p>List Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="<?= base_url('admin/viewjabatan') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Jabatan') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Jabatan List</p>
+                <p>List Jabatan</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/viewkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List Kantor</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/viewpicarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'picArea') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List PIC Area</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= base_url('admin/viewarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Area') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List Area</p>
               </a>
             </li>
           </ul>

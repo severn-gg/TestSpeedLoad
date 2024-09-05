@@ -75,6 +75,10 @@ class Api extends BaseController
             'area_id'       => $userData['area_id'],
             'nama_area'       => $userData['nama_area'],
             'aktivis_id'       => $userData['aktivis_id'],
+            'nia'       => $userData['nia'],
+            'jk'       => $userData['jk'],
+            'no_hp'       => $userData['no_hp'],
+            'asal'       => $userData['asal'],
             'username'      => $userData['username'],
             'nama_pengguna' => $userData['nama_pengguna'],
             'namagroup_id'  => $userData['namagroup_id'],
@@ -82,6 +86,7 @@ class Api extends BaseController
             'cabang_id'     => $userData['cabang_id'],
             'jabatan_id'     => $userData['jabatan_id'],
             'kantor'        => $userData['kantor'],
+            'posisi'        => $userData['posisi'],
         ];
         $session->set($sessionData);
 
@@ -188,6 +193,13 @@ class Api extends BaseController
                     'komen' => 'required'
                 ]);
                 break;
+            case "tugastiket":
+                // Validasi data
+                $validation->setRules([
+                    'tiket_id' => 'required',
+                    'tugaskan_ke' => 'required',
+                ]);
+                break;
             case "user":
                 // Validasi data
                 $validation->setRules([
@@ -229,9 +241,9 @@ class Api extends BaseController
                     'jabatan_id' => 'required',
                     'tiket_kategori' => 'required',
                     'deskripsi' => 'required',
-                    // 'aktivis_yg_salah' => 'required',
-                    // 'file_document' => 'required',
-                    // 'file_image' => 'required'
+                    'aktivis_yg_salah' => 'required',
+                    'file_document' => 'required',
+                    'file_image' => 'required'
                 ]);
                 // Get the count of existing records in the tiket table
                 $count = new ApiModel();
@@ -253,11 +265,9 @@ class Api extends BaseController
                 } elseif ($data['tiket_kategori'] === 'LKD') {
                     // Format the $noTiket
                     $noTiket = 'LKD-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                } elseif ($data['tiket_kategori'] === 'POLJAK') {
+                } else {
                     // Format the $noTiket
                     $noTiket = 'POL-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0                    
-                } else {
-                    $noTiket = 'SIS-' . str_pad($countTiket + 1, 6, '0', STR_PAD_LEFT); // Assuming countTiket starts from 0
                 }
 
                 // Add $noTiket to $data[0]
@@ -379,16 +389,25 @@ class Api extends BaseController
     {
         $response = [
             'status' => false,
+            'message' => '',
             'filePaths' => [],
         ];
 
         try {
+            $documentUploaded = false;
+            $imageUploaded = false;
+
             // Handle file document upload
             $document = $this->request->getFile('file_document');
             if ($document && $document->isValid() && !$document->hasMoved()) {
                 $documentName = 'tiket_file_' . time() . '.' . $document->getClientExtension();
                 $document->move(ROOTPATH . 'public/files/', $documentName);
                 $response['filePaths']['file_document'] = $documentName;
+                $documentUploaded = true;
+            } else if (!$document) {
+                $response['message'] .= 'Document file not provided. ';
+            } else {
+                $response['message'] .= 'Document file upload failed. ';
             }
 
             // Handle file image upload
@@ -397,9 +416,26 @@ class Api extends BaseController
                 $imageName = 'tiket_img_' . time() . '.' . $image->getClientExtension();
                 $image->move(ROOTPATH . 'public/images/', $imageName);
                 $response['filePaths']['file_image'] = $imageName;
+                $imageUploaded = true;
+            } else if (!$image) {
+                $response['message'] .= 'Image file not provided. ';
+            } else {
+                $response['message'] .= 'Image file upload failed. ';
             }
 
-            $response['status'] = true;
+            // Set the status and message based on the upload results
+            if ($documentUploaded || $imageUploaded) {
+                $response['status'] = true;
+                if (!$documentUploaded) {
+                    $response['message'] .= 'Document file not uploaded. ';
+                }
+                if (!$imageUploaded) {
+                    $response['message'] .= 'Image file not uploaded. ';
+                }
+            } else {
+                $response['message'] .= 'No files were uploaded.';
+            }
+
             return $this->respond($response, 200);
         } catch (\Exception $e) {
             return $this->fail($e->getMessage(), 500);

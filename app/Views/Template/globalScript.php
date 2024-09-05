@@ -31,6 +31,11 @@
 <!-- <script src="<?= base_url('assets/dist/js/pages/dashboard.js') ?>"></script> -->
 <!-- AdminLTE App -->
 <script src="<?= base_url('assets/dist/js/adminlte.js') ?>"></script>
+
+<!-- causing menu responsive and menu dorpdwon not working -->
+<!-- <script src="<?= base_url('/assets/dist/js/adminlte.min.js'); ?>"></script> -->
+<!-- causing menu responsive and menu dorpdwon not working -->
+
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="<-?= base_url() ?>assets/dist/js/demo.js"></script> -->
 

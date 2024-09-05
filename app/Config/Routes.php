@@ -30,6 +30,7 @@ $routes->group('admin', static function ($routes) {
     $routes->get('viewaktivis', [KontrolAdmin::class, 'viewaktivis']);
     $routes->get('viewkantor', [KontrolAdmin::class, 'listkantor']);
     $routes->get('viewarea', [KontrolAdmin::class, 'viewarea']);
+    $routes->get('viewpicarea', [KontrolAdmin::class, 'viewpicarea']);
     $routes->get('viewjabatan', [KontrolAdmin::class, 'viewjabatan']);
     $routes->get('viewticket', [KontrolAdmin::class, 'viewticket']);
     $routes->get('ticketdetail', [KontrolAdmin::class, 'detailTiket']);
@@ -82,6 +83,7 @@ $routes->group('bo', static function ($routes) {
     $routes->get('tiketsaya', [KontrolBO::class, 'tiketsaya']);
     $routes->get('tiketbo', [KontrolBO::class, 'tiketbo']);
     $routes->get('tiketdetail', [KontrolBO::class, 'tiketdetail']);
+    $routes->get('profile', [KontrolBO::class, 'profile']);
     $routes->get('tiketprint', [KontrolBO::class, 'tiketprint']);
     $routes->get('tiketkonfirmasidetail', [KontrolBO::class, 'tiketkonfirmasidetail']);
     $routes->get('tiketkonfirmasiprint', [KontrolBO::class, 'tiketkonfirmasiprint']);

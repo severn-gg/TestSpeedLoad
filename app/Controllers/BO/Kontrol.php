@@ -8,15 +8,21 @@ use CodeIgniter\HTTP\ResponseInterface;
 class Kontrol extends BaseController
 {
 
-    protected function prepareData($menu)
+    protected function prepareData($menu, $submenu = null)
     {
         $session = session();
         if ($session->has('user_id')) {
             $data = [
                 'menu' => $menu,
+                'submenu' => $submenu,
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'nia' => $session->get('nia'),
+                'jk' => $session->get('jk'),
+                'no_hp' => $session->get('no_hp'),
+                'asal' => $session->get('asal'),
                 'jabatan_id' => $session->get('jabatan_id'),
+                'posisi' => $session->get('posisi'),
                 'cabang_id' => $session->get('cabang_id'),
                 'kantor' => $session->get('kantor'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
@@ -80,6 +86,16 @@ class Kontrol extends BaseController
         }
         return view('BO/Content/tiketdetail', $data);
     }
+    public function profile()
+    {
+        $data = $this->prepareData('Pages', 'Profile');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+
+        return view('BO/Content/profile', $data);
+    }
+
 
     public function tiketprint()
     {

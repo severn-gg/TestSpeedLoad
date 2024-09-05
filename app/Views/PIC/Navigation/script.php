@@ -111,24 +111,32 @@
               
         `);
 
+        if (data.status === 'In Progress') {
+            var text = 'Selesai';
+        } else {
+            var text = 'Kerjakan';
+        }
         $('.modal-footer').html(`
-            <a class="btn btn-dark" data-bs-dismiss="modal">Close</a>
-            <a class="btn btn-danger" data-bs-dismiss="modal">Reject</a>
-            <a class="btn btn-primary" id="btn_modal">Save</a>
+            <a class="btn btn-dark" data-bs-dismiss="modal">Tutup</a>
+            <a class="btn btn-danger" id="btn_tolak">Tolak</a>
+            <a class="btn btn-primary" id="btn_modal">${text}</a>
         `);
     });
 
-    $(document).on('click', '#btn_modal', function() {
-
+    $(document).on('click', '#btn_modal, #btn_tolak', function() {
         var data = $('#verifyBtn').data('tiket');
-        if (data.status !== 'In Progress') {
-            var status = 'In Progress';
-        } else {
-            var status = 'Solved';
+
+        // Determine status based on button clicked
+        var status;
+        if ($(this).attr('id') === 'btn_modal') {
+            status = (data.status !== 'In Progress') ? 'In Progress' : 'Solved';
+        } else if ($(this).attr('id') === 'btn_tolak') {
+            status = 'Reviewed';
         }
 
         var komen = $('textarea[name="komentar"]').val();
 
+        // Format the current date and time
         var now = new Date();
         var formattedDate = now.getFullYear() + '-' +
             ('0' + (now.getMonth() + 1)).slice(-2) + '-' +
@@ -137,6 +145,7 @@
             ('0' + now.getMinutes()).slice(-2) + ':' +
             ('0' + now.getSeconds()).slice(-2);
 
+        // Validate if status or comment is missing
         if (!status || !komen) {
             Swal.fire({
                 title: "O oh!",
@@ -148,17 +157,17 @@
             return;
         }
 
-        var dataKomentSend = {
-            table: 'komentar',
+        // Prepare data for the tugas table (used only if #btn_modal is clicked)
+        var dataTugas = {
+            table: 'tugastiket',
             data: [{
                 tiket_id: data.tiket_id,
-                aktivis_id: <?php echo $aktivis_id; ?>,
-                komen: komen,
-                status: status,
-                tgl_komen: formattedDate,
+                tugaskan_ke: <?php echo $aktivis_id; ?>,
+                tgl_penugasan: formattedDate
             }]
         };
 
+        // Prepare data for the tiket table
         var dataTiketSend = {
             table: 'tiket',
             id: data.tiket_id,
@@ -176,47 +185,77 @@
                 tgl_update: formattedDate,
                 status: status
             }]
+        };
+
+        // Prepare data for the komentar table
+        var dataKomentSend = {
+            table: 'komentar',
+            data: [{
+                tiket_id: data.tiket_id,
+                aktivis_id: <?php echo $aktivis_id; ?>,
+                komen: komen,
+                status: status,
+                tgl_komen: formattedDate,
+            }]
+        };
+
+        // First, check and send dataTugas if #btn_modal is clicked
+        if ($(this).attr('id') === 'btn_modal' && data.status === 'Confirmed') {
+            sendAjaxRequest(dataTugas)
+                .then(function(response) {
+                    console.log('First request (dataTugas) succeeded:', response);
+                    // Proceed with the next two requests sequentially
+                    return sendAjaxRequest(dataTiketSend);
+                })
+                .then(function(response) {
+                    console.log('Second request (dataTiketSend) succeeded:', response);
+                    return sendAjaxRequest(dataKomentSend);
+                })
+                .then(function(response) {
+                    console.log('Third request (dataKomentSend) succeeded:', response);
+
+                    Swal.fire({
+                        title: "Success",
+                        text: response.message,
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        $('#addModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(function(error) {
+                    handleError(error);
+                });
+        } else {
+            // If #btn_tolak is clicked, send only dataTiketSend and dataKomentSend
+            sendAjaxRequest(dataTiketSend)
+                .then(function(response) {
+                    console.log('First request (dataTiketSend) succeeded:', response);
+                    return sendAjaxRequest(dataKomentSend);
+                })
+                .then(function(response) {
+                    console.log('Second request (dataKomentSend) succeeded:', response);
+
+                    Swal.fire({
+                        title: "Success",
+                        text: response.message,
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        $('#addModal').modal('hide');
+                        window.location.reload();
+                    });
+                })
+                .catch(function(error) {
+                    handleError(error);
+                });
         }
-
-        // Send the first request
-        sendAjaxRequest(dataKomentSend).then(function(response) {
-            console.log('First request succeeded:', response);
-            // Send the second request after the first one succeeds
-            return sendAjaxRequest(dataTiketSend);
-        }).then(function(response) {
-            console.log('Second request succeeded:', response);
-
-            Swal.fire({
-                title: "Success",
-                text: response.message,
-                icon: "success",
-                timer: 2000,
-                showConfirmButton: false
-            }).then(() => {
-                $('#addModal').modal('hide');
-                window.location.reload();
-            });
-        }).catch(function(error) {
-            console.error('Error:', error);
-
-            let errorMessage = 'An error occurred';
-            if (xhr.responseJSON && xhr.responseJSON.messages) {
-                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
-            }
-
-            Swal.fire({
-                title: "Error",
-                text: errorMessage,
-                icon: "error",
-                timer: 5000,
-                showConfirmButton: false
-            });
-
-            $('#addModal').modal('hide');
-        });
-        // console.log("Data to send: ", dataSend);
     });
 
+    // Function to send an AJAX request
     function sendAjaxRequest(data) {
         return $.ajax({
             type: "POST",
@@ -225,6 +264,26 @@
             contentType: "application/json",
             dataType: "JSON"
         });
+    }
+
+    // Function to handle errors in the AJAX requests
+    function handleError(error) {
+        console.error('Error:', error);
+
+        let errorMessage = 'An error occurred';
+        if (error.responseJSON && error.responseJSON.messages) {
+            errorMessage = Object.values(error.responseJSON.messages).join('\n');
+        }
+
+        Swal.fire({
+            title: "Error",
+            text: errorMessage,
+            icon: "error",
+            timer: 5000,
+            showConfirmButton: false
+        });
+
+        $('#addModal').modal('hide');
     }
 
     $(document).on('click', '#tabelDataTiketMasuk tbody .detail-btn', function() {
@@ -404,7 +463,7 @@
                         // Filter data array to include only entries with status 'Open'
 
                         const filteredData = response.data.filter(function(item) {
-                            return item['status'] !== 'Open' && item['status'] !== 'Submited' && item['tiket_kategori'] === "<?php echo $PIC; ?>" || item['tiket_kategori'] === "SISTEM";
+                            return item['status'] !== 'Open' && item['status'] !== 'Submited' && item['status'] !== 'Reviewed' && item['tiket_kategori'] === "<?php echo $PIC; ?>";
                         });
                         return filteredData;
                     }
