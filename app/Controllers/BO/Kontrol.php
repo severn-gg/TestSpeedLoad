@@ -17,6 +17,7 @@ class Kontrol extends BaseController
                 'submenu' => $submenu,
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'pict' => $session->get('pict'),
                 'nia' => $session->get('nia'),
                 'jk' => $session->get('jk'),
                 'no_hp' => $session->get('no_hp'),

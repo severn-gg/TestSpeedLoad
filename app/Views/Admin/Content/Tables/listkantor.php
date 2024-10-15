@@ -34,7 +34,7 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">List Kantor</h3>
+            <h3 class="card-title"><a type="button" href="<?= site_url(); ?>/admin/forminputkantor" class="btn btn-sm btn-primary"><i class="bi bi-person-plus"></i> Tambah Kantor</a></h3>
         </div>
         <div class="card-body">
             <table id="tabelDataKantor" class="table table-bordered table-striped">

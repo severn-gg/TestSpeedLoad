@@ -121,6 +121,9 @@
             <a class="btn btn-danger" id="btn_tolak">Tolak</a>
             <a class="btn btn-primary" id="btn_modal">${text}</a>
         `);
+        // $('.modal-footer').hide();
+        $('.modal-title').text('Verifikasi Tiket');
+        $('#addModal').modal('show');
     });
 
     $(document).on('click', '#btn_modal, #btn_tolak', function() {
@@ -291,6 +294,7 @@
         var tiketPic = $('#tabelDataTiketMasuk').DataTable();
         // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
         var row = $(this).closest('tr');
+        var siteUrl = "<?= site_url() ?>";
 
         if (row.hasClass('child')) {
             // If inside a "child row", find the parent row containing the actual data
@@ -300,7 +304,7 @@
         // Now get the row data from the DataTable instance
         var rowData = tiketPic.row(row).data();
         if (rowData && Object.keys(rowData).length !== 0) {
-            $('#content').load('/pic/tiketonprogressdetail', function(response, status, xhr) {
+            $('#content').load(siteUrl + '/pic/tiketonprogressdetail', function(response, status, xhr) {
                 if (status == "error") {
                     var msg = "Sorry but there was an error: ";
                     $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -308,7 +312,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '../api/get',
+                    url: '<?= site_url();?>/api/get',
                     data: JSON.stringify({
                         table: 'view_tiket_history',
                         field: 'tiket_id',
@@ -444,7 +448,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -577,7 +581,7 @@
         //     "lengthChange": false,
         //     "autoWidth": false,
         //     "ajax": {
-        //         url: '/api/get', // Your endpoint URL
+        //         url: '<?= site_url();?>/api/get', // Your endpoint URL
         //         type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
         //         data: function() {
         //             // Convert data to JSON
@@ -639,7 +643,7 @@
         //     "lengthChange": false,
         //     "autoWidth": false,
         //     "ajax": {
-        //         url: '/api/get', // Your endpoint URL
+        //         url: '<?= site_url();?>/api/get', // Your endpoint URL
         //         type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
         //         data: function() {
         //             // Convert data to JSON

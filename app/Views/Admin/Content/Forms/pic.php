@@ -43,6 +43,7 @@
                     <form id="forminputpic">
                         <div class="card-body">
                             <div class="form-group">
+                                <input type="hidden" name="picId" class="form-control">
                                 <label for="inputAktivis">Pilih Aktivis</label>
                                 <select type="select" class="form-control select2" name="inputAktivis">
 

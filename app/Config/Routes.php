@@ -17,6 +17,7 @@ $routes->get('/logout', 'Home::logout');
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
     $routes->post('login', 'Api::login');
     $routes->post('insert', 'Api::insert');
+    $routes->post('upload_pict', 'Api::upload_pict');
     $routes->post('upload', 'Api::upload_files');
     $routes->post('get', 'Api::get');
     $routes->delete('delete', 'Api::delete');
@@ -29,6 +30,7 @@ $routes->group('admin', static function ($routes) {
     // menu tables
     $routes->get('viewaktivis', [KontrolAdmin::class, 'viewaktivis']);
     $routes->get('viewkantor', [KontrolAdmin::class, 'listkantor']);
+    $routes->get('viewlogin', [KontrolAdmin::class, 'listlogin']);
     $routes->get('viewarea', [KontrolAdmin::class, 'viewarea']);
     $routes->get('viewpicarea', [KontrolAdmin::class, 'viewpicarea']);
     $routes->get('viewjabatan', [KontrolAdmin::class, 'viewjabatan']);

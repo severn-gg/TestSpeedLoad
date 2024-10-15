@@ -1,11 +1,7 @@
-<footer class="main-footer">
-    <strong>Copyright &copy; 2024 <a href="#">ITD CUKK</a>.</strong>
-    All rights reserved.
+<footer class="main-footer">    
     <div class="float-right d-none d-sm-inline-block">
-        Frontend by <a href="#"> Alex</a>,
-        Backend by <a href="#">Atot</a>,
-        Database by <a href="#">Andi</a>,
-        Project Managed by <a href="#">Rekat</a>
+        <strong>Copyright &copy; 2024 <a href="#">ITD CUKK</a>.</strong>
+    All rights reserved.
     </div>
 </footer>
 

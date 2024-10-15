@@ -64,23 +64,27 @@ class ApiModel extends Model
                 return ['success' => true, 'lastInsertedId' => $lastInsertedId];
             } else {
                 // Update operation
-                if ($table === 'cabangaktivis' || $table === 'jabatanaktivis') {
-                    $query->where('aktivis_id', $id);
-                } else if ($table === 'pic') {
-                    $query->where('user_id', $id);
-                } else {
-                    $idd = $table . '_id'; // Construct the ID field name
-                    $query->where($idd, $id);
-                }
-                $query->update($data);
+                try {
+                    if ($table === 'cabangaktivis' || $table === 'jabatanaktivis') {
+                        $query->where('aktivis_id', $id);
+                    } else if ($table === 'pic') {
+                        $query->where('pic_id', $id);
+                    } else {
+                        $idd = $table . '_id'; // Construct the ID field name
+                        $query->where($idd, $id);
+                    }
 
-                if ($db->affectedRows() === 0) {
-                    return "No records were affected.";
-                }
+                    // Execute the update query
+                    $query->update($data);                    
 
-                return ['success' => true];
+                    return ['success' => true, 'message' => "Data Updated!"];
+                } catch (\Exception $e) {
+                    // Catch any exceptions during the update process
+                    return "Update failed: " . $e->getMessage();
+                }
             }
         } catch (\CodeIgniter\Database\Exceptions\DatabaseException $e) {
+            // Handle database connection or query execution exceptions
             $db = \Config\Database::connect(); // Get the database connection instance
             $lastQuery = $db->getLastQuery(); // Get the last executed query
 
@@ -131,16 +135,48 @@ class ApiModel extends Model
     public function cek_pic($data)
     {
         $db = \Config\Database::connect();
-        $query = $db->table('pic')
+
+        // 1. Get the role_id of the user_id being sent
+        $userQuery = $db->table('user')
+            ->select('role_id')
             ->where('user_id', $data['user_id'])
-            ->where('area_id', $data['area_id'])
             ->get();
-        $result = $query->getResultArray();
-        if (empty($result)) {
+        $userResult = $userQuery->getRowArray();
+
+        if ($userResult) {
+            $role_id = $userResult['role_id']; // Role ID of the user being inserted
+
+            // 2. Check if the area_id exists in the pic table, get all the user_ids associated with that area_id
+            $areaQuery = $db->table('pic')
+                ->select('user_id')
+                ->where('area_id', $data['area_id'])
+                ->get();
+            $areaResults = $areaQuery->getResultArray();
+
+            // 3. Loop through all user_ids from the result, check if their role_id matches the role_id from point 1
+            foreach ($areaResults as $areaRow) {
+                $picUserId = $areaRow['user_id'];
+
+                // Get the role_id of the user in the pic table
+                $roleCheckQuery = $db->table('user')
+                    ->select('role_id')
+                    ->where('user_id', $picUserId)
+                    ->get();
+                $roleCheckResult = $roleCheckQuery->getRowArray();
+
+                if ($roleCheckResult && $roleCheckResult['role_id'] == $role_id) {
+                    // Role_id of user in area matches the one we're checking
+                    return false; // Return false, as the combination already exists
+                }
+            }
+
+            // If no matching role_id was found, return true
             return true;
         } else {
+            // If no role_id was found for the user_id
             return false;
         }
+
     }
 
     public function cek_user($data)

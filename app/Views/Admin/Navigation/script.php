@@ -1,22 +1,174 @@
-<!-- Page specific script -->
-
-<!-- DataTables  & Plugins -->
-<script src="<?= base_url('assets/plugins/datatables/jquery.dataTables.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/jszip/jszip.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/pdfmake/pdfmake.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/pdfmake/vfs_fonts.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-buttons/js/buttons.html5.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-buttons/js/buttons.print.min.js') ?>"></script>
-<script src="<?= base_url('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') ?>"></script>
+  
 
 <script>
     $(document).ready(function() {
+        var profilePic = $(".image-prof img");
+        var userFile = $(".user-file");
+
+        userFile.on("change", function() {
+            var file = this.files[0];
+            if (file) {
+                profilePic.attr("src", URL.createObjectURL(file));
+            }
+        });
+
+        // Get the current URL path
+        var path = window.location.pathname;
+
+        // Split the path into segments based on '/'
+        var segments = path.split('/');
+
+        // segments[2] will contain 'tiketsaya' if the URL is http://localhost:8080/index.php/bo/tiketsaya
+        tiketsayaValue = segments[3];
+        if ($('#formEditProfile').length) {
+            var field = 'aktivis_id';
+            var cabang = '<?php echo $aktivis_id; ?>';
+            getAktivis(field, cabang);
+            getLoginInfo(field, cabang);
+        } 
+
         checkFormExist();
+    });
+
+    function getAktivis(field, cabang) {
+
+        // console.log(cabang_id);
+
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/get",
+            data: JSON.stringify({
+                table: 'aktivis_cabang_view',
+                field: field,
+                value: cabang
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                let data = response.data;
+                console.log(data);
+                if ($('#forminputtiket').length) {
+
+                    let select = $('select[name="inputAktivis"]');
+                    select.empty();
+                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty                    
+                    $.each(data, function(index, value) {
+                        select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
+                    });
+                }
+
+                if ($('#formEditProfile').length) {
+                    // Disable the form inputs
+                    $('#formEditProfile').find(':input').not('.btn-info').prop('disabled', true);
+                    $('#formEditProfile').find('.btn-info').text('Edit');
+
+                    // Populate fields with data
+                    $('.image-prof img').attr('src', '<?= base_url();?>/prof_pict/' + data[0]['pict']);
+                    $('#nama_display').text(data[0]['nama_aktivis']);
+                    $('#jabatan_display').text(data[0]['nama_jabatan']);
+                    $('input[name="aktivisId"]').val(data[0]['aktivis_id']);
+                    $('input[name="inputNIA"]').val(data[0]['nia']);
+                    $('input[name="inputNamaLengkap"]').val(data[0]['nama_aktivis']);
+                    $('select[name="inputJK"]').val(data[0]['jk']).trigger('change'); // Use 'change' event to update the select
+                    $('input[name="inputNoHP"]').val(data[0]['no_hp']);
+                    $('input[name="inputAlamatAsal"]').val(data[0]['asal']);
+                }
+
+            }
+        });
+    }
+
+    function getLoginInfo(field, value) {        
+
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/get",
+            data: JSON.stringify({
+                table: 'login_view',
+                field: field,
+                value: value
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                console.log(response);
+                let data = response.data;                
+
+                if ($('#formEditLogin').length) {
+                    // Disable the form inputs
+                    $('#formEditLogin').find(':input').not('.btn-info').prop('disabled', true);
+                    $('#formEditLogin').find('.btn-info').text('Edit');
+
+                    // Populate fields with data                    
+                    $('input[name="user_id"]').val(data[0]['user_id']);
+                    $('input[name="aktivis_id"]').val(data[0]['aktivis_id']);
+                    $('input[name="active"]').val(data[0]['active']);
+                    $('input[name="role_id"]').val(data[0]['namagroup_id']);
+                    $('input[name="username"]').val(data[0]['username']);
+                    $('input[name="password"]').val(data[0]['password_hash']);                    
+                }
+
+            }
+        });
+    }
+
+    $(document).on('click', '.btn-info', function() {
+        // Get the closest form that contains the clicked .btn-info button
+        var $form = $(this).closest('form'); // Closest form to the clicked button
+        var text = $form.find('.btn-info').text();
+
+        // Toggle behavior based on the button text
+        if (text !== 'Batal') {
+            $form.find(':input').not('.btn-info').prop('disabled', false);
+            $form.find('.btn-info').text('Batal');
+        } else {
+            $form.find(':input').not('.btn-info').prop('disabled', true);
+            $form.find('.btn-info').text('Edit');
+        }
+    });    
+
+    $(document).on('submit', '#formEditLogin', function(e) {
+        e.preventDefault();
+
+        var id = $('input[name="user_id"]').val();
+        var dataLoginAktivis = {
+            aktivis_id: $('input[name="aktivis_id"]').val(),
+            username: $('input[name="username"]').val(),
+            password_hash: $('input[name="password"]').val(),
+            active: $('input[name="active"]').val(),
+            role_id: $('input[name="role_id"]').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/insert",
+            data: JSON.stringify({
+                table: 'user',
+                id:id,
+                data: [dataLoginAktivis],
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                Swal.fire({
+                    title: "Success",
+                    text: response.message,
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                getLoginInfo('aktivis_id', dataLoginAktivis.aktivis_id);
+            },
+            error: function(xhr, status, error) {
+                let errorMessage = 'An error occurred';
+                if (xhr.responseJSON && xhr.responseJSON.messages) {
+                    errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                }
+
+                Swal.fire({
+                    title: "Error",
+                    text: errorMessage,
+                    icon: "error",
+                    timer: 2000,
+                });                
+            }
+        });
     });
 
     function checkFormExist(callback) {
@@ -70,7 +222,7 @@
         function fetchData(tableName, selectName, placeholder, callback) {
             $.ajax({
                 type: "POST",
-                url: "../api/get",
+                url: "<?= site_url();?>/api/get",
                 data: JSON.stringify({
                     table: tableName
                 }),
@@ -98,18 +250,19 @@
         }
     }
 
-
     $(document).on('change', 'select[name="inputAktivis"]', function() {
         var selectedOption = $(this).find('option:selected'); // Get the selected option element
         var selectedValue = selectedOption.val(); // Get the value of the selected option
 
         // Check if selectedValue is not empty or undefined
-        if (selectedValue) {
-            var selectedText = selectedOption.text(); // Get the text of the selected option
-            var firstWord = selectedText.split(' ')[0].toLowerCase(); // Get the first word
-
-            $('input[name="inputUsername"]').val(firstWord);
-            $('input[name="inputPassword"]').val('123456!');
+        if(!$('#tabelDataLogin').length){
+            if (selectedValue) {
+                var selectedText = selectedOption.text(); // Get the text of the selected option
+                var firstWord = selectedText.split(' ')[0].toLowerCase(); // Get the first word
+    
+                $('input[name="inputUsername"]').val(firstWord);
+                $('input[name="inputPassword"]').val('123456!');
+            }
         }
     });
 
@@ -201,8 +354,81 @@
         $('#addModal').modal('show');
         checkFormExist();
         $('.select2').select2();
-        // After the select is populated, set the selected value
-        $('select option[value="' + rowData.area_id + '"]').attr('selected', 'selected');
+        // After the select is populated, set the selected value        
+        $('select[name="inputArea"]').val(rowData.area_id).trigger('change');
+
+    });
+
+    $(document).on('click', '#tabelDataLogin tbody .btn-warning', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDataLogin').DataTable();
+        // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
+        var row = $(this).closest('tr');
+
+        if (row.hasClass('child')) {
+            // If inside a "child row", find the parent row containing the actual data
+            row = row.prev();
+        }
+
+        // Now get the row data from the DataTable instance
+        var rowData = table.row(row).data();
+
+        $('#modalBody').html(`
+            <form id="formuserloginaktivis">
+                <div class="card-body">
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" name="inputIdLog" value="${rowData.user_id}">
+                        <label for="inputAktivis" class="form-label">Select Aktivis</label>
+                        <select type="select" class="form-control select2" name="inputAktivis">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputRole" class="form-label">Select Role</label>
+                        <select type="select" class="form-control select2" name="inputRole">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputUsername" class="form-label">Username</label>
+                        <input class="form-control" type="text" name="inputUsername" value="${rowData.username}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="form-label">Password</label>
+                        <input class="form-control" type="text" name="inputPassword" value="${rowData.password_hash}">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputStatusActive" class="form-label">Select Status Active</label>
+                        <select type="select" class="form-control" name="inputStatusActive">
+                            <option value="1">Tidak Aktif</option>
+                            <option value="2">Aktif</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form>
+        `);
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit Login');
+        $('#addModal').modal('show');
+        // Call checkFormExist and pass a callback
+        checkFormExist(function() {
+            // Initialize select2 after the options have been populated
+            $('.select2').select2();
+
+            // Set the value for the select field and trigger change event            
+            $('select[name="inputAktivis"]').val(rowData.aktivis_id).trigger('change');
+            $('select[name="inputAktivis"]').attr('disabled', true);
+            $('select[name="inputRole"]').val(rowData.namagroup_id).trigger('change');
+            $('select[name="inputRole"]').attr('disabled', true);
+            $('select[name="inputStatusActive"]').val(rowData.active).trigger('change');
+        });
 
     });
 
@@ -260,13 +486,18 @@
         e.preventDefault();
 
         // Get the row data using the DataTable API
+        var picId = $(this).data('pic_id');
+        var userId = $(this).data('user_id');
+        console.log("user Id : " + userId);
+        console.log("pic Id : " + picId);
         var table = $('#tabelDatapicArea').DataTable();
         var rowData = table.row($(this).closest('tr')).data();
-
+        console.log(rowData);
         $('#modalBody').html(`
             <form id="forminputpic">
                 <div class="card-body">
                     <div class="form-group">
+                        <input type="hidden" name="picId" class="form-control" value="${picId}">                        
                         <label for="inputAktivis">Pilih Aktivis</label>
                         <select type="select" class="form-control select2" name="inputAktivis"></select>
                     </div>
@@ -294,7 +525,7 @@
             $('.select2').select2();
 
             // Set the value for the select field and trigger change event
-            $('select[name="inputAktivis"]').val(rowData.aktivis_id).trigger('change');
+            $('select[name="inputAktivis"]').val(userId).trigger('change');
             $('select[name="inputArea"]').val(rowData.area_id).trigger('change');
         });
     });
@@ -351,7 +582,7 @@
         var asal = $('input[name="inputAlamatAsal"]').val();
 
         $.ajax({
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             contentType: 'application/json', // Set content type to JSON
             type: 'POST',
             data: JSON.stringify({
@@ -410,7 +641,7 @@
 
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'aktivis',
                 data: [dataAktivis],
@@ -433,7 +664,7 @@
                 return $.when(
                     $.ajax({
                         type: "POST",
-                        url: "../api/insert",
+                        url: "<?= site_url();?>/api/insert",
                         data: JSON.stringify({
                             table: 'cabangaktivis',
                             data: [dataKantor],
@@ -442,7 +673,7 @@
                     }),
                     $.ajax({
                         type: "POST",
-                        url: "../api/insert",
+                        url: "<?= site_url();?>/api/insert",
                         data: JSON.stringify({
                             table: 'jabatanaktivis',
                             data: [dataJabatan],
@@ -481,6 +712,97 @@
         });
     });
 
+    $(document).on('submit', '#formEditProfile', function(e) {
+        e.preventDefault();
+
+        var formData = new FormData();
+        formData.append('file_image', $('input[name="prof_img"]')[0].files[0]);        
+
+        $.ajax({
+            type: "POST",
+            url: "../api/upload_pict", // Your API endpoint to handle file uploads
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "JSON",
+        }).done(function(response) {
+            
+            if (response.status === true){
+                var id = $('input[name="aktivisId"]').val();
+                var nia = $('input[name="inputNIA"]').val();
+                var nama = $('input[name="inputNamaLengkap"]').val();
+                var jk = $('select[name="inputJK"]').val();
+                var nohp = $('input[name="inputNoHP"]').val();
+                var asal = $('input[name="inputAlamatAsal"]').val();
+                var pict = response.filePaths.file_image; // Corrected to get image name from response
+
+                $.ajax({
+                    url: "../api/insert",
+                    contentType: 'application/json', // Set content type to JSON
+                    type: 'POST',
+                    data: JSON.stringify({
+                        table: 'aktivis',
+                        id: id,
+                        data: [{
+                            nia: nia,
+                            nama_aktivis: nama,
+                            jk: jk,
+                            no_hp: nohp,
+                            asal: asal,
+                            pict: pict // Pass the uploaded image filename
+                        }]
+                    }),
+                    dataType: 'JSON',
+                    success: function(response) {
+
+                        Swal.fire({
+                            title: "Success",
+                            text: response.message,
+                            icon: "success",
+                            timer: 2000,
+                        });
+
+                        // Reload the specific user data
+                        getAktivis('aktivis_id', id);
+
+                    },
+                    error: function(xhr, status, error) {                        
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.messages) {
+                            errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                        }
+
+                        Swal.fire({
+                            title: "Error",
+                            text: errorMessage,
+                            icon: "error",
+                            timer: 2000,
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: response.message,
+                    icon: "error",
+                    timer: 3000,
+                });
+            }
+        }).fail(function(xhr) {
+            let errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.messages) {
+                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+            }
+
+            Swal.fire({
+                title: "Error",
+                text: errorMessage,
+                icon: "error",
+                timer: 5000,
+            });
+        });
+    });
+
     $(document).on('submit', '#forminputJabatan', function(e) {
         e.preventDefault();
 
@@ -490,7 +812,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'jabatan',
                 id: id,
@@ -533,7 +855,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'area',
                 id: id,
@@ -577,7 +899,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'cabang',
                 id: id,
@@ -621,7 +943,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'cabangaktivis',
                 id: dataMutasiKantor.aktivis_id,
@@ -670,7 +992,7 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'jabatanaktivis',
                 id: dataMutasiJabatan.aktivis_id,
@@ -712,6 +1034,7 @@
     $(document).on('submit', '#formuserloginaktivis', function(e) {
         e.preventDefault();
 
+        var id = $('input[name="inputIdLog"]').val();
         var dataLoginAktivis = {
             aktivis_id: $('select[name="inputAktivis"]').val(),
             username: $('input[name="inputUsername"]').val(),
@@ -721,13 +1044,19 @@
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'user',
+                id:id,
                 data: [dataLoginAktivis],
             }),
             dataType: "JSON",
             success: function(response) {
+                if($("#tabelDataLogin").length){
+                    $('#addModal').modal('hide');
+                    $("#tabelDataLogin").DataTable().ajax.reload();
+                }
+
                 Swal.fire({
                     title: "Success",
                     text: response.message,
@@ -762,15 +1091,17 @@
     $(document).on('submit', '#forminputpic', function(e) {
         e.preventDefault();
 
+        var id = $('input[name="picId"]').val();
         var dataPIC = {
             user_id: $('select[name="inputAktivis"]').val(),
             area_id: $('select[name = "inputArea"]').val(),
         };
         $.ajax({
             type: "POST",
-            url: "../api/insert",
+            url: "<?= site_url();?>/api/insert",
             data: JSON.stringify({
                 table: 'pic',
+                id:id,
                 data: [dataPIC],
             }),
             dataType: "JSON",
@@ -821,11 +1152,12 @@
             row = row.prev();
         }
 
+        var siteUrl = "<?= site_url() ?>";
         // Now get the row data from the DataTable instance
         var rowData = tiketAdmin.row(row).data();
         console.log(rowData);
         if (rowData && Object.keys(rowData).length !== 0) {
-            $('#content').load('/pic/tiketonprogressdetail', function(response, status, xhr) {
+            $('#content').load(siteUrl + '/pic/tiketonprogressdetail', function(response, status, xhr) {
                 if (status == "error") {
                     var msg = "Sorry but there was an error: ";
                     $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -833,7 +1165,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '../api/get',
+                    url: '<?= site_url();?>/api/get',
                     data: JSON.stringify({
                         table: 'view_tiket_history',
                         field: 'tiket_id',
@@ -911,6 +1243,67 @@
 
     });
 
+    $(document).on('click', '#tabelDatapicArea tbody .btn-danger', function(e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                var picId = $(this).data('pic_id');
+                console.log("PIC Id : " + picId);
+                var table = $('#tabelDatapicArea').DataTable();
+                var rowData = table.row($(this).closest('tr')).data();
+                console.log(rowData);
+
+                $.ajax({
+                    type: "delete",
+                    url: "<?= site_url();?>/api/delete",
+                    data: JSON.stringify({
+                        table: 'pic',
+                        id:picId,
+                    }),
+                    dataType: "JSON",
+                    success: function (response) {
+                        $("#tabelDatapicArea").DataTable().ajax.reload();
+
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: response.message,
+                            icon: "success",
+                            timer: 2000,
+                        });                        
+                    },
+                    error: function(xhr, status, error) {
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.messages) {
+                            errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                        }
+
+                        Swal.fire({
+                            title: "Error",
+                            text: errorMessage,
+                            icon: "error",
+                            timer: 5000,
+                        });
+
+                        // Clear the form inputs
+                        $('#forminputpic')[0].reset();
+                        $('.select2').val(null).trigger('change');
+                    }
+                });
+                
+            }
+        });
+        
+    })
+
     function getStatusIcon(status) {
         let iconHtml = ''; // Default icon HTML
 
@@ -953,7 +1346,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -972,7 +1365,7 @@
                     // return response.data;
                 },
             },
-            columns: [{
+            "columns": [{
                     data: 'aktivis_id',
                     title: '#'
                 }, // Column for the ID
@@ -1001,7 +1394,13 @@
                     title: 'Aksi',
                     defaultContent: '<button class="btn btn-xs btn-warning"><i class="bi bi-person-lines-fill"></i></button>'
                 } // Action column for buttons, if needed
-            ]
+            ],
+            "initComplete": function() {
+                // Initialize buttons after the table has been fully initialized
+                $("#tabelDataAktivis").DataTable().buttons().container()
+                    .appendTo('#tabelDataAktivis_wrapper .col-md-6:eq(0)');
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
         });
 
         $("#tabelDataTiketDone").DataTable({
@@ -1009,7 +1408,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -1028,7 +1427,7 @@
                     // return response.data;
                 },
             },
-            columns: [{
+            "columns": [{
                     data: 'tiket_id',
                     title: '#'
                 }, // Column for the ID
@@ -1116,7 +1515,13 @@
                         }
                     }
                 } // Action column for buttons, if needed
-            ]
+            ],
+            "initComplete": function() {
+                // Initialize buttons after the table has been fully initialized
+                $("#tabelDataTiketDone").DataTable().buttons().container()
+                    .appendTo('#tabelDataTiketDone_wrapper .col-md-6:eq(0)');
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
         });
 
         $("#tabelDataKantor").DataTable({
@@ -1124,7 +1529,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -1158,12 +1563,96 @@
             ]
         });
 
+        $("#tabelDataLogin").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "ajax": {
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
+                type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
+                data: function() {
+                    // Convert data to JSON
+                    return JSON.stringify({
+                        table: 'login_view',
+                        id: ''
+                    });
+                },
+                dataSrc: function(response) {
+                    if (response.data === null) {
+                        // No data available, return empty array
+                        return [];
+                    } else {
+                        const filteredData = response.data.filter(function(item) {
+                            return item['user_id'] !== '1';
+                        });
+                        return filteredData;
+                    }
+                    // return response.data;
+                },
+            },
+            "columns": [{
+                    data: 'user_id',
+                    title: '#'
+                }, // Column for the ID
+                {
+                    data: 'nama_pengguna',
+                    title: 'Nama'
+                }, // Column for the NIA
+                {
+                    data: 'username',
+                    title: 'Username'
+                }, // Column for the Name
+                {
+                    data: 'password_hash',
+                    title: 'Password'
+                },
+                {
+                    data: 'active',
+                    title: 'Status',
+                    render: function(data, type, row) {
+                        let badgeClass = 'badge-secondary'; // Default badge class
+                        let icon = ''; // Default icon
+
+                        // Determine the appropriate badge class and icon based on the status
+                        switch (data) {
+                            case '1':
+                                badgeClass = 'badge-secondary';
+                                icon = '<i class="bi bi-x-circle-fill h6"> Not Activated</i>';
+                                break;                            
+                            default:
+                                badgeClass = 'badge-success';
+                                icon = '<i class="bi bi-check2-all h6"> Activated</i>'; // No icon for default
+                                break;
+                        }
+
+                        // Return the HTML for the badge with the correct class and icon
+                        return `<span class="badge ${badgeClass}">${icon}</span>`;
+                    }
+                },
+                {
+                    data: 'nama_group',
+                    title: 'Level'
+                },
+                {
+                    data: null,
+                    title: 'Aksi',
+                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                } // Action column for buttons, if needed
+            ],
+            "initComplete": function() {
+                // Initialize buttons after the table has been fully initialized
+                $("#tabelDataLogin").DataTable().buttons().container()
+                    .appendTo('#tabelDataLogin_wrapper .col-md-6:eq(0)');
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+        });
+
         $("#tabelDataArea").DataTable({
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -1192,9 +1681,9 @@
         $("#tabelDatapicArea").DataTable({
             "responsive": true,
             "lengthChange": false,
-            "autoWidth": false,
+            "autoWidth": false,            
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -1204,7 +1693,7 @@
                     });
                 },
             },
-            columns: [{
+            "columns": [{
                     data: 'area_id',
                     title: '#'
                 }, // Column for the ID
@@ -1213,22 +1702,81 @@
                     title: 'Nama Area'
                 }, // Column for the NIA
                 {
-                    data: 'nama_aktivis',
-                    title: 'PIC'
+                    data: 'PIC_Software',
+                    title: 'PIC Software',
+                    render: function(data, type, row) {
+                        // Create a div container with text alignment set to right
+                        let buttonHtml = '<div style="text-align: right;">';
+                        
+                        // Retrieve pic_id from row data (assuming row contains PIC_Software_pic_id)
+                        let picId = row.PIC_Software_pic_id; // Replace with the correct field name
+                        let userId = row.PIC_Software_user_id; // Replace with the correct field name
+                        
+                        if (data === null) {
+                            buttonHtml += '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>';
+                        } else {
+                            buttonHtml += data + 
+                                ' <button class="btn btn-xs btn-warning" data-user_id="'+ userId +'" data-pic_id="' + picId + '"><i class="nav-icon fas fa-pen"></i></button> ' +
+                                '<button class="btn btn-xs btn-danger" data-pic_id="' + picId + '"><i class="nav-icon fas fa-trash"></i></button>';
+                        }
+
+                        buttonHtml += '</div>'; // Close the div
+                        return buttonHtml;
+                    }
+                },
+                {
+                    data: 'PIC_Hardware',
+                    title: 'PIC Hardware',
+                    render: function(data, type, row) {
+                        // Create a div container with text alignment set to right
+                        let buttonHtml = '<div style="text-align: right;">';
+                        
+                        // Retrieve pic_id from row data (assuming row contains PIC_Software_pic_id)
+                        let picId = row.PIC_Hardware_pic_id; // Replace with the correct field name
+                        let userId = row.PIC_Hardware_user_id;
+
+                        if (data === null) {
+                            buttonHtml += '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>';
+                        } else {
+                            buttonHtml += data + 
+                                ' <button class="btn btn-xs btn-warning" data-user_id="'+ userId +'" data-pic_id="' + picId + '"><i class="nav-icon fas fa-pen"></i></button> ' +
+                                '<button class="btn btn-xs btn-danger" data-pic_id="' + picId + '"><i class="nav-icon fas fa-trash"></i></button>';
+                        }
+
+                        buttonHtml += '</div>'; // Close the div
+                        return buttonHtml;
+                    }
                 }, // Column for the NIA
                 {
-                    data: 'nama_aktivis',
-                    title: 'Aksi',
+                    data: 'PIC_Network',
+                    title: 'PIC Network',
                     render: function(data, type, row) {
-                        // Check the status and return a value for the Konfirmasi column
+                        // Create a div container with text alignment set to right
+                        let buttonHtml = '<div style="text-align: right;">';
+                        
+                        // Retrieve pic_id from row data (assuming row contains PIC_Software_pic_id)
+                        let picId = row.PIC_Network_pic_id; // Replace with the correct field name
+                        let userId = row.PIC_Network_user_id;
+
                         if (data === null) {
-                            return '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>'; // Example value if status is not 'Closed'
+                            buttonHtml += '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>';
                         } else {
-                            return '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                            buttonHtml += data + 
+                                ' <button class="btn btn-xs btn-warning" data-user_id="'+ userId +'" data-pic_id="' + picId + '"><i class="nav-icon fas fa-pen"></i></button> ' +
+                                '<button class="btn btn-xs btn-danger" data-pic_id="' + picId + '"><i class="nav-icon fas fa-trash"></i></button>';
                         }
+
+                        buttonHtml += '</div>'; // Close the div
+                        return buttonHtml;
                     }
                 }
-            ]
+            ],
+            "initComplete": function() {
+                // Initialize buttons after the table has been fully initialized
+                $("#tabelDatapicArea").DataTable().buttons().container()
+                    .appendTo('#tabelDatapicArea_wrapper .col-md-6:eq(0)');
+            },
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
         });
 
         $("#tabelDataJabatan").DataTable({
@@ -1236,7 +1784,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON

@@ -78,12 +78,18 @@ class Kontrol extends BaseController
         return view('Validator/Content/tiketdetail', $data);
     }
 
+    public function profile()
+    {
+        $data = $this->prepareData('Additional', 'Profile');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Validator/Content/profile', $data);
+    }
+
     public function tiketprint()
     {
         return view('Validator/Content/tiketprint');
     }
-    public function profile()
-    {
-        return view('Validator/Content/profile');
-    }
+    
 }

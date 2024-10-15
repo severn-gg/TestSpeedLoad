@@ -36,7 +36,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tiket Masuk</h3>
+                        <h3 class="card-title"><a type="button" href="<?= site_url(); ?>/admin/forminputaktivis" class="btn btn-sm btn-primary"><i class="bi bi-person-plus"></i> Tambah Aktivis</a></h3>                        
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">

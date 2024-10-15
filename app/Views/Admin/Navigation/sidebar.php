@@ -11,22 +11,10 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <img src="<?= base_url() ?>prof_pict/<?php echo $pict;?>" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
         <a href="#" class="d-block"><?php echo $nama; ?></a>
-      </div>
-    </div>
-
-    <!-- SidebarSearch Form -->
-    <div class="form-inline">
-      <div class="input-group" data-widget="sidebar-search">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-sidebar">
-            <i class="fas fa-search fa-fw"></i>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -36,7 +24,7 @@
         <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="<?= base_url('admin/dashboard') ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
+          <a href="<?= site_url(); ?>/admin/dashboard" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -54,37 +42,43 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewticket') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/viewticket" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Tiket</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'viewaktivis') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/viewaktivis" class="nav-link <?= (isset($submenu) && $submenu === 'viewaktivis') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewjabatan') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Jabatan') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/viewjabatan" class="nav-link <?= (isset($submenu) && $submenu === 'Jabatan') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Jabatan</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/viewkantor" class="nav-link <?= (isset($submenu) && $submenu === 'Kantor') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Kantor</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewpicarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'picArea') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/viewlogin" class="nav-link <?= (isset($submenu) && $submenu === 'Login') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>List Login</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= site_url(); ?>/admin/viewpicarea" class="nav-link <?= (isset($submenu) && $submenu === 'picArea') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List PIC Area</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/viewarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Area') ? ' active' : '' ?>">
+              <a href="<?= site_url(''); ?>/admin/viewarea" class="nav-link <?= (isset($submenu) && $submenu === 'Area') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>List Area</p>
               </a>
@@ -101,50 +95,50 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('admin/forminputaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tambahaktivis') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/forminputaktivis" class="nav-link <?= (isset($submenu) && $submenu === 'tambahaktivis') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tambah Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/forminputjabatan') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'jabatan') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/forminputjabatan" class="nav-link <?= (isset($submenu) && $submenu === 'jabatan') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tambah Jabatan</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/forminputarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'area') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/forminputarea" class="nav-link <?= (isset($submenu) && $submenu === 'area') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tambah Area</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/forminputkantor') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'kantor') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/forminputkantor" class="nav-link <?= (isset($submenu) && $submenu === 'kantor') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tambah Kantor</p>
               </a>
             </li>
             <!-- setup -->
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetkantoraktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'kantoraktivis') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/formsetkantoraktivis" class="nav-link <?= (isset($submenu) && $submenu === 'kantoraktivis') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Mutasi Kantor Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetjabatanaktivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'mutasijabatan') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/formsetjabatanaktivis" class="nav-link <?= (isset($submenu) && $submenu === 'mutasijabatan') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Mutasi Jabatan Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetuserlogintivis') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tambahuserlogin') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/formsetuserlogintivis" class="nav-link <?= (isset($submenu) && $submenu === 'tambahuserlogin') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Set User Login Aktivis</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/formsetpicarea') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'picarea') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/admin/formsetpicarea" class="nav-link <?= (isset($submenu) && $submenu === 'picarea') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Set PIC Area</p>
               </a>
@@ -161,19 +155,19 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('admin/laporantiket') ?>" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/laporantiket" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/laporanbo') ?>" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/laporanbo" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Branch Office</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('admin/laporanpic') ?>" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/laporanpic" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>PIC</p>
               </a>
@@ -181,8 +175,8 @@
           </ul>
         </li>
         <li class="nav-header">Aditional</li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item <?= (isset($menu) && $menu === 'Pages') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Pages') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-book"></i>
             <p>
               Pages
@@ -191,7 +185,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('admin/profile') ?>" class="nav-link">
+              <a href="<?= site_url() ?>/admin/profile" class="nav-link <?= (isset($submenu) && $submenu === 'Profile') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Profile</p>
               </a>
@@ -205,7 +199,7 @@
           </ul>
         </li>
         <li class="nav-item bg-danger">
-          <a href="/logout" class="nav-link">
+          <a href="<?= site_url();?>/logout" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
             <p>
               LOGOUT

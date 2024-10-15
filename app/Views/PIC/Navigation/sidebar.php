@@ -14,20 +14,7 @@
         <img src="<?= base_url() ?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
-        <a href="#" class="d-block"><?php echo $nama; ?></a>
-        <p><small>PIC <?php echo $PIC; ?> : </small><br /><?php echo $nama_area; ?></p>
-      </div>
-    </div>
-
-    <!-- SidebarSearch Form -->
-    <div class="form-inline">
-      <div class="input-group" data-widget="sidebar-search">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-sidebar">
-            <i class="fas fa-search fa-fw"></i>
-          </button>
-        </div>
+        <a href="#" class="d-block"><?php echo $nama; ?></a>        
       </div>
     </div>
 
@@ -37,7 +24,7 @@
         <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="<?= base_url('pic/dashboard') ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
+          <a href="<?= site_url('pic/dashboard') ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -55,7 +42,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('pic/tiketmasuk') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Tiketmasuk') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/pic/tiketmasuk" class="nav-link <?= (isset($submenu) && $submenu === 'Tiketmasuk') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket Masuk</p>
               </a>
@@ -73,7 +60,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('pic/profile') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'Profile') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/pic/profile" class="nav-link <?= (isset($submenu) && $submenu === 'Profile') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Profile</p>
               </a>
@@ -87,7 +74,7 @@
           </ul>
         </li>
         <li class="nav-item bg-danger">
-          <a href="/logout" class="nav-link">
+          <a href="<?= site_url();?>/logout" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
             <p>
               LOGOUT

@@ -15,13 +15,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Daftar Aktivis</h1>
+                <h1 class="m-0">Daftar Area</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">List Aktivis</li>
+                    <li class="breadcrumb-item active">List Area</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -36,7 +36,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tiket Masuk</h3>
+                        <h3 class="card-title"><a type="button" href="<?= site_url(); ?>/admin/forminputarea" class="btn btn-sm btn-primary"><i class="bi bi-person-plus"></i> Tambah Area</a></h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">

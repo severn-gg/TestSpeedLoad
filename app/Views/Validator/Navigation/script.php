@@ -44,9 +44,10 @@
 
         var tiketMasuk = $('#tabelDataTiketMasuk').DataTable();
         var rowData = tiketMasuk.row($(this).closest('tr')).data();
+        var siteUrl = "<?= site_url() ?>";
         // console.log(rowData);
 
-        $('#content').load('/validator/tiketverifikasi', function(response, status, xhr) {
+        $('#content').load(siteUrl + '/validator/tiketverifikasi', function(response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -128,6 +129,10 @@
                 </p>
               
         `);
+        // $('.modal-footer').hide();
+        $('.modal-title').text('Verifikasi Tiket');
+        $('#addModal').modal('show');
+        
     });
 
     $(document).on('click', '#btn_modal', function() {
@@ -239,10 +244,10 @@
     $(document).on('click', '#tabelDataTiketDiverifikasi tbody .detail-btn', function() {
 
         var tiketBo = $('#tabelDataTiketDiverifikasi').DataTable();
-        var rowData = tiketBo.row($(this).closest('tr')).data();
-        console.log(rowData.tiket_id);
+        var rowData = tiketBo.row($(this).closest('tr')).data();        
+        var siteUrl = "<?= site_url() ?>";
 
-        $('#content').load('/validator/tiketdetail', function(response, status, xhr) {
+        $('#content').load(siteUrl + '/validator/tiketdetail', function(response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -250,7 +255,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '../api/get',
+                url: '<?= site_url();?>/api/get',
                 data: JSON.stringify({
                     table: 'view_tiket_history',
                     field: 'tiket_id',
@@ -363,7 +368,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '/api/get', // Your endpoint URL
+                url: '<?= site_url();?>/api/get', // Your endpoint URL
                 type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
                 data: function() {
                     // Convert data to JSON
@@ -471,7 +476,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '../api/get',
+                url: '<?= site_url();?>/api/get',
                 contentType: 'application/json', // Set content type to JSON
                 type: 'POST',
                 data: function() {

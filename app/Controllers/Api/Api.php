@@ -72,8 +72,8 @@ class Api extends BaseController
         $session = session();
         $sessionData = [
             'user_id'       => $userData['user_id'],
-            'area_id'       => $userData['area_id'],
-            'nama_area'       => $userData['nama_area'],
+            'area_id'       => $userData['area_ids'],
+            'nama_area'       => $userData['nama_areas'],
             'aktivis_id'       => $userData['aktivis_id'],
             'nia'       => $userData['nia'],
             'jk'       => $userData['jk'],
@@ -87,6 +87,7 @@ class Api extends BaseController
             'jabatan_id'     => $userData['jabatan_id'],
             'kantor'        => $userData['kantor'],
             'posisi'        => $userData['posisi'],
+            'pict'        => $userData['pict'],
         ];
         $session->set($sessionData);
 
@@ -210,12 +211,14 @@ class Api extends BaseController
                     'role_id' => 'required'
                 ]);
 
-                $picModel = new ApiModel();
-                $result = $picModel->cek_user($data);
-
-                // Check if $result is true
-                if ($result !== true) {
-                    return $this->failServerError('Oops User login sudah ada!');
+                if(empty($id)){
+                    $picModel = new ApiModel();
+                    $result = $picModel->cek_user($data);
+    
+                    // Check if $result is true
+                    if ($result !== true) {
+                        return $this->failServerError('Oops User login sudah ada!');
+                    }
                 }
                 break;
             case "pic":
@@ -359,7 +362,7 @@ class Api extends BaseController
 
         // validasi nama table
         switch ($table) {
-            case "usergroup":
+            case "pic":
                 break;
             case "user":
                 break;
@@ -382,6 +385,50 @@ class Api extends BaseController
             return $this->respondCreated(['message' => 'Data Successfully Deleted']);
         } else {
             return $this->fail($result);
+        }
+    }
+
+    public function upload_pict()
+    {
+        $session = session();
+        $response = [
+            'status' => false,
+            'message' => '',
+            'filePaths' => [],
+        ];
+
+        try {
+            
+            $imageUploaded = false;
+
+            $aktivisId = $session->get('aktivis_id');
+            $pict = $session->get('nama_pengguna');
+            $pictName = str_replace(' ', '', $pict);
+
+            // Handle file image upload
+            $image = $this->request->getFile('file_image');
+            if ($image && $image->isValid() && !$image->hasMoved()) {
+                $imageName = $aktivisId . $pictName . time() . '.' . $image->getClientExtension();
+                $image->move(ROOTPATH . 'public/prof_pict/', $imageName);
+                $response['filePaths']['file_image'] = $imageName;
+                $imageUploaded = true;
+            } else if (!$image) {
+                $response['message'] .= 'Image file not provided. ';
+            } else {
+                $response['message'] .= 'Image file upload failed. ';
+            }
+
+            // Set the status and message based on the upload results
+            if ($imageUploaded) {  
+                $response['status'] = true;              
+                if (!$imageUploaded) {
+                    $response['message'] .= 'Image file not uploaded. ';
+                }
+            }
+
+            return $this->respond($response, 200);
+        } catch (\Exception $e) {
+            return $this->fail($e->getMessage(), 500);
         }
     }
 

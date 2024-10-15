@@ -36,7 +36,7 @@
         <!-- Add icons to the links using the .nav-icon class
                   with font-awesome or any other icon font library -->
         <li class="nav-item">
-          <a href="<?= base_url('validator/dashboard') ?>" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
+          <a href="<?= site_url(); ?>/validator/dashboard" class="nav-link <?= (isset($menu) && $menu === 'Dashboard') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Dashboard
@@ -54,13 +54,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('validator/tiketmasuk') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tiketmasuk') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/validator/tiketmasuk" class="nav-link <?= (isset($submenu) && $submenu === 'tiketmasuk') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket Masuk</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= base_url('validator/tiketdone') ?>" class="nav-link <?= (isset($submenu) && $submenu === 'tiketverifikasi') ? ' active' : '' ?>">
+              <a href="<?= site_url(); ?>/validator/tiketdone" class="nav-link <?= (isset($submenu) && $submenu === 'tiketverifikasi') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket Diverifikasi</p>
               </a>
@@ -68,8 +68,8 @@
           </ul>
         </li>
         <li class="nav-header">Aditional</li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        <li class="nav-item <?= (isset($menu) && $menu === 'Additional') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Additional') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-book"></i>
             <p>
               Pages
@@ -78,7 +78,7 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= base_url('validator/profile') ?>" class="nav-link">
+              <a href="<?= site_url(); ?>/validator/profile" class="nav-link <?= (isset($submenu) && $submenu === 'Profile') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Profile</p>
               </a>
@@ -93,7 +93,7 @@
         </li>
         <li class="nav-header">Utiliti</li>
         <li class="nav-item bg-danger">
-          <a href="/logout" class="nav-link">
+          <a href="<?= site_url();?>/logout" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>
             <p>
               LOGOUT

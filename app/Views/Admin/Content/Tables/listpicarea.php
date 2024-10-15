@@ -43,12 +43,17 @@
                                         #
                                     </th>
                                     <th>
-                                        Area
+                                       Nama Area
                                     </th>
                                     <th>
-                                        PIC
+                                        PIC Software
                                     </th>
-                                    <th></th>
+                                    <th>
+                                        PIC Hardware
+                                    </th>
+                                    <th>
+                                        PIC Network
+                                    </th>
                                 </tr>
                             </thead>
                         </table>

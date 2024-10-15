@@ -39,11 +39,12 @@
             var cabang_id = $('select[name="inputAktivis"]').data("kantor");
             var field = 'cabang_id';
             getAktivis(field, cabang_id);
-        } else if ($('#formEditAktivis').length) {
+        } else if ($('#formEditProfile').length) {
             var field = 'aktivis_id';
             var cabang = '<?php echo $aktivis_id; ?>'
             getAktivis(field, cabang);
-        }
+            getLoginInfo(field, cabang);
+        } 
     });
 
     function getAktivis(field, cabang) {
@@ -52,7 +53,7 @@
 
         $.ajax({
             type: "POST",
-            url: "../api/get",
+            url: "<?= site_url();?>/api/get",
             data: JSON.stringify({
                 table: 'aktivis_cabang_view',
                 field: field,
@@ -61,24 +62,24 @@
             dataType: "JSON",
             success: function(response) {
                 let data = response.data;
-                // console.log(data);
+                console.log(data);
                 if ($('#forminputtiket').length) {
 
                     let select = $('select[name="inputAktivis"]');
                     select.empty();
-                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty
-                    select.append('<option value="1">-- SISTEM --</option>'); // Add empty
+                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty                    
                     $.each(data, function(index, value) {
                         select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
                     });
                 }
 
-                if ($('#formEditAktivis').length) {
+                if ($('#formEditProfile').length) {
                     // Disable the form inputs
-                    $('#formEditAktivis').find(':input').not('.btn-info').prop('disabled', true);
-                    $('#formEditAktivis').find('.btn-info').text('Edit');
+                    $('#formEditProfile').find(':input').not('.btn-info').prop('disabled', true);
+                    $('#formEditProfile').find('.btn-info').text('Edit');
 
                     // Populate fields with data
+                    $('.image-prof img').attr('src', '<?= base_url();?>/prof_pict/' + data[0]['pict']);
                     $('#nama_display').text(data[0]['nama_aktivis']);
                     $('#jabatan_display').text(data[0]['nama_jabatan']);
                     $('input[name="aktivisId"]').val(data[0]['aktivis_id']);
@@ -93,11 +94,44 @@
         });
     }
 
+    function getLoginInfo(field, value) {        
+
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/get",
+            data: JSON.stringify({
+                table: 'login_view',
+                field: field,
+                value: value
+            }),
+            dataType: "JSON",
+            success: function(response) {
+                console.log(response);
+                let data = response.data;                
+
+                if ($('#formEditLogin').length) {
+                    // Disable the form inputs
+                    $('#formEditLogin').find(':input').not('.btn-info').prop('disabled', true);
+                    $('#formEditLogin').find('.btn-info').text('Edit');
+
+                    // Populate fields with data                    
+                    $('input[name="user_id"]').val(data[0]['user_id']);
+                    $('input[name="aktivis_id"]').val(data[0]['aktivis_id']);
+                    $('input[name="active"]').val(data[0]['active']);
+                    $('input[name="role_id"]').val(data[0]['namagroup_id']);
+                    $('input[name="username"]').val(data[0]['username']);
+                    $('input[name="password"]').val(data[0]['password_hash']);                    
+                }
+
+            }
+        });
+    }
+
     $(document).on('click', '#tabelDataTiketBo tbody .detail-btn', function() {
 
         var tiketBo = $('#tabelDataTiketBo').DataTable();
         // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
-        var row = $(this).closest('tr');
+        var row = $(this).closest('tr');        
 
         if (row.hasClass('child')) {
             // If inside a "child row", find the parent row containing the actual data
@@ -106,8 +140,30 @@
 
         // Now get the row data from the DataTable instance
         var rowData = tiketBo.row(row).data();
+        console.log(rowData);        
+        content_load(rowData);
+    });
 
-        $('#content').load('/bo/tiketdetail', function(response, status, xhr) {
+    $(document).on('click', '#tabelDataTiket tbody .detail-btn', function() {
+
+        var tiketBo = $('#tabelDataTiket').DataTable();
+        // Check if the clicked element is inside a "child row" created by the DataTables responsive plugin
+        var row = $(this).closest('tr');        
+
+        if (row.hasClass('child')) {
+            // If inside a "child row", find the parent row containing the actual data
+            row = row.prev();
+        }
+
+        // Now get the row data from the DataTable instance
+        var rowData = tiketBo.row(row).data();
+        console.log(rowData);        
+        content_load(rowData);
+    });
+
+    function content_load(rowData){
+        var siteUrl = "<?= site_url() ?>";
+        $('#content').load(siteUrl + '/bo/tiketdetail', function(response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -115,7 +171,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '../api/get',
+                url: '<?= site_url();?>/api/get',
                 data: JSON.stringify({
                     table: 'view_tiket_history',
                     field: 'tiket_id',
@@ -193,7 +249,7 @@
                 `);
             }
         });
-    });
+    }
 
     $(document).on('click', '#btn_confirm', function() {
 
@@ -487,44 +543,135 @@
     });
 
     $(document).on('click', '.btn-info', function() {
-        // Enable all other input fields
-        var text = $('#formEditAktivis').find('.btn-info').text();
-        if (text !== 'Batal') {
-            $('#formEditAktivis').find(':input').not('.btn-info').prop('disabled', false);
-            $('#formEditAktivis').find('.btn-info').text('Batal');
-        } else {
-            $('#formEditAktivis').find(':input').not('.btn-info').prop('disabled', true);
-            $('#formEditAktivis').find('.btn-info').text('Edit');
-        }
-    })
+        // Get the closest form that contains the clicked .btn-info button
+        var $form = $(this).closest('form'); // Closest form to the clicked button
+        var text = $form.find('.btn-info').text();
 
-    $(document).on('submit', '#formEditAktivis', function(e) {
+        // Toggle behavior based on the button text
+        if (text !== 'Batal') {
+            $form.find(':input').not('.btn-info').prop('disabled', false);
+            $form.find('.btn-info').text('Batal');
+        } else {
+            $form.find(':input').not('.btn-info').prop('disabled', true);
+            $form.find('.btn-info').text('Edit');
+        }
+    });
+
+    $(document).on('submit', '#formEditProfile', function(e) {
         e.preventDefault();
-        var id = $('input[name="aktivisId"]').val();
-        var nia = $('input[name="inputNIA"]').val();
-        var nama = $('input[name="inputNamaLengkap"]').val();
-        var jk = $('select[name="inputJK"]').val();
-        var nohp = $('input[name="inputNoHP"]').val();
-        var asal = $('input[name="inputAlamatAsal"]').val();
+
+        var formData = new FormData();
+        formData.append('file_image', $('input[name="prof_img"]')[0].files[0]);        
 
         $.ajax({
-            url: "../api/insert",
-            contentType: 'application/json', // Set content type to JSON
-            type: 'POST',
-            data: JSON.stringify({
-                table: 'aktivis',
-                id: id,
-                data: [{
-                    nia: nia,
-                    nama_aktivis: nama,
-                    jk: jk,
-                    no_hp: nohp,
-                    asal: asal
-                }]
-            }),
-            dataType: 'JSON',
-            success: function(response) {
+            type: "POST",
+            url: "../api/upload_pict", // Your API endpoint to handle file uploads
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "JSON",
+        }).done(function(response) {
 
+            if (response.status === true){
+                var id = $('input[name="aktivisId"]').val();
+                var nia = $('input[name="inputNIA"]').val();
+                var nama = $('input[name="inputNamaLengkap"]').val();
+                var jk = $('select[name="inputJK"]').val();
+                var nohp = $('input[name="inputNoHP"]').val();
+                var asal = $('input[name="inputAlamatAsal"]').val();
+                var pict = response.filePaths.file_image; // Corrected to get image name from response
+        
+                $.ajax({
+                    url: "../api/insert",
+                    contentType: 'application/json', // Set content type to JSON
+                    type: 'POST',
+                    data: JSON.stringify({
+                        table: 'aktivis',
+                        id: id,
+                        data: [{
+                            nia: nia,
+                            nama_aktivis: nama,
+                            jk: jk,
+                            no_hp: nohp,
+                            asal: asal,
+                            pict: pict // Pass the uploaded image filename
+                        }]
+                    }),
+                    dataType: 'JSON',
+                    success: function(response) {
+        
+                        Swal.fire({
+                            title: "Success",
+                            text: response.message,
+                            icon: "success",
+                            timer: 2000,
+                        });
+        
+                        getAktivis('aktivis_id', id);
+        
+                    },
+                    error: function(xhr, status, error) {
+                        $('#addModal').modal('hide');
+                        $("#tabelDataAktivis").DataTable().ajax.reload();
+        
+                        let errorMessage = 'An error occurred';
+                        if (xhr.responseJSON && xhr.responseJSON.messages) {
+                            errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+                        }
+        
+                        Swal.fire({
+                            title: "Error",
+                            text: errorMessage,
+                            icon: "error",
+                            timer: 2000,
+                        });
+                    }
+                })
+            }else{
+                Swal.fire({
+                    title: "Error",
+                    text: response.message,
+                    icon: "error",
+                    timer: 3000,
+                });
+            }
+        }).fail(function(xhr) {
+            let errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.messages) {
+                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+            }
+
+            Swal.fire({
+                title: "Error",
+                text: errorMessage,
+                icon: "error",
+                timer: 5000,
+            });
+        });
+
+    })
+
+    $(document).on('submit', '#formEditLogin', function(e) {
+        e.preventDefault();
+
+        var id = $('input[name="user_id"]').val();
+        var dataLoginAktivis = {
+            aktivis_id: $('input[name="aktivis_id"]').val(),
+            username: $('input[name="username"]').val(),
+            password_hash: $('input[name="password"]').val(),
+            active: $('input[name="active"]').val(),
+            role_id: $('input[name="role_id"]').val(),
+        };
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/insert",
+            data: JSON.stringify({
+                table: 'user',
+                id:id,
+                data: [dataLoginAktivis],
+            }),
+            dataType: "JSON",
+            success: function(response) {
                 Swal.fire({
                     title: "Success",
                     text: response.message,
@@ -532,13 +679,9 @@
                     timer: 2000,
                 });
 
-                getAktivis('aktivis_id', id);
-
+                getLoginInfo('aktivis_id', dataLoginAktivis.aktivis_id);
             },
             error: function(xhr, status, error) {
-                $('#addModal').modal('hide');
-                $("#tabelDataAktivis").DataTable().ajax.reload();
-
                 let errorMessage = 'An error occurred';
                 if (xhr.responseJSON && xhr.responseJSON.messages) {
                     errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
@@ -549,12 +692,10 @@
                     text: errorMessage,
                     icon: "error",
                     timer: 2000,
-                });
+                });                
             }
-        })
-
-    })
-
+        });
+    });
 
     $(document).on('click', '#tabelDataTiketBo tbody .edit-btn', function() {
 
@@ -570,8 +711,9 @@
         // Now get the row data from the DataTable instance
         var rowData = tiketMasuk.row(row).data();
         console.log(rowData);
+        var siteUrl = "<?= site_url() ?>";
 
-        $('#content').load('/bo/tiketedit', function(response, status, xhr) {
+        $('#content').load(siteUrl + '/bo/tiketedit', function(response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 $("#content").html(msg + xhr.status + " " + xhr.statusText);
@@ -635,7 +777,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '../api/get',
+                url: '<?= site_url();?>/api/get',
                 contentType: 'application/json', // Set content type to JSON
                 type: 'POST',
                 data: function() {
@@ -736,7 +878,7 @@
             "lengthChange": false,
             "autoWidth": false,
             "ajax": {
-                url: '../api/get',
+                url: '<?= site_url();?>/api/get',
                 contentType: 'application/json', // Set content type to JSON
                 type: 'POST',
                 data: function() {
@@ -779,8 +921,12 @@
                     data: null,
                     render: function(data, type, row) {
                         // Return the HTML for the button
-                        return '<button class="btn btn-xs btn-warning edit-btn"><i class="bi bi-pencil-fill"></i></button> ' +
-                            '<button class="btn btn-xs btn-info view-btn"><i class="bi bi-eye"></i></button>';
+                        if (data === 'Reject') {
+                            return '<button class="btn btn-xs btn-warning edit-btn"><i class="bi bi-pencil-fill"></i></button> ' +
+                                '<button class="btn btn-xs btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        } else {
+                            return '<button class="btn btn-xs btn-info detail-btn"><i class="bi bi-eye"></i></button>';
+                        }
                     }
                 }
             ]

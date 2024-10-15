@@ -44,7 +44,7 @@
                         <div class="card-body">
 
                             <div class="form-group">
-                                <label for="inputNamaKantor" class="form-label">Nama Kantor</label>
+                                <label for="inputNamaKantor" class="form-label">Nama Area</label>
                                 <input class="form-control" type="text" name="inputNamaArea">
                             </div>
                         </div>

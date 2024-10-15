@@ -16,6 +16,7 @@ class Kontrol extends BaseController
                 'submenu' => $submenu,
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'pict' => $session->get('pict'),
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
@@ -67,6 +68,15 @@ class Kontrol extends BaseController
             return $data;
         }
         return view('Admin/Content/Tables/listkantor', $data);
+    }
+
+    public function listlogin()
+    {
+        $data = $this->prepareData('Tables', 'Login');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Tables/listlogin', $data);
     }
 
     public function viewarea()
@@ -322,6 +332,10 @@ class Kontrol extends BaseController
     // Profile
     public function profile()
     {
-        return view('Admin/Content/Pages/profile');
+        $data = $this->prepareData('Pages', 'Profile');
+        if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Pages/profile', $data);
     }
 }

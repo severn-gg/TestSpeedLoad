@@ -90,7 +90,7 @@
                     <div class="card-body box-profile">
                         <div class="image-wrapper">
                             <div class="image-prof">
-                                <img src="<?= base_url(); ?>assets/dist/img/user1-128x128.jpg">
+                                <img src="">
                                 <label for="file-path">
                                     <span><i class="bi bi-camera"></i></span>
                                 </label>
@@ -112,6 +112,7 @@
                     <div class="card-header p-2">
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#logininfo" data-toggle="tab">login Info</a></li>
                             <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Riwayat Aktivis</a></li>
                         </ul>
                     </div><!-- /.card-header -->
@@ -119,7 +120,7 @@
                         <div class="tab-content">
                             <div class="active tab-pane" id="activity">
                                 <!-- Post -->
-                                <form id="formEditAktivis">
+                                <form id="formEditProfile">
                                     <div class="form-group">
                                         <label for="inputNIA" class="form-label">Nomor Induk Aktivis</label>
                                         <input class="form-control" type="hidden" name="aktivisId">
@@ -197,6 +198,33 @@
                                     <div class="form-group row">
                                         <div class="offset-sm-2 col-sm-10">
                                             <button type="submit" class="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.tab-pane -->
+                             <div class="tab-pane" id="logininfo">
+                                <form id="formEditLogin" class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Username</label>
+                                        <div class="col-sm-10">
+                                            <input type="hidden" name="user_id" class="form-control">
+                                            <input type="hidden" name="aktivis_id" class="form-control">
+                                            <input type="hidden" name="active" class="form-control">
+                                            <input type="hidden" name="role_id" class="form-control">
+                                            <input type="text" name="username" class="form-control" placeholder="Username">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputEmail" class="col-sm-2 col-form-label">Password</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" name="password" class="form-control" placeholder="Password">
+                                        </div>
+                                    </div>                                    
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button class="btn btn-info" type="button">Edit</button>
+                                            <button class="btn btn-primary" type="submit">Save</button>
                                         </div>
                                     </div>
                                 </form>

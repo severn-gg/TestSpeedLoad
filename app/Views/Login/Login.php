@@ -33,7 +33,7 @@
                     <div class="alert alert-danger"><?= session()->getFlashdata('msg') ?></div>
                 <?php endif; ?>
 
-                <form action="/api/login" id="formLogin" method="post">
+                <form action="<?= site_url();?>/api/login" id="formLogin" method="post">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="username" placeholder="USERNAME">
                         <div class="input-group-append">
