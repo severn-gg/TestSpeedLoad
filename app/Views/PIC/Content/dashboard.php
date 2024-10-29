@@ -20,8 +20,7 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Home</li>          
         </ol>
       </div><!-- /.col -->
     </div><!-- /.row -->
@@ -34,42 +33,54 @@
   <div class="container-fluid">
     <h5 class="mb-2">Ticket Count</h5>
     <div class="row">
-      <div class="col-md-4 col-sm-6 col-12">
+      <div class="col-md-3 col-sm-6 col-12">
         <div class="info-box shadow">
           <span class="info-box-icon bg-info"><i class="fas fa-file-alt"></i></span>
 
           <div class="info-box-content">
             <span class="info-box-text">Total Tiket Masuk</span>
-            <span class="info-box-number">150</span>
+            <span class="info-box-number"><?php echo $dataTiket;?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
       </div>
-      <div class="col-md-4 col-sm-6 col-12">
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-primary"><i class="fas fa-file-alt"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Sedang Dikerjakan</span>
+            <span class="info-box-number"><?php echo $inProgress;?></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-12">
+        <div class="info-box shadow">
+          <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
+
+          <div class="info-box-content">
+            <span class="info-box-text">Menunggu Konfirmasi BO</span>
+            <span class="info-box-number"><?php echo $solved;?></span>
+          </div>
+          <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+      </div>
+      <div class="col-md-3 col-sm-6 col-12">
         <div class="info-box shadow">
           <span class="info-box-icon bg-success"><i class="fas fa-file-alt"></i></span>
 
           <div class="info-box-content">
             <span class="info-box-text">Tiket Selesai</span>
-            <span class="info-box-number">100</span>
+            <span class="info-box-number"><?php echo $closed;?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
         <!-- /.info-box -->
-      </div>
-      <div class="col-md-4 col-sm-6 col-12">
-        <div class="info-box shadow">
-          <span class="info-box-icon bg-warning"><i class="fas fa-file-alt"></i></span>
-
-          <div class="info-box-content">
-            <span class="info-box-text">Sedang Dikerjakan</span>
-            <span class="info-box-number">50</span>
-          </div>
-          <!-- /.info-box-content -->
-        </div>
-        <!-- /.info-box -->
-      </div>
+      </div>      
     </div>
     <!-- /.row -->
   </div><!-- /.container-fluid -->

@@ -31,7 +31,7 @@
             </p>
           </a>
         </li>
-
+        <li class="nav-header">Rutinitas</li>
         <li class="nav-item <?= (isset($menu) && $menu === 'Tables') ? ' menu-is-opening menu-open' : '' ?>">
           <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Tables') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-table"></i>
@@ -144,9 +144,10 @@
               </a>
             </li>
           </ul>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
+        </li>        
+        <li class="nav-header">Aditional</li>
+        <li class="nav-item <?= (isset($menu) && $menu === 'Charts') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Charts') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Charts
@@ -155,26 +156,25 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="<?= site_url(); ?>/admin/laporantiket" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionTiket" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tiket</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= site_url(); ?>/admin/laporanbo" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionBO" class="nav-link <?= (isset($submenu) && $submenu === 'BO') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Branch Office</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?= site_url(); ?>/admin/laporanpic" class="nav-link">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionPIC" class="nav-link <?= (isset($submenu) && $submenu === 'PIC') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>PIC</p>
               </a>
             </li>
           </ul>
         </li>
-        <li class="nav-header">Aditional</li>
         <li class="nav-item <?= (isset($menu) && $menu === 'Pages') ? ' menu-is-opening menu-open' : '' ?>">
           <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Pages') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-book"></i>
@@ -190,14 +190,9 @@
                 <p>Profile</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Documentation</p>
-              </a>
-            </li>
           </ul>
         </li>
+        <li class="nav-header">Utiliti</li>
         <li class="nav-item bg-danger">
           <a href="<?= site_url();?>/logout" class="nav-link">
             <i class="nav-icon fas fa-power-off"></i>

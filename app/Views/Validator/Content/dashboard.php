@@ -19,8 +19,7 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Home</li>          
         </ol>
       </div><!-- /.col -->
     </div><!-- /.row -->
@@ -39,7 +38,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Total Tiket Masuk</span>
-            <span class="info-box-number">150</span>
+            <span class="info-box-number"><?php echo $dataTiket;?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -51,7 +50,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Diverifikasi</span>
-            <span class="info-box-number">100</span>
+            <span class="info-box-number"><?php echo $dataTikets;?></span>
           </div>
           <!-- /.info-box-content -->
         </div>
@@ -63,7 +62,7 @@
 
           <div class="info-box-content">
             <span class="info-box-text">Ditolak</span>
-            <span class="info-box-number">50</span>
+            <span class="info-box-number"><?php echo $dataTiketr;?></span>
           </div>
           <!-- /.info-box-content -->
         </div>

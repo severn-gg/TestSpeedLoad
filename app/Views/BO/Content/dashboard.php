@@ -25,37 +25,49 @@
     <div class="container-fluid">
         <h5 class="mb-2">Ticket Count</h5>
         <div class="row">
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box shadow">
                     <span class="info-box-icon bg-info"><i class="far fa-copy"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Total Tiket</span>
-                        <span class="info-box-number">150</span>
+                        <span class="info-box-number"><?php echo $dataTiket;?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
             </div>
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box shadow">
                     <span class="info-box-icon bg-success"><i class="far fa-copy"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Sukses / Finish</span>
-                        <span class="info-box-number">150</span>
+                        <span class="info-box-number"><?php echo $finish;?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
             </div>
-            <div class="col-md-4 col-sm-6 col-12">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box shadow">
+                    <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">In Progress</span>
+                        <span class="info-box-number"><?php echo $inProgress;?></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box shadow">
                     <span class="info-box-icon bg-danger"><i class="far fa-copy"></i></span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Hold - perlu revisi</span>
-                        <span class="info-box-number">150</span>
+                        <span class="info-box-number"><?php echo $hold;?></span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>

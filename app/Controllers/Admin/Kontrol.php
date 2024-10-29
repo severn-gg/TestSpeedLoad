@@ -16,6 +16,10 @@ class Kontrol extends BaseController
                 'submenu' => $submenu,
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'dataAktivis' => $session->get('dataAktivis'),
+                'dataLogin' => $session->get('dataLogin'),
+                'dataTiket' => $session->get('dataTiket'),
+                'dataTikets' => $session->get('dataTikets'),
                 'pict' => $session->get('pict'),
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
@@ -112,7 +116,7 @@ class Kontrol extends BaseController
         if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
-        return view('Admin/Content/Ticket/app', $data);
+        return view('Admin/Content/Tables/listtiket', $data);
     }
 
     public function detailprint()
@@ -155,6 +159,7 @@ class Kontrol extends BaseController
         }
         return view('Admin/Content/Forms/aktivis', $data);
     }
+    
     public function forminputjabatan()
     {
         $data = $this->prepareData('Forms', 'jabatan');
@@ -218,10 +223,38 @@ class Kontrol extends BaseController
 
 
     // Menu Charts
+    public function underconstructionTiket()
+    {
+        $data = $this->prepareData('Charts', 'Tiket');
+        if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Charts/underconstruction', $data);
+    }
+
+    public function underconstructionBO()
+    {
+        $data = $this->prepareData('Charts', 'BO');
+        if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Charts/underconstruction', $data);
+    }
+
+    public function underconstructionPIC()
+    {
+        $data = $this->prepareData('Charts', 'PIC');
+        if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
+            return $data;
+        }
+        return view('Admin/Content/Charts/underconstruction', $data);
+    }
+
     public function chartsTiket()
     {
         return view('Admin/Content/Charts/Tiket/app');
     }
+
     public function exportTiketByStatus()
     {
         $data = [

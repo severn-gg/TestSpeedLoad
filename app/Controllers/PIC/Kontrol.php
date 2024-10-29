@@ -17,6 +17,11 @@ class Kontrol extends BaseController
                 'submenu' => $submenu,
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'dataTiket' => $session->get('dataTiket'),
+                'inProgress' => $session->get('inProgress'),
+                'solved' => $session->get('solved'),
+                'closed' => $session->get('closed'),
+                'pict' => $session->get('pict'),
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
                 'area_id' => $session->get('area_id'),
@@ -107,7 +112,6 @@ class Kontrol extends BaseController
         if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
-
         return view('PIC/Content/profile', $data);
     }
 }

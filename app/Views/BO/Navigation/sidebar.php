@@ -73,14 +73,9 @@
                                 <p>Profile</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Documentation</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
+                <li class="nav-header">Utiliti</li>
                 <li class="nav-item bg-danger">
                     <a href="<?= site_url();?>/logout" class="nav-link">
                         <i class="nav-icon fas fa-power-off"></i>

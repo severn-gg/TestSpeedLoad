@@ -17,7 +17,7 @@
 <script>
     $(document).ready(function() {
 
-    });
+    });    
 
     $(document).on('click', '#tabelDataTiketMasuk tbody .btn-verifikasi', function() {
 
@@ -574,138 +574,7 @@
 
                 }
             ]
-        });
-
-        // $("#tabelDataTiketMasuk").DataTable({
-        //     "responsive": true,
-        //     "lengthChange": false,
-        //     "autoWidth": false,
-        //     "ajax": {
-        //         url: '<?= site_url();?>/api/get', // Your endpoint URL
-        //         type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
-        //         data: function() {
-        //             // Convert data to JSON
-        //             return JSON.stringify({
-        //                 table: 'view_tiket_details',
-        //                 id: ''
-        //             });
-        //         },
-        //         dataSrc: function(response) {
-        //             if (response.data === null) {
-        //                 // No data available, return empty array
-        //                 return [];
-        //             } else {
-        //                 // Filter data array to include only entries with status 'Open'
-        //                 const filteredData = response.data.filter(function(item) {
-        //                     return item['status'] === 'Confirmed' && item['area_id'] === "<?php echo $area_id; ?>";
-        //                 });
-
-        //                 console.log(filteredData);
-        //                 return filteredData;
-        //             }
-        //             // return response.data;
-        //         },
-        //     },
-        //     "columns": [{
-        //             data: 'tiket_id',
-        //             title: '#'
-        //         },
-        //         {
-        //             data: 'no_tiket',
-        //             title: 'No. Tiket'
-        //         },
-        //         {
-        //             data: 'nama_cabang',
-        //             title: 'Branch Office'
-        //         },
-        //         {
-        //             data: 'deskripsi',
-        //             titel: 'Deskripsi'
-        //         },
-        //         {
-        //             data: 'tgl_input',
-        //             title: 'Tanggal Tiket'
-        //         },
-        //         {
-        //             data: 'status',
-        //             title: 'Verif'
-        //         },
-        //         {
-        //             data: null,
-        //             title: 'Aksi',
-        //             defaultContent: '<button class="btn btn-xs btn-primary btn-verifikasi"><i class="nav-icon fas fa-pen"></i></button>'
-        //         }
-        //     ]
-        // });
-
-        // $("#tabelDataTiketInProgress").DataTable({
-        //     "responsive": true,
-        //     "lengthChange": false,
-        //     "autoWidth": false,
-        //     "ajax": {
-        //         url: '<?= site_url();?>/api/get', // Your endpoint URL
-        //         type: 'POST', // The HTTP method to use for the request (can be 'GET' or 'POST')                
-        //         data: function() {
-        //             // Convert data to JSON
-        //             return JSON.stringify({
-        //                 table: 'view_tiket_details',
-        //                 // field: 'status',
-        //                 // value: 'In Progress',
-        //                 id: ''
-        //             });
-        //         },
-        //         dataSrc: function(response) {
-        //             if (response.data === null) {
-        //                 // No data available, return empty array
-        //                 return [];
-        //             } else {
-        //                 // Filter data array to include only entries with status 'Open'
-        //                 const filteredData = response.data.filter(function(item) {
-        //                     return item['status'] === 'In Progress';
-        //                 });
-        //                 return filteredData;
-        //             }
-        //             // return response.data;
-        //         },
-        //     },
-        //     "columns": [{
-        //             data: 'tiket_id',
-        //             title: '#'
-        //         },
-        //         {
-        //             data: 'no_tiket',
-        //             title: 'No. Tiket',
-        //             render: function(data, type, row) {
-        //                 return `<strong>${data}</strong>`
-        //             }
-        //         },
-        //         {
-        //             data: 'nama_cabang',
-        //             title: 'Branch Office'
-        //         },
-        //         {
-        //             data: 'deskripsi',
-        //             titel: 'Deskripsi'
-        //         },
-        //         {
-        //             data: 'tgl_input',
-        //             title: 'Tanggal Tiket'
-        //         },
-        //         {
-        //             data: 'status',
-        //             title: 'Verif',
-        //             render: function(data, type, row) {
-        //                 // Always return the badge with the provided status
-        //                 return `<span class="badge badge-warning"><i class="bi bi-hourglass-split h6"> </i>${data}</span>`;
-        //             }
-        //         },
-        //         {
-        //             data: null,
-        //             title: 'Aksi',
-        //             defaultContent: '<button class="btn btn-sm btn-info detail-btn"><i class="nav-icon fas fa-eye"></i></button> ' + '<button class="btn btn-sm btn-success done-btn"><i class="bi bi-file-earmark-check-fill"></i></button>'
-        //         }
-        //     ]
-        // });        
+        });      
 
     });
 </script>

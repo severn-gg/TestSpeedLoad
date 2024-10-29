@@ -93,29 +93,97 @@ class Api extends BaseController
 
         if ($userData['namagroup_id'] == 1 || $userData['namagroup_id'] == 2) {
             $session->set('role', 'isAdmin');
+            $role = $session->get('role');            
+            $data = $this->getDataGapura($role);
+            $session->set('dataAktivis', $data['aktivis']);
+            $session->set('dataLogin', $data['login']);
+            $session->set('dataTiket', $data['tiket']);
+            $session->set('dataTikets', $data['tiketS']);
             return redirect()->to('admin/dashboard');
-        } elseif ($userData['namagroup_id'] > 2 && $userData['namagroup_id'] < 6) {
+        } elseif ($userData['namagroup_id'] > 2 && $userData['namagroup_id'] < 7) {
             if ($userData['namagroup_id'] == 3) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Software');
+                $role = $session->get('role');                
+                $data = $this->getDataGapura($role);                
+                $session->set('dataTiket', $data['tiket']);
+                $session->set('inProgress', $data['inProgress']);
+                $session->set('solved', $data['solved']);
+                $session->set('closed', $data['closed']);
             } else if ($userData['namagroup_id'] == 4) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Hardware');
+                $role = $session->get('role');                
+                $data = $this->getDataGapura($role);                
+                $session->set('dataTiket', $data['tiket']);
+                $session->set('inProgress', $data['inProgress']);
+                $session->set('solved', $data['solved']);
+                $session->set('closed', $data['closed']);
             } else if ($userData['namagroup_id'] == 5) {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'Network');
+                $role = $session->get('role');                
+                $data = $this->getDataGapura($role);
+                $session->set('dataTiket', $data['tiket']);
+                $session->set('inProgress', $data['inProgress']);
+                $session->set('solved', $data['solved']);
+                $session->set('closed', $data['closed']);
             } else {
                 $session->set('role', 'isPIC');
                 $session->set('PIC', 'LKD');
+                $role = $session->get('role');                
+                $data = $this->getDataGapura($role);
+                $session->set('dataTiket', $data['tiket']);
+                $session->set('inProgress', $data['inProgress']);
+                $session->set('solved', $data['solved']);
+                $session->set('closed', $data['closed']);
             }
             return redirect()->to('pic/dashboard');
         } elseif ($userData['namagroup_id'] == 7) {
             $session->set('role', 'isVal');
+            $role = $session->get('role');            
+            $data = $this->getDataGapura($role);            
+            $session->set('dataTiket', $data['tiket']);
+            $session->set('dataTikets', $data['tiketS']);
+            $session->set('dataTiketr', $data['tiketTR']);
             return redirect()->to('validator/dashboard');
         } else {
             $session->set('role', 'isBO');
+            $role = $session->get('role');
+            $data = $this->getDataGapura($role);
+            $session->set('dataTiket', $data['tiket']);
+            $session->set('finish', $data['finish']);
+            $session->set('inProgress', $data['inProgress']);
+            $session->set('hold', $data['hold']);
             return redirect()->to('bo/dashboard');
         }
+    }
+
+    function getDataGapura($role){
+
+        $session = session();
+        $morders = new ApiModel();
+        switch($role){
+            case "isAdmin":
+                $result = $morders->getDataAdmin();
+                break;
+            case "isPIC":
+                $areaId = $session->get('area_id');
+                $PIC = $session->get('PIC');
+                $result = $morders->getDataPIC($areaId, $PIC);
+                break;
+            case "isVal":
+                $result = $morders->getDataVal();
+                break;
+            case "isBO":
+                $cabangId = $session->get('cabang_id');
+                $result = $morders->getDataBO($cabangId);
+                break;
+            default :
+                return $this->failServerError('No Role Specified!');
+        }
+        
+        return $result;
     }
 
     //insert jika manyertakan id adalah update
@@ -133,8 +201,6 @@ class Api extends BaseController
         $table = $jsonData['table'];
         $id = isset($jsonData['id']) && !empty($jsonData['id']) ? (int)$jsonData['id'] : null;
         $data = $jsonData['data'][0];
-        // var_dump($data);
-        // die;
 
         if ($table === "pic") {
         }
@@ -251,8 +317,6 @@ class Api extends BaseController
                 // Get the count of existing records in the tiket table
                 $count = new ApiModel();
                 $countTiket = $count->countAll(); // Implement this method in your model
-                // var_dump($countTiket);
-                // die;
 
                 // Check if tiket_kategori is 'Software'
                 if ($data['tiket_kategori'] === 'Software') {
@@ -276,8 +340,6 @@ class Api extends BaseController
                 // Add $noTiket to $data[0]
                 $data['noTiket'] = $noTiket;
 
-                // var_dump($data);
-                // die;
                 break;
             default:
                 return $this->failServerError('Salah inputan table!');
@@ -293,22 +355,38 @@ class Api extends BaseController
 
         $result = $partnerModel->insert_table($data, $table, $id);
 
-        // var_dump($result);
-        // die;
+        if ($table === "tiket") {
+            $session = session();
+            switch ($data['status']) {                
+                case "Open":
+                    $currentValue = $session->get('dataTiket') ?? 0;
+                    $session->set('dataTiket', $currentValue + 1);
+                    break;
+                case "In Progress":
+                    $currentValue = $session->get('inProgress') ?? 0;
+                    $session->set('inProgress', $currentValue + 1);
+                    break;
+                case "Solved":                    
+                    $currentValue = $session->get('inProgress') ?? 0;
+                    $session->set('inProgress', $currentValue - 1);
+                    break;
+            }
+        }
 
         // Pengiriman response 
-        if (is_array($result) && isset($result['success']) && $result['success'] === true) {
-            if ($id !== null) {
-                return $this->respondCreated(['message' => 'Data Updated successfully']);
-            } else {
-                return $this->respondCreated([
-                    'message' => 'Data Inserted successfully',
-                    'id' => $result['lastInsertedId'], // Access the last inserted ID from the result array
-                ]);
-            }
-        } else {
-            return $this->fail($result); // If $result is a string (error message), return it as a failure
+        if (!is_array($result) || !isset($result['success']) || $result['success'] !== true) {
+            return $this->fail($result); // Return early if the result is not successful
         }
+
+        if ($id === null) {
+            return $this->respondCreated([
+                'message' => 'Data Inserted successfully',
+                'id' => $result['lastInsertedId'], // Access the last inserted ID from the result array
+            ]);
+        }        
+
+        return $this->respondCreated(['message' => 'Data Updated successfully']);
+
     }
 
     // get jika menyertakan ID, maka : select where
@@ -398,9 +476,6 @@ class Api extends BaseController
         ];
 
         try {
-            
-            $imageUploaded = false;
-
             $aktivisId = $session->get('aktivis_id');
             $pict = $session->get('nama_pengguna');
             $pictName = str_replace(' ', '', $pict);
@@ -411,18 +486,21 @@ class Api extends BaseController
                 $imageName = $aktivisId . $pictName . time() . '.' . $image->getClientExtension();
                 $image->move(ROOTPATH . 'public/prof_pict/', $imageName);
                 $response['filePaths']['file_image'] = $imageName;
-                $imageUploaded = true;
-            } else if (!$image) {
-                $response['message'] .= 'Image file not provided. ';
-            } else {
-                $response['message'] .= 'Image file upload failed. ';
-            }
+                $response['status'] = true;
+                $response['message'] = 'Image file uploaded successfully.';
 
-            // Set the status and message based on the upload results
-            if ($imageUploaded) {  
-                $response['status'] = true;              
-                if (!$imageUploaded) {
-                    $response['message'] .= 'Image file not uploaded. ';
+                // Update session data with the new image path
+                $sessionData = [
+                    'pict' => $imageName,  // Assuming 'pict' stores the file name in session
+                ];
+                $session->set($sessionData);
+            } else {
+                // Image not provided or invalid                
+                if (!$image || !$image->isValid()) {
+                    $response['status'] = true; // Continue as successful
+                    $response['message'] = 'Image file not provided or invalid, but continuing.';
+                } else {
+                    $response['message'] = 'Image file upload failed.';
                 }
             }
 

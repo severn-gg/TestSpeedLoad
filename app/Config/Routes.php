@@ -57,6 +57,9 @@ $routes->group('admin', static function ($routes) {
 
 
     // menu charts
+    $routes->get('charts/underconstructionTiket', [KontrolAdmin::class, 'underconstructionTiket']);
+    $routes->get('charts/underconstructionBO', [KontrolAdmin::class, 'underconstructionBO']);
+    $routes->get('charts/underconstructionPIC', [KontrolAdmin::class, 'underconstructionPIC']);
     $routes->get('laporantiket', [KontrolAdmin::class, 'chartsTiket']);
     $routes->get('laporantiket/ByStatus', [KontrolAdmin::class, 'exportTiketByStatus']);
     $routes->get('laporantiket/ByKategori', [KontrolAdmin::class, 'exportByKategori']);

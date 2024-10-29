@@ -18,6 +18,10 @@ class Kontrol extends BaseController
                 'user_id' => $session->get('user_id'),
                 'username' => $session->get('username'),
                 'aktivis_id' => $session->get('aktivis_id'),
+                'dataTiket' => $session->get('dataTiket'),
+                'dataTikets' => $session->get('dataTikets'),
+                'dataTiketr' => $session->get('dataTiketr'),
+                'pict' => $session->get('pict'),
                 'jabatan_id' => $session->get('jabatan_id'),
                 'cabang_id' => $session->get('cabang_id'),
                 'nama' => $session->get('nama_pengguna'), // Assuming 'nama_pengguna' is the correct session key
@@ -80,12 +84,13 @@ class Kontrol extends BaseController
 
     public function profile()
     {
-        $data = $this->prepareData('Additional', 'Profile');
+        $data = $this->prepareData('Pages', 'Profile');
         if (is_a($data, '\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
         return view('Validator/Content/profile', $data);
     }
+    
 
     public function tiketprint()
     {

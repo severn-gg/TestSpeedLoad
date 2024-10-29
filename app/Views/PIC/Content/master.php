@@ -1,10 +1,3 @@
-<?php
-
-/**
- * @var CodeIgniter\View\View $this
- */
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 

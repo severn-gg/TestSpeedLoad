@@ -19,111 +19,9 @@
         var segments = path.split('/');
 
         // segments[2] will contain 'tiketsaya' if the URL is http://localhost:8080/index.php/bo/tiketsaya
-        tiketsayaValue = segments[3];
-        if ($('#formEditProfile').length) {
-            var field = 'aktivis_id';
-            var cabang = '<?php echo $aktivis_id; ?>';
-            getAktivis(field, cabang);
-            getLoginInfo(field, cabang);
-        } 
-
+        tiketsayaValue = segments[3];        
         checkFormExist();
-    });
-
-    function getAktivis(field, cabang) {
-
-        // console.log(cabang_id);
-
-        $.ajax({
-            type: "POST",
-            url: "<?= site_url();?>/api/get",
-            data: JSON.stringify({
-                table: 'aktivis_cabang_view',
-                field: field,
-                value: cabang
-            }),
-            dataType: "JSON",
-            success: function(response) {
-                let data = response.data;
-                console.log(data);
-                if ($('#forminputtiket').length) {
-
-                    let select = $('select[name="inputAktivis"]');
-                    select.empty();
-                    select.append('<option value="">-- Pilih Aktivis --</option>'); // Add empty                    
-                    $.each(data, function(index, value) {
-                        select.append(`<option value = "${value.aktivis_id}">${value.nama_aktivis} </option>`);
-                    });
-                }
-
-                if ($('#formEditProfile').length) {
-                    // Disable the form inputs
-                    $('#formEditProfile').find(':input').not('.btn-info').prop('disabled', true);
-                    $('#formEditProfile').find('.btn-info').text('Edit');
-
-                    // Populate fields with data
-                    $('.image-prof img').attr('src', '<?= base_url();?>/prof_pict/' + data[0]['pict']);
-                    $('#nama_display').text(data[0]['nama_aktivis']);
-                    $('#jabatan_display').text(data[0]['nama_jabatan']);
-                    $('input[name="aktivisId"]').val(data[0]['aktivis_id']);
-                    $('input[name="inputNIA"]').val(data[0]['nia']);
-                    $('input[name="inputNamaLengkap"]').val(data[0]['nama_aktivis']);
-                    $('select[name="inputJK"]').val(data[0]['jk']).trigger('change'); // Use 'change' event to update the select
-                    $('input[name="inputNoHP"]').val(data[0]['no_hp']);
-                    $('input[name="inputAlamatAsal"]').val(data[0]['asal']);
-                }
-
-            }
-        });
-    }
-
-    function getLoginInfo(field, value) {        
-
-        $.ajax({
-            type: "POST",
-            url: "<?= site_url();?>/api/get",
-            data: JSON.stringify({
-                table: 'login_view',
-                field: field,
-                value: value
-            }),
-            dataType: "JSON",
-            success: function(response) {
-                console.log(response);
-                let data = response.data;                
-
-                if ($('#formEditLogin').length) {
-                    // Disable the form inputs
-                    $('#formEditLogin').find(':input').not('.btn-info').prop('disabled', true);
-                    $('#formEditLogin').find('.btn-info').text('Edit');
-
-                    // Populate fields with data                    
-                    $('input[name="user_id"]').val(data[0]['user_id']);
-                    $('input[name="aktivis_id"]').val(data[0]['aktivis_id']);
-                    $('input[name="active"]').val(data[0]['active']);
-                    $('input[name="role_id"]').val(data[0]['namagroup_id']);
-                    $('input[name="username"]').val(data[0]['username']);
-                    $('input[name="password"]').val(data[0]['password_hash']);                    
-                }
-
-            }
-        });
-    }
-
-    $(document).on('click', '.btn-info', function() {
-        // Get the closest form that contains the clicked .btn-info button
-        var $form = $(this).closest('form'); // Closest form to the clicked button
-        var text = $form.find('.btn-info').text();
-
-        // Toggle behavior based on the button text
-        if (text !== 'Batal') {
-            $form.find(':input').not('.btn-info').prop('disabled', false);
-            $form.find('.btn-info').text('Batal');
-        } else {
-            $form.find(':input').not('.btn-info').prop('disabled', true);
-            $form.find('.btn-info').text('Edit');
-        }
-    });    
+    });            
 
     $(document).on('submit', '#formEditLogin', function(e) {
         e.preventDefault();
@@ -710,98 +608,7 @@
             $('#forminputaktivis')[0].reset();
             $('.select2').val(null).trigger('change');
         });
-    });
-
-    $(document).on('submit', '#formEditProfile', function(e) {
-        e.preventDefault();
-
-        var formData = new FormData();
-        formData.append('file_image', $('input[name="prof_img"]')[0].files[0]);        
-
-        $.ajax({
-            type: "POST",
-            url: "../api/upload_pict", // Your API endpoint to handle file uploads
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: "JSON",
-        }).done(function(response) {
-            
-            if (response.status === true){
-                var id = $('input[name="aktivisId"]').val();
-                var nia = $('input[name="inputNIA"]').val();
-                var nama = $('input[name="inputNamaLengkap"]').val();
-                var jk = $('select[name="inputJK"]').val();
-                var nohp = $('input[name="inputNoHP"]').val();
-                var asal = $('input[name="inputAlamatAsal"]').val();
-                var pict = response.filePaths.file_image; // Corrected to get image name from response
-
-                $.ajax({
-                    url: "../api/insert",
-                    contentType: 'application/json', // Set content type to JSON
-                    type: 'POST',
-                    data: JSON.stringify({
-                        table: 'aktivis',
-                        id: id,
-                        data: [{
-                            nia: nia,
-                            nama_aktivis: nama,
-                            jk: jk,
-                            no_hp: nohp,
-                            asal: asal,
-                            pict: pict // Pass the uploaded image filename
-                        }]
-                    }),
-                    dataType: 'JSON',
-                    success: function(response) {
-
-                        Swal.fire({
-                            title: "Success",
-                            text: response.message,
-                            icon: "success",
-                            timer: 2000,
-                        });
-
-                        // Reload the specific user data
-                        getAktivis('aktivis_id', id);
-
-                    },
-                    error: function(xhr, status, error) {                        
-                        let errorMessage = 'An error occurred';
-                        if (xhr.responseJSON && xhr.responseJSON.messages) {
-                            errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
-                        }
-
-                        Swal.fire({
-                            title: "Error",
-                            text: errorMessage,
-                            icon: "error",
-                            timer: 2000,
-                        });
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: "Error",
-                    text: response.message,
-                    icon: "error",
-                    timer: 3000,
-                });
-            }
-        }).fail(function(xhr) {
-            let errorMessage = 'An error occurred';
-            if (xhr.responseJSON && xhr.responseJSON.messages) {
-                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
-            }
-
-            Swal.fire({
-                title: "Error",
-                text: errorMessage,
-                icon: "error",
-                timer: 5000,
-            });
-        });
-    });
+    });    
 
     $(document).on('submit', '#forminputJabatan', function(e) {
         e.preventDefault();
@@ -1757,6 +1564,29 @@
                         // Retrieve pic_id from row data (assuming row contains PIC_Software_pic_id)
                         let picId = row.PIC_Network_pic_id; // Replace with the correct field name
                         let userId = row.PIC_Network_user_id;
+
+                        if (data === null) {
+                            buttonHtml += '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>';
+                        } else {
+                            buttonHtml += data + 
+                                ' <button class="btn btn-xs btn-warning" data-user_id="'+ userId +'" data-pic_id="' + picId + '"><i class="nav-icon fas fa-pen"></i></button> ' +
+                                '<button class="btn btn-xs btn-danger" data-pic_id="' + picId + '"><i class="nav-icon fas fa-trash"></i></button>';
+                        }
+
+                        buttonHtml += '</div>'; // Close the div
+                        return buttonHtml;
+                    }
+                },
+                {
+                    data: 'PIC_LKD',
+                    title: 'PIC LKD',
+                    render: function(data, type, row) {
+                        // Create a div container with text alignment set to right
+                        let buttonHtml = '<div style="text-align: right;">';
+                        
+                        // Retrieve pic_id from row data (assuming row contains PIC_Software_pic_id)
+                        let picId = row.PIC_LKD_pic_id; // Replace with the correct field name
+                        let userId = row.PIC_LKD_user_id;
 
                         if (data === null) {
                             buttonHtml += '<button class="btn btn-xs btn-primary"><i class="nav-icon fas fa-plus"></i></button>';

@@ -20,7 +20,7 @@
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">          
-          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Home</li>
         </ol>
       </div><!-- /.col -->
     </div><!-- /.row -->
@@ -38,7 +38,7 @@
         <!-- small box -->
         <div class="small-box bg-primary">
           <div class="inner">
-            <h3>135</h3>
+            <h3><?php echo $dataAktivis;?></h3>
 
             <p>Aktivis Terdaftar</p>
           </div>
@@ -55,7 +55,7 @@
         <!-- small box -->
         <div class="small-box bg-secondary">
           <div class="inner">
-            <h3>5</h3>
+            <h3><?php echo $dataLogin;?></h3>
 
             <p>User Login Aktivis</p>
           </div>
@@ -74,7 +74,7 @@
         <!-- small box -->
         <div class="small-box bg-info">
           <div class="inner">
-            <h3>15</h3>
+            <h3><?php echo $dataTiket;?></h3>
 
             <p>Tiket Diantrikan</p>
           </div>
@@ -92,7 +92,7 @@
         <!-- small box -->
         <div class="small-box bg-success">
           <div class="inner">
-            <h3>15</h3>
+            <h3><?php echo $dataTikets?></h3>
 
             <p>Tiket Selesai</p>
           </div>

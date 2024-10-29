@@ -5,6 +5,7 @@
 # custom
 /public/files/
 /public/images/
+/public/prof_pict/
 
 # OS X
 .DS_Store

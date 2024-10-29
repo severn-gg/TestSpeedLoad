@@ -15,13 +15,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Daftar PIC Area</h1>
+                <h1 class="m-0">List PIC Area</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="<?= site_url();?>/admin/dashboard">Home</a></li>
                     <li class="breadcrumb-item">Tables</li>
-                    <li class="breadcrumb-item active">List Aktivis</li>
+                    <li class="breadcrumb-item active">List PIC Area</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -53,6 +53,9 @@
                                     </th>
                                     <th>
                                         PIC Network
+                                    </th>
+                                    <th>
+                                        PIC LKD
                                     </th>
                                 </tr>
                             </thead>
