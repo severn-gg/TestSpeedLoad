@@ -145,6 +145,36 @@
             </li>
           </ul>
         </li>        
+        <li class="nav-header">Laporan</li>
+        <li class="nav-item <?= (isset($menu) && $menu === 'Charts') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Charts') ? ' active' : '' ?>">
+            <i class="nav-icon fas fa-chart-pie"></i>
+            <p>
+              Tiket
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionTiket" class="nav-link <?= (isset($submenu) && $submenu === 'Tiket') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tiket</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionBO" class="nav-link <?= (isset($submenu) && $submenu === 'BO') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Branch Office</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?= site_url(); ?>/admin/charts/underconstructionPIC" class="nav-link <?= (isset($submenu) && $submenu === 'PIC') ? ' active' : '' ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p>PIC</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-header">Aditional</li>
         <li class="nav-item <?= (isset($menu) && $menu === 'Charts') ? ' menu-is-opening menu-open' : '' ?>">
           <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Charts') ? ' active' : '' ?>">

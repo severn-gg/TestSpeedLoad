@@ -369,6 +369,8 @@ class Api extends BaseController
                 case "Solved":                    
                     $currentValue = $session->get('inProgress') ?? 0;
                     $session->set('inProgress', $currentValue - 1);
+                    $currentValueSL = $session->get('solved') ?? 0;
+                    $session->set('solved', $currentValueSL + 1);
                     break;
             }
         }
