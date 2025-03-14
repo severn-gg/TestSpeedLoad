@@ -78,7 +78,11 @@
             formId = 'forminputaktivis';
         } else if ($('#formmutasiaktivis').length) {
             formId = 'formmutasiaktivis';
-        } else if ($('#formmutasijabatanaktivis').length) {
+        } else if ($('#formaddjabatanaktivis').length) {
+            formId = 'formaddjabatanaktivis';
+        } else if ($('#formaddcabangaktivis').length) {
+            formId = 'formaddcabangaktivis';
+        } else if($('#formmutasijabatanaktivis').length){
             formId = 'formmutasijabatanaktivis';
         } else if ($('#formuserloginaktivis').length) {
             formId = 'formuserloginaktivis';
@@ -99,6 +103,14 @@
             case 'formmutasiaktivis':
                 fetchData('aktivis', 'inputAktivis', '-- Pilih Aktivis --', callback);
                 fetchData('cabang', 'inputKantor', '-- Pilih Kantor --', callback);
+                break;
+
+            case 'formaddcabangaktivis':
+                fetchData('cabang', 'inputKantor', '-- Pilih Kantor --', callback);
+                break;
+
+            case 'formaddjabatanaktivis':
+                fetchData('jabatan', 'inputJabatan', '-- Pilih Jabatan --', callback);
                 break;
 
             case 'formmutasijabatanaktivis':
@@ -216,6 +228,132 @@
         $('.modal-footer').hide();
         $('.modal-title').text('Edit Aktivis');
         $('#addModal').modal('show');
+    });
+
+    $(document).on('click', '#tabelDataAktivis tbody .add-jabatan', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDataAktivis').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="formaddjabatanaktivis">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputAktivis" class="form-label">Select Aktivis</label>
+                        <input class="form-control" type="hidden" name="aktivisId" value="${rowData.aktivis_id}">
+                        <input class="form-control" type="text" name="inputNIA" value="${rowData.nama_aktivis}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputJabatan" class="form-label">Select Jabatan</label>
+                        <select type="select" class="form-control select2" name="inputJabatan">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNoHP" class="form-label">Tanggal Mulai</label>
+                        <input class="form-control" type="date" name="inputTglMulai">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                </div>
+            </form>
+        `);
+        $('.modal-footer').hide();
+        $('.modal-title').text('Add Jabatan Aktivis');
+        $('#addModal').modal('show');
+        checkFormExist();
+        $('.select2').select2();
+        // After the select is populated, set the selected value        
+        // $('select[name="inputJabatan"]').val(rowData.area_id).trigger('change');
+    });
+
+    $(document).on('click', '#tabelDataAktivis tbody .add-cabang', function(e) {
+        e.preventDefault();
+
+        // Get the row data using the DataTable API
+        var table = $('#tabelDataAktivis').DataTable();
+        var rowData = table.row($(this).closest('tr')).data();
+
+        $('#modalBody').html(`
+            <form id="formaddcabangaktivis">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="inputAktivis" class="form-label">Select Aktivis</label>
+                        <input class="form-control" type="hidden" name="aktivisId" value="${rowData.aktivis_id}">
+                        <input class="form-control" type="text" name="inputNIA" value="${rowData.nama_aktivis}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputKantor" class="form-label">Select Kantor</label>
+                        <select type="select" class="form-control select2" name="inputKantor">
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputNoHP" class="form-label">Tanggal Mulai</label>
+                        <input class="form-control" type="date" name="inputTglMulai">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                </div>
+            </form>
+        `);
+        $('.modal-footer').hide();
+        $('.modal-title').text('Add Cabang Aktivis');
+        $('#addModal').modal('show');
+        checkFormExist();
+        $('.select2').select2();
+        // After the select is populated, set the selected value        
+        // $('select[name="inputJabatan"]').val(rowData.area_id).trigger('change');
+    });
+
+    $(document).on('click', '#btnAddAktivis', function (e) {
+        e.preventDefault();
+        $('#modalBody').html(`
+            <form id="forminputaktivis">
+                <div class="form-group">
+                    <label for="inputNIA" class="form-label">Nomor Induk Aktivis</label>
+                    <input class="form-control" type="text" name="inputNIA">
+                </div>
+                <div class="form-group">
+                    <label for="inputNamaLengkap" class="form-label">Nama Lengkap</label>
+                    <input class="form-control" type="text" name="inputNamaLengkap">
+                </div>
+                <div class="form-group">
+                    <label for="inputJK" class="form-label">Select Jenis Kelamin</label>
+                    <select type="select" class="form-control" name="inputJK">
+                        <option value="">-- Pilih Gender --</option>
+                        <option value="Laki-laki">Laki-laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="inputNoHP" class="form-label">No. HP</label>
+                    <input class="form-control" type="text" name="inputNoHP">
+                </div>
+                <div class="form-group">
+                    <label for="inputAlamatAsal" class="form-label">Alamat Asal</label>
+                    <input class="form-control" type="text" name="inputAlamatAsal">
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary" id="btnSubmit">Reset</button>
+                </div>
+            </form>`
+        );
+        $('.modal-footer').hide();
+        $('.modal-title').text('Edit Cabang');
+        $('#addModal').modal('show');
+        checkFormExist();
+        $('.select2').select2();
     });
 
     $(document).on('click', '#tabelDataKantor tbody .btn-warning', function(e) {
@@ -545,52 +683,16 @@
                 data: [dataAktivis],
             }),
             dataType: "JSON"
-        }).then(function(response) {
-            if (response.id !== 0) {
-                var dataKantor = {
-                    aktivis_id: response.id,
-                    cabang_id: $('select[name="inputKantor"]').val(),
-                    start_date: $('input[name="inputTglMulai"]').val(),
-                };
-
-                var dataJabatan = {
-                    aktivis_id: response.id,
-                    jabatan_id: $('select[name="inputJabatan"]').val(),
-                    start_date: $('input[name="inputTglMulaiJabat"]').val(),
-                };
-
-                return $.when(
-                    $.ajax({
-                        type: "POST",
-                        url: "<?= site_url();?>/api/insert",
-                        data: JSON.stringify({
-                            table: 'cabangaktivis',
-                            data: [dataKantor],
-                        }),
-                        dataType: "JSON"
-                    }),
-                    $.ajax({
-                        type: "POST",
-                        url: "<?= site_url();?>/api/insert",
-                        data: JSON.stringify({
-                            table: 'jabatanaktivis',
-                            data: [dataJabatan],
-                        }),
-                        dataType: "JSON"
-                    })
-                );
-            }
         }).then(function(responseKantor, responseJabatan) {
             Swal.fire({
                 title: "Success",
-                text: "Data inserted successfully for cabangaktivis and jabatanaktivis",
+                text: "Data inserted successfully for Aktivis",
                 icon: "success",
                 timer: 2000,
             });
 
-            // Clear the form inputs
-            $('#forminputaktivis')[0].reset();
-            $('.select2').val(null).trigger('change');
+            $('#addModal').modal('hide');
+            $('#tabelDataAktivis').DataTable().ajax.reload();
         }).catch(function(xhr) {
             let errorMessage = 'An error occurred';
             if (xhr.responseJSON && xhr.responseJSON.messages) {
@@ -604,9 +706,98 @@
                 timer: 2000,
             });
 
-            // Clear the form inputs
-            $('#forminputaktivis')[0].reset();
-            $('.select2').val(null).trigger('change');
+            $('#addModal').modal('hide');
+            $('#tabelDataAktivis').DataTable().ajax.reload();
+        });
+    });
+
+    $(document).on('submit', '#formaddjabatanaktivis', function(e) { // Add '#' for ID selector
+        e.preventDefault();
+
+        var dataJabatan = {
+            aktivis_id: $('input[name="aktivisId"]').val(),
+            jabatan_id: $('select[name="inputJabatan"]').val(),
+            start_date: $('input[name="inputTglMulai"]').val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/insert",
+            data: JSON.stringify({
+                table: 'jabatanaktivis',
+                data: [dataJabatan],
+            }),
+            dataType: "JSON"
+        }).then(function(response) {
+            if (response.id == 0) {
+                Swal.fire({
+                    title: "Success",
+                    text: "Data inserted successfully for jabatanaktivis",
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                $('#addModal').modal('hide');
+                $('#tabelDataAktivis').DataTable().ajax.reload();
+
+            }
+        }).catch(function(xhr) {
+            let errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.messages) {
+                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+            }
+
+            Swal.fire({
+                title: "Error",
+                text: errorMessage,
+                icon: "error",
+                timer: 2000,
+            });
+        });
+    });
+
+    $(document).on('submit', '#formaddcabangaktivis', function(e) { // Add '#' for ID selector
+        e.preventDefault();
+
+        var dataKantor = {
+            aktivis_id: $('input[name="aktivisId"]').val(),
+            cabang_id: $('select[name="inputKantor"]').val(),
+            start_date: $('input[name="inputTglMulai"]').val(),
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "<?= site_url();?>/api/insert",
+            data: JSON.stringify({
+                table: 'cabangaktivis',
+                data: [dataKantor],
+            }),
+            dataType: "JSON"
+        }).then(function(response) {
+            if (response.id == 0) {
+                Swal.fire({
+                    title: "Success",
+                    text: "Data inserted successfully for Cabang Aktivis",
+                    icon: "success",
+                    timer: 2000,
+                });
+
+                $('#addModal').modal('hide');
+                $('#tabelDataAktivis').DataTable().ajax.reload();
+
+            }
+        }).catch(function(xhr) {
+            let errorMessage = 'An error occurred';
+            if (xhr.responseJSON && xhr.responseJSON.messages) {
+                errorMessage = Object.values(xhr.responseJSON.messages).join('\n');
+            }
+
+            Swal.fire({
+                title: "Error",
+                text: errorMessage,
+                icon: "error",
+                timer: 2000,
+            });
         });
     });    
 
@@ -1172,7 +1363,8 @@
                     // return response.data;
                 },
             },
-            "columns": [{
+            "columns": [
+                {
                     data: 'aktivis_id',
                     title: '#'
                 }, // Column for the ID
@@ -1186,12 +1378,24 @@
                 }, // Column for the Name
                 {
                     data: 'nama_jabatan',
-                    title: 'Jabatan'
-                }, // Column for the Name
+                    title: 'Jabatan',
+                    render: function(data, type, row) {
+                        if (!data) {
+                            return '<button class="btn btn-xs btn-warning add-jabatan" data-id="' + row.aktivis_id + '"><i class="bi bi-plus"></i> Jabatan</button>';
+                        }
+                        return data;
+                    }
+                }, // Column for Jabatan with a fallback button
                 {
                     data: 'nama_cabang',
-                    title: 'Branch Office'
-                }, // Column for the Name
+                    title: 'Branch Office',
+                    render: function(data, type, row) {
+                        if (!data) {
+                            return '<button class="btn btn-xs btn-warning add-cabang" data-id="' + row.aktivis_id + '"><i class="bi bi-plus"></i> Cabang</button>';
+                        }
+                        return data;
+                    }
+                }, // Column for Branch Office with a fallback button
                 {
                     data: 'asal',
                     title: 'Asal'

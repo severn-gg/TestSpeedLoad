@@ -94,12 +94,12 @@
             </p>
           </a>
           <ul class="nav nav-treeview">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="<?= site_url(); ?>/admin/forminputaktivis" class="nav-link <?= (isset($submenu) && $submenu === 'tambahaktivis') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Tambah Aktivis</p>
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a href="<?= site_url(); ?>/admin/forminputjabatan" class="nav-link <?= (isset($submenu) && $submenu === 'jabatan') ? ' active' : '' ?>">
                 <i class="far fa-circle nav-icon"></i>
