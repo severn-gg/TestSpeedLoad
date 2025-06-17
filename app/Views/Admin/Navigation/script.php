@@ -1647,7 +1647,7 @@
                 {
                     data: null,
                     title: 'Aksi',
-                    defaultContent: '<button class="btn btn-xs btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-xs btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
+                    defaultContent: '<button class="btn btn-sm btn-warning"><i class="nav-icon fas fa-pen"></i></button> ' + '<button class="btn btn-sm btn-danger"><i class="nav-icon fas fa-trash"></i></button>'
                 } // Action column for buttons, if needed
             ],
             "initComplete": function() {

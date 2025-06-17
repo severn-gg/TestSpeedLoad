@@ -43,7 +43,7 @@
                     <form id="formuserloginaktivis">
                         <div class="card-body">
                             <div class="form-group">
-                                <input class="form-control" type="hdiden" name="inputIdLog">
+                                <input class="form-control" type="hidden" name="inputIdLog">
                                 <label for="inputAktivis" class="form-label">Select Aktivis</label>
                                 <select type="select" class="form-control select2" name="inputAktivis">
 
