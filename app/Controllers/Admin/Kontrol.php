@@ -220,21 +220,30 @@ class Kontrol extends BaseController
         return view('Admin/Content/Forms/pic', $data);
     }
 
-
-
-    // Menu Charts
+    //menu laporan
     public function underconstructionTiket()
     {
-        $data = $this->prepareData('Charts', 'Tiket');
+        $data = $this->prepareData('Reports', 'Tiket');
         if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
         return view('Admin/Content/Charts/underconstruction', $data);
     }
 
+
+    // Menu Charts
+    // public function underconstructionTiket()
+    // {
+    //     $data = $this->prepareData('Charts', 'Tiket');
+    //     if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
+    //         return $data;
+    //     }
+    //     return view('Admin/Content/Charts/underconstruction', $data);
+    // }
+
     public function underconstructionBO()
     {
-        $data = $this->prepareData('Charts', 'BO');
+        $data = $this->prepareData('Reports', 'BO');
         if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }
@@ -243,7 +252,7 @@ class Kontrol extends BaseController
 
     public function underconstructionPIC()
     {
-        $data = $this->prepareData('Charts', 'PIC');
+        $data = $this->prepareData('Reports', 'PIC');
         if (is_a($data,'\CodeIgniter\HTTP\RedirectResponse')) {
             return $data;
         }

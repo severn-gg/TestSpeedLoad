@@ -146,8 +146,8 @@
           </ul>
         </li>        
         <li class="nav-header">Laporan</li>
-        <li class="nav-item <?= (isset($menu) && $menu === 'Charts') ? ' menu-is-opening menu-open' : '' ?>">
-          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Charts') ? ' active' : '' ?>">
+        <li class="nav-item <?= (isset($menu) && $menu === 'Reports') ? ' menu-is-opening menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= (isset($menu) && $menu === 'Reports') ? ' active' : '' ?>">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Tiket
